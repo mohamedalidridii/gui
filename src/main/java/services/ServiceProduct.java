@@ -14,13 +14,12 @@ public class ServiceProduct implements Iservice<Product> {
     }
     @Override
     public void ajouter(Product product) throws SQLException {
-        System.out.println("in ajouter");
+
         try{
-            System.out.println("in try ajouter");
-            String req ="INSERT INTO `product` (`nom`, `desc`, `qt`) VALUES ('"+product.getNom()+"','"+product.getDesc()+"',"+product.getQt()+")";
-            System.out.println("after insert");
+
+            String req ="INSERT INTO `product` (`nom`, `desc`, `qt`, `price`, `img`, `cTime`, `mTime`) VALUES ('"+product.getNom()+"','"+product.getDesc()+"',"+product.getQt()+",'"+product.getPrice()+"','"+product.getImage()+"','"+product.getcTime()+"','"+product.getmTime()+"')";
+
             Statement statement=connection.createStatement();
-            System.out.println("after create stat");
             statement.executeUpdate(req);
             System.out.println("Produit ajouté");
         } catch (SQLException e) {
@@ -48,12 +47,16 @@ public class ServiceProduct implements Iservice<Product> {
 
     @Override
     public void modifier(Product product) throws SQLException {
-        String req = "update product set `nom`=?, `desc`=?, `qt`=? where `id`=?";
+        String req = "update product set `nom`=?, `desc`=?, `qt`=?, `price`=?, `img`=?, `cTime`=?, `mTime`=?, where `id`=?";
         PreparedStatement preparedStatement = connection.prepareStatement(req);
         preparedStatement.setString(1, product.getNom());
         preparedStatement.setString(2, product.getDesc());
         preparedStatement.setInt(3, product.getQt());
-        preparedStatement.setInt(4, product.getId());
+        preparedStatement.setDouble(4, product.getPrice());
+        preparedStatement.setString(5, product.getImage());
+        preparedStatement.setDate(6, product.getcTime());
+        preparedStatement.setDate(7, product.getmTime());
+        preparedStatement.setInt(8, product.getId());
         preparedStatement.executeUpdate();
         System.out.println("produit modified");
 
@@ -72,6 +75,10 @@ public class ServiceProduct implements Iservice<Product> {
             product.setNom(rs.getString("nom"));
             product.setDesc(rs.getString("desc"));
             product.setQt(rs.getInt(4));
+            product.setPrice(rs.getDouble("price"));
+            product.setImage(rs.getString("img"));
+            product.setcTime(rs.getDate("cTime"));
+            product.setmTime(rs.getDate("mTime"));
             products.add(product);
 
         }
