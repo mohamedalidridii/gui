@@ -43,10 +43,14 @@ public class Product {
         this.price = price;
     }
 
-    public Product(String nom, String desc, int qt) {
+    public Product(String nom, String desc, int qt, double price, String image, Date cTime, Date mTime) {
         this.nom = nom;
         this.desc = desc;
         this.qt = qt;
+        this.price = price;
+        this.image = image;
+        this.cTime = cTime;
+        this.mTime = mTime;
     }
     public Product() {
 
