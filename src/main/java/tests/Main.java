@@ -11,6 +11,7 @@ import java.sql.SQLException;
 public class Main {
 
     public static void main(String[] args)  {
+
         Product product = new Product("hello","this Desc is a test",17, 80.500, "path", new Date(2000, 11, 15),new Date(2025, 5, 1));
 
         ServiceProduct serviceProduct = new ServiceProduct();
