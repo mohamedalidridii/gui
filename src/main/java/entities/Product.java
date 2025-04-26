@@ -11,6 +11,9 @@ public class Product {
     private String desc;
     private int qt;
 
+    public Product(int id, String nom, String description, int quantite, float prix, String image, Date dateCreation, Date dateModification) {
+    }
+
     public String getImage() {
         return image;
     }

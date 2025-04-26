@@ -19,10 +19,9 @@ public class Gui extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/AjouterProduct.fxml"));
         Parent root = fxmlLoader.load();
         Scene scene = new Scene(root);
+
         primaryStage.setScene(scene);
         primaryStage.setTitle("Ajouter Produits");
         primaryStage.show();
-
-
     }
 }

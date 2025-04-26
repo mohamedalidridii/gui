@@ -17,7 +17,8 @@ public class Main {
         ServiceProduct serviceProduct = new ServiceProduct();
         try {
             Product productMod = new Product();
-            serviceProduct.ajouter(product);
+            //serviceProduct.ajouter(product);
+
             productMod.setId(16);
             productMod.setNom("NouveauNom");
             productMod.setDesc("NouveauDesc");
