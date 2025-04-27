@@ -16,7 +16,7 @@ public class ServiceProduct implements Iservice<Product> {
     public void ajouter(Product product) throws SQLException {
 
         try{
-            String req ="INSERT INTO `product` (`nom`, `desc`, `qt`, `price`, `img`, `cTime`, `mTime`) VALUES ('"+product.getNom()+"','"+product.getDesc()+"',"+product.getQt()+",'"+product.getPrice()+"','"+product.getImage()+"','"+product.getcTime()+"','"+product.getmTime()+"')";
+            String req ="INSERT INTO `product` (`nom`, `desc`, `qt`, `price`, `img`, `cTime`, `mTime`) VALUES ('"+product.getNom()+"','"+product.getDesc()+"',"+product.getQt()+",'"+product.getPrice()+"','"+product.getImage()+"','"+product.getCTime()+"','"+product.getMTime()+"')";
             Statement statement=connection.createStatement();
             statement.executeUpdate(req);
             System.out.println("Produit ajouté");
@@ -53,8 +53,8 @@ public class ServiceProduct implements Iservice<Product> {
         preparedStatement.setInt(3, product.getQt());
         preparedStatement.setDouble(4, product.getPrice());
         preparedStatement.setString(5, product.getImage());
-        preparedStatement.setDate(6, product.getcTime());
-        preparedStatement.setDate(7, product.getmTime());
+        preparedStatement.setDate(6, product.getCTime());
+        preparedStatement.setDate(7, product.getMTime());
         preparedStatement.setInt(8, product.getId());
         preparedStatement.executeUpdate();
         System.out.println("produit modified");
@@ -76,8 +76,8 @@ public class ServiceProduct implements Iservice<Product> {
             product.setQt(rs.getInt(4));
             product.setPrice(rs.getDouble("price"));
             product.setImage(rs.getString("img"));
-            product.setcTime(rs.getDate("cTime"));
-            product.setmTime(rs.getDate("mTime"));
+            product.setCTime(rs.getDate("cTime"));
+            product.setMTime(rs.getDate("mTime"));
             products.add(product);
 
         }

@@ -1,0 +1,310 @@
+package controllers;
+
+import entities.Product;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import services.ServiceProduct;
+
+import java.sql.Date;
+import java.sql.SQLException;
+import java.util.List;
+
+public class GestionProd {
+
+    @FXML
+    private Button btns;
+
+    @FXML
+    private Button btns1;
+
+    @FXML
+    private Button btns11;
+
+    @FXML
+    private Tab tabAjout;
+
+    @FXML
+    private Tab tabMod;
+
+    @FXML
+    private TabPane tabPane;
+
+    @FXML
+    private TableColumn<Product, Date> colDC;
+
+    @FXML
+    private TableColumn<Product, Date> colDM;
+
+    @FXML
+    private TableColumn<Product, String> colDesc;
+
+    @FXML
+    private TableColumn<Product, String> colNom;
+
+    @FXML
+    private TableColumn<Product, Double> colPrix;
+
+    @FXML
+    private TableColumn<Product, Integer> colQt;
+
+    @FXML
+    private Label subname1;
+
+    @FXML
+    private Label subname11;
+
+    @FXML
+    private Label subname111;
+
+    @FXML
+    private Label subname1111;
+
+    @FXML
+    private Label subname2;
+
+    @FXML
+    private Label subname21;
+
+    @FXML
+    private Label subname3;
+
+    @FXML
+    private Label subname31;
+
+    @FXML
+    private Label subname6;
+
+    @FXML
+    private Label subname61;
+
+    @FXML
+    private TableView<Product> tableView;
+
+    @FXML
+    private TextField txtDescription;
+
+    @FXML
+    private TextField txtDescriptionM;
+
+    @FXML
+    private TextField txtImage;
+
+    @FXML
+    private TextField txtImageM;
+
+    @FXML
+    private TextField txtNom;
+
+    @FXML
+    private TextField txtNomM;
+
+    @FXML
+    private TextField txtPrix;
+
+    @FXML
+    private TextField txtPrixM;
+
+    @FXML
+    private TextField txtQt;
+
+    @FXML
+    private TextField txtQtM;
+
+    @FXML
+    private TextField txtidM;
+
+    @FXML
+    private TextField txtidS;
+
+    private ServiceProduct serviceProduct = new ServiceProduct();
+    @FXML
+    void btnAjouterProd(ActionEvent event) {
+
+        try {
+
+            String nom = txtNom.getText().trim();
+            String description = txtDescription.getText().trim();
+            String qtStr = txtQt.getText().trim();
+            String prixStr = txtPrix.getText().trim();
+            String image = txtImage.getText().trim();
+
+            if (nom.isEmpty() || description.isEmpty() || qtStr.isEmpty() || prixStr.isEmpty() || image.isEmpty()) {
+                showAlert(Alert.AlertType.ERROR, "Erreur", "Veuillez remplir tous les champs !");
+                return;
+            }
+            int quantite;
+            double prix;
+
+            try {
+                quantite = Integer.parseInt(qtStr);
+            } catch (NumberFormatException e) {
+                showAlert(Alert.AlertType.ERROR, "Erreur","La quantité doit être des nombres valides !");
+                return;
+            }
+            try {
+
+                prix = Double.parseDouble(prixStr);
+            } catch (NumberFormatException e) {
+                showAlert(Alert.AlertType.ERROR, "Erreur","Le Prix doit être des nombres valides !");
+                return;
+            }
+            if (quantite < 0) {
+                showAlert(Alert.AlertType.ERROR, "Erreur","La Quantité doit être positifs !");
+                return;
+            }if (prix < 0) {
+                showAlert(Alert.AlertType.ERROR, "Erreur","Le Prix doivent être positifs !");
+                return;
+            }
+            Date dateCreation = Date.valueOf(java.time.LocalDate.now());
+            Date dateModification = Date.valueOf(java.time.LocalDate.now());
+
+
+
+            Product product = new Product(nom,description,quantite, prix, image, dateCreation,dateModification);
+            serviceProduct.ajouter(product);
+            showAlert(Alert.AlertType.INFORMATION, "Succès","Produit ajouté avec succès !");
+            clearFields();
+        }catch (SQLException e){
+            System.out.println(e);
+        }
+
+    }
+    private void clearFields() {
+        txtNom.clear();
+        txtDescription.clear();
+        txtQt.clear();
+        txtPrix.clear();
+        txtImage.clear();
+    }
+    private void showAlert(Alert.AlertType alertType, String title, String content) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+    @FXML
+    void btnModifierProd(ActionEvent event) {
+        try {
+            // Check if the important fields are not empty
+            if (txtidM.getText().isEmpty() || txtNomM.getText().isEmpty() || txtDescriptionM.getText().isEmpty() ||
+                    txtQtM.getText().isEmpty() || txtPrixM.getText().isEmpty() || txtImageM.getText().isEmpty()) {
+                System.out.println("Please fill all fields!");
+                return;
+            }
+            int id = Integer.parseInt(txtidM.getText());
+            String nom = txtNomM.getText();
+            String description = txtDescriptionM.getText();
+            int quantite = Integer.parseInt(txtQtM.getText());
+            float prix = Float.parseFloat(txtPrixM.getText());
+            String image = txtImageM.getText();
+
+            Date dateCreation = Date.valueOf(java.time.LocalDate.now());
+            Date dateModification = Date.valueOf(java.time.LocalDate.now());
+
+
+            Product productMod = new Product(nom,description,quantite, prix, image, dateCreation,dateModification);
+            productMod.setId(id);
+            System.out.println(productMod);
+            ServiceProduct serviceProductMod = new ServiceProduct();
+            System.out.println(id);
+            serviceProductMod.modifier(productMod);
+
+            System.out.println("Product modifier");
+
+        }catch (SQLException e){
+            System.out.println(e);
+        }
+    }
+    @FXML
+    void btnSuppProd(ActionEvent event) {
+        try {
+
+            Product selectedProduct = tableView.getSelectionModel().getSelectedItem();
+            if (selectedProduct == null) {
+                showAlert(Alert.AlertType.ERROR, "Erreur", "Veuillez sélectionner un produit à supprimer !");
+                return;
+            }
+
+
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation de suppression");
+            alert.setHeaderText(null);
+            alert.setContentText("Êtes-vous sûr de vouloir supprimer ce produit ?");
+
+
+            if (alert.showAndWait().get() == ButtonType.OK) {
+                ServiceProduct serviceProductSupp = new ServiceProduct();
+                serviceProductSupp.supprimer(selectedProduct);
+
+                showAlert(Alert.AlertType.INFORMATION, "Succès", "Produit supprimé avec succès !");
+
+                refreshTable();
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+    private void refreshTable() throws SQLException {
+        List<Product> l = serviceProduct.afficher();
+        ObservableList<Product> obe = FXCollections.observableList(l);
+        tableView.setItems(obe);
+    }
+    @FXML
+    void initialize() throws SQLException {
+        System.out.println("after initialize");
+        List<Product> l=serviceProduct.afficher();
+        ObservableList<Product> obe= FXCollections.observableList(l);
+
+        tableView.setItems(obe);
+        colNom.setCellValueFactory(new PropertyValueFactory<>("nom"));
+        colDesc.setCellValueFactory(new PropertyValueFactory<>("desc"));
+        colPrix.setCellValueFactory(new PropertyValueFactory<>("price"));
+        colQt.setCellValueFactory(new PropertyValueFactory<>("qt"));
+        colDC.setCellValueFactory(new PropertyValueFactory<>("cTime"));
+        colDM.setCellValueFactory(new PropertyValueFactory<>("mTime"));
+
+        tableView.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 1) {
+                Product selectedProduct = tableView.getSelectionModel().getSelectedItem();
+                if (selectedProduct != null) {
+                    txtidM.setText(String.valueOf(selectedProduct.getId()));
+                    txtNomM.setText(selectedProduct.getNom());
+                    txtDescriptionM.setText(selectedProduct.getDesc());
+                    txtQtM.setText(String.valueOf(selectedProduct.getQt()));
+                    txtPrixM.setText(String.valueOf(selectedProduct.getPrice()));
+                    txtImageM.setText(selectedProduct.getImage());
+
+                    txtidS.setText(String.valueOf(selectedProduct.getId()));
+                    System.out.println("Selected Product ID: " + selectedProduct.getId());
+                }
+            }
+        });
+        tableView.setRowFactory(tv -> {
+            TableRow<Product> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (!row.isEmpty())) {
+                    Product clickedProduct = row.getItem();
+                    fillModifierFields(clickedProduct);
+                    tabPane.getSelectionModel().select(tabMod);
+                }
+            });
+            return row;
+        });
+
+    }
+    private void fillModifierFields(Product product) {
+        txtidM.setText(String.valueOf(product.getId()));
+        txtNomM.setText(product.getNom());
+        txtDescriptionM.setText(product.getDesc());
+        txtQtM.setText(String.valueOf(product.getQt()));
+        txtPrixM.setText(String.valueOf(product.getPrice()));
+        txtImageM.setText(product.getImage());
+    }
+
+}
+

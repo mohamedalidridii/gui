@@ -16,12 +16,14 @@ public class Gui extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/AjouterProduct.fxml"));
+        //FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/gestionProd.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/category.fxml"));
+        //FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/listeProd.fxml"));
         Parent root = fxmlLoader.load();
         Scene scene = new Scene(root);
 
         primaryStage.setScene(scene);
-        primaryStage.setTitle("Ajouter Produits");
+        primaryStage.setTitle("hello");
         primaryStage.show();
     }
 }

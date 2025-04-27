@@ -22,22 +22,21 @@ public class Product {
         this.image = image;
     }
 
-    public Date getcTime() {
+    public Date getCTime() {
         return cTime;
     }
 
-    public void setcTime(Date cTime) {
+    public void setCTime(Date cTime) {
         this.cTime = cTime;
     }
 
-    public Date getmTime() {
+    public Date getMTime() {
         return mTime;
     }
 
-    public void setmTime(Date mTime) {
+    public void setMTime(Date mTime) {
         this.mTime = mTime;
     }
-
     public double getPrice() {
         return price;
     }
