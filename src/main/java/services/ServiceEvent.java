@@ -3,6 +3,7 @@ package services;
 import Repositories.EventRepository;
 import entities.Event;
 
+import java.net.http.HttpClient;
 import java.util.List;
 
 public class ServiceEvent implements Ievent{
@@ -41,3 +42,5 @@ public class ServiceEvent implements Ievent{
     }
 
 }
+
+
