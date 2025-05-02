@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="538.0" prefWidth="858.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.ReadUsersController">
+   <children>
+      <TableView fx:id="readUserTAbleview" layoutX="24.0" layoutY="169.0" prefHeight="200.0" prefWidth="826.0">
+        <columns>
+          <TableColumn fx:id="cid" prefWidth="75.0" text="id" />
+          <TableColumn fx:id="cname" prefWidth="75.0" text="Name" />
+            <TableColumn fx:id="clastname" prefWidth="75.0" text="LastName" />
+            <TableColumn fx:id="cage" prefWidth="75.0" text="Age" />
+            <TableColumn fx:id="clocation" prefWidth="75.0" text="Location" />
+            <TableColumn fx:id="cemail" prefWidth="75.0" text="Email" />
+            <TableColumn fx:id="cpassword" prefWidth="75.0" text="HashedPassword" />
+            <TableColumn fx:id="cnumber" prefWidth="75.0" text="Number" />
+            <TableColumn fx:id="clastlogin" prefWidth="75.0" text="LastLogin" />
+            <TableColumn fx:id="ccreatedat" prefWidth="75.0" text="CreatedAt" />
+            <TableColumn fx:id="ctype" prefWidth="75.0" text="Type" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>

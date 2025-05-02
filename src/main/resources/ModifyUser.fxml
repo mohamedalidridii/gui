@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="572.0" prefWidth="805.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.ModifyUserController">
+    <children>
+        <Label alignment="CENTER" layoutX="211.0" layoutY="88.0" text="Name" />
+        <Label alignment="CENTER" layoutX="201.0" layoutY="120.0" text="Lastname" />
+        <Label alignment="CENTER" layoutX="225.0" layoutY="154.0" text="Age" />
+        <Label alignment="CENTER" layoutX="227.0" layoutY="194.0" text="Sex" />
+        <Label alignment="CENTER" layoutX="222.0" layoutY="299.0" text="email" />
+        <Label alignment="CENTER" layoutX="216.0" layoutY="330.0" text="password" />
+        <Label alignment="CENTER" layoutX="221.0" layoutY="253.0" text="number" />
+        <Label alignment="CENTER" layoutX="215.0" layoutY="226.0" text="location" />
+        <TextField id="txtfname" fx:id="txtname" layoutX="351.0" layoutY="85.0" promptText="enter your name" />
+        <TextField id="txtflastname" fx:id="txtlastname" layoutX="351.0" layoutY="116.0" promptText="enter your lastname" />
+        <RadioButton id="adduserMale" fx:id="radioMale" layoutX="341.0" layoutY="194.0" mnemonicParsing="false" text="Male">
+            <toggleGroup>
+                <ToggleGroup fx:id="usersex" />
+            </toggleGroup>
+        </RadioButton>
+        <RadioButton id="adduserFemale" fx:id="radiofemale" layoutX="454.0" layoutY="194.0" mnemonicParsing="false" text="Female" toggleGroup="$usersex" />
+        <TextField id="txtflocation" fx:id="txtlocation" layoutX="362.0" layoutY="222.0" promptText="enter your location" />
+        <TextField id="txtfnumber" fx:id="txtnumber" layoutX="362.0" layoutY="251.0" promptText="enter your number" />
+        <TextField fx:id="txtemail" layoutX="362.0" layoutY="288.0" promptText="enter your email" />
+        <TextField id="txtpassword" fx:id="txtpassword" layoutX="363.0" layoutY="328.0" promptText="enter your password" />
+        <!-- Password strength bar and label -->
+        <ProgressBar fx:id="strengthBar" layoutX="363.0" layoutY="358.0" prefHeight="12.0" prefWidth="151.0" progress="0.0" />
+        <Label fx:id="strengthLabel" layoutX="365.0" layoutY="370.0" prefHeight="18.0" prefWidth="79.0" text="" />
+        <Spinner id="spinage" fx:id="spinbage" editable="true" layoutX="354.0" layoutY="150.0" />
+        <RadioButton fx:id="radiotypetraveller" layoutX="359.0" layoutY="453.0" mnemonicParsing="false" text="Traveller">
+            <toggleGroup>
+                <ToggleGroup fx:id="userType" />
+            </toggleGroup>
+        </RadioButton>
+        <RadioButton fx:id="radiotypeseller" layoutX="471.0" layoutY="453.0" mnemonicParsing="false" text="Seller" toggleGroup="$userType" />
+        <Label fx:id="storenamelabel" layoutX="639.0" layoutY="279.0" text="Store name" visible="false" />
+        <TextField fx:id="txtpassport" layoutX="597.0" layoutY="134.0" promptText="enter your passport id" visible="false" AnchorPane.rightAnchor="14.666666666666629">
+            <padding>
+                <Insets top="10.0" />
+            </padding>
+        </TextField>
+        <TextField fx:id="txtstorename" layoutX="597.0" layoutY="326.0" promptText="enter your store name" visible="false" />
+        <Button fx:id="modifyuserbutton" layoutX="376.0" layoutY="505.0" mnemonicParsing="false" onAction="#modifyuserbutton" text="Modify" />
+        <Label fx:id="passportidlabel" layoutX="639.0" layoutY="98.0" text="Passport id" visible="false" />
+        <TextField fx:id="txtconfirmpassword" layoutX="362.0" layoutY="405.0" promptText="confirm your password" />
+      <Label layoutX="222.0" layoutY="46.0" text="id" />
+      <TextField fx:id="txtid" layoutX="352.0" layoutY="42.0" promptText="enter id" />
+      <Button fx:id="Searchbutton" layoutX="533.0" layoutY="42.0" mnemonicParsing="false" onAction="#Searchbutton" text="Search" />
+    </children>
+</AnchorPane>
