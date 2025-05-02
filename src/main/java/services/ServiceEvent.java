@@ -8,7 +8,12 @@ import java.util.List;
 
 public class ServiceEvent implements Ievent{
 
-    EventRepository eventRepository;
+    private final EventRepository eventRepository;
+
+    public ServiceEvent() {
+        this.eventRepository = new EventRepository();
+    }
+
     @Override
     public void create(Event e) {
         eventRepository.createEvent(e);

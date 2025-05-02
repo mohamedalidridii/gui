@@ -1,9 +1,6 @@
 package Repositories;
 
-import entities.Event;
-import entities.GenreEvent;
-import entities.StatusEvent;
-import entities.TypeEvent;
+import entities.*;
 import utils.Database;
 
 import java.sql.Connection;
@@ -25,8 +22,8 @@ public class EventRepository {
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, event.getName());
             ps.setString(2, event.getDescription());
-            ps.setDate(3, new java.sql.Date(event.getStartDate().getTime()));
-            ps.setDate(4, new java.sql.Date(event.getEndDate().getTime()));
+            ps.setDate(3, java.sql.Date.valueOf(event.getStartDate()));
+            ps.setDate(4, java.sql.Date.valueOf(event.getEndDate()));
             ps.setInt(5, event.getDuration());
             ps.setFloat(6, event.getPrice());
             ps.setFloat(7, event.getFinalPrice());
@@ -59,7 +56,7 @@ public class EventRepository {
             System.err.println(e.getMessage());
         }
     }
-        public void updateEvent(Event event,int id) {
+    public void updateEvent(Event event,int id) {
             String sql = "UPDATE event SET name=?, description=?, startDate=?, endDate=?, duration=?, price=?, nbParticipant=?, " +
                     "maxParticipants=?, VuesNb=?, FidelityPoints=?, visa=?, idCreator=?, promotionRate=?, finalPrice=?, isDeleted=?, " +
                     "genreEvent=?, statusEvent=?, typeEvent=? WHERE idEvent=?";
@@ -67,8 +64,8 @@ public class EventRepository {
             try (PreparedStatement ps = connection.prepareStatement(sql)) {
                 ps.setString(1, event.getName());
                 ps.setString(2, event.getDescription());
-                ps.setDate(3, new java.sql.Date(event.getStartDate().getTime()));
-                ps.setDate(4, new java.sql.Date(event.getEndDate().getTime()));
+                ps.setDate(3, java.sql.Date.valueOf(event.getStartDate()));
+                ps.setDate(4, java.sql.Date.valueOf(event.getEndDate()));
                 ps.setInt(5, event.getDuration());
                 ps.setFloat(6, event.getPrice());
                 ps.setInt(7, event.getNbParticipant());
@@ -129,8 +126,8 @@ public class EventRepository {
         event.setIdEvent(rs.getInt("idEvent"));
         event.setName(rs.getString("name"));
         event.setDescription(rs.getString("description"));
-        event.setStartDate(rs.getDate("startDate"));
-        event.setEndDate(rs.getDate("endDate"));
+        event.setStartDate(rs.getDate("startDate").toLocalDate());
+        event.setEndDate(rs.getDate("endDate").toLocalDate());
         event.setDuration(rs.getInt("duration"));
         event.setPrice(rs.getFloat("price"));
         event.setNbParticipant(rs.getInt("nbParticipant"));
@@ -150,7 +147,7 @@ public class EventRepository {
     }
 
     public Event getEventById(int idEvent) {
-        String sql = "SELECT * FROM event WHERE idEvent=? and isDeleted=false";
+        String sql = "SELECT * FROM event  WHERE idEvent=? and isDeleted=false";
         Event event = null;
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -242,6 +239,106 @@ public class EventRepository {
 
         } catch (SQLException e) {
             System.err.println(e.getMessage());
+        }
+    }
+    public boolean updateStatus(int id, StatusEvent statusEvent) {
+       String query = "Update event set statusEvent = ? where idEvent = ?";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setString(1, statusEvent.name());
+            ps.setInt(2, id);
+            ps.executeUpdate();
+            System.out.println("Event updated successfully");
+            return true;
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        return false;
+    }
+
+    public void addParticipant(User user,Event event) {
+        int idUser = user.getId();
+        int idEevent = event.getIdEvent();
+        String sql = "INSERT INTO event_participant (id_participant,id_event) VALUES (?,?)";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)){
+            ps.setInt(1, idUser);
+            ps.setInt(2, idEevent);
+            ps.executeUpdate();
+            System.out.println("User added to event successfully");
+        }catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+
+        String sql1 = "UPDATE event set nbParticipant = ? where idEvent = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql1)){
+            ps.setInt(1, event.getNbParticipant()+1);
+            ps.setInt(2, idEevent);
+            ps.executeUpdate();
+            System.out.println("Event updated successfully");
+        }catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+    public void deleteParticipant(User user,Event event ) {
+        int idUser = user.getId();
+        int idEvent = event.getIdEvent();
+        String sql = "DELETE FROM event_participant WHERE id_participant = ? and id_event = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)){
+            ps.setInt(1, idUser);
+            ps.setInt(2, idEvent);
+            ps.executeUpdate();
+            System.out.println("Event updated successfully");
+        }catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+
+        String sql1 = "UPDATE event set nbParticipant = ? where idEvent = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql1)){
+            ps.setInt(1, event.getNbParticipant()-1);
+            ps.setInt(2, idEvent);
+            ps.executeUpdate();
+            System.out.println("Event updated successfully");
+        }catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
+
+    public void add_vues(Event event){
+        String sql = "UPDATE event set VuesNb = ? where idEvent = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)){
+            ps.setInt(1, event.getVuesNb()+1);
+            ps.setInt(2, event.getIdEvent());
+            ps.executeUpdate();
+            System.out.println("Event updated successfully");
+        }catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
+    public void change_promotion(Event event, float percentage) {
+        String sql = "UPDATE event set promotionRate = ?,finalPrice = ? where idEvent = ?";
+        try(PreparedStatement ps = connection.prepareStatement(sql)){
+            ps.setFloat(1, percentage);
+            ps.setFloat(2, event.getPrice()*(percentage/100));
+            ps.setInt(3, event.getIdEvent());
+            ps.executeUpdate();
+            System.out.println("Event updated successfully");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public void change_promotionPlus10(Event event) {
+        String sql = "UPDATE event set promotionRate = ? finalPrice = ? where idEvent = ?";
+        try(PreparedStatement ps = connection.prepareStatement(sql)){
+            ps.setFloat(1, event.getPromotionRate()+10);
+            ps.setFloat(2, event.getPrice()*((event.getPromotionRate()+10)/100));
+            ps.setInt(3, event.getIdEvent());
+            ps.executeUpdate();
+            System.out.println("Event updated successfully");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 }
