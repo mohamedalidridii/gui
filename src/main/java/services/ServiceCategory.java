@@ -17,10 +17,10 @@ public class ServiceCategory implements Iservice<Category> {
     public void ajouter(Category category) throws SQLException {
 
         try{
-            String req ="INSERT INTO `product` (`nom`, `desc`) VALUES ('"+category.getNom()+"','"+category.getDesc()+"')";
+            String req ="INSERT INTO `category` (`nom`, `desc`) VALUES ('"+category.getNom()+"','"+category.getDesc()+"')";
             Statement statement=connection.createStatement();
             statement.executeUpdate(req);
-            System.out.println("Produit ajouté");
+            System.out.println("Category ajouté");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -36,7 +36,7 @@ public class ServiceCategory implements Iservice<Category> {
             if (rowsAffected > 0) {
                 System.out.println(" supprimée avec succès");
             } else {
-                System.out.println("Aucun product trouvée avec l'ID : " + category.getId());
+                System.out.println("Aucune category trouvée avec l'ID : " + category.getId());
             }
         } catch (SQLException e) {
             System.out.println("Erreur lors de la suppression : " + e.getMessage());

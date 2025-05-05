@@ -1,14 +1,22 @@
 package controllers;
 
+import entities.Category;
 import entities.Product;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+import services.ServiceCategory;
 import services.ServiceProduct;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
@@ -31,7 +39,7 @@ public class GestionProd {
     private Tab tabMod;
 
     @FXML
-    private TabPane tabPane;
+    private TabPane prod;
 
     @FXML
     private TableColumn<Product, Date> colDC;
@@ -120,7 +128,15 @@ public class GestionProd {
     @FXML
     private TextField txtidS;
 
+    @FXML
+    private ComboBox<String> comboCategory;
+
+    @FXML
+    private Button categoryInter;
+
     private ServiceProduct serviceProduct = new ServiceProduct();
+    private ServiceCategory serviceCategory = new ServiceCategory();
+
     @FXML
     void btnAjouterProd(ActionEvent event) {
 
@@ -168,6 +184,7 @@ public class GestionProd {
             serviceProduct.ajouter(product);
             showAlert(Alert.AlertType.INFORMATION, "Succès","Produit ajouté avec succès !");
             clearFields();
+            refreshTable();
         }catch (SQLException e){
             System.out.println(e);
         }
@@ -189,22 +206,51 @@ public class GestionProd {
     }
     @FXML
     void btnModifierProd(ActionEvent event) {
+        int id = Integer.parseInt(txtidM.getText());
+        String nom = txtNomM.getText().trim();
+        String description = txtDescriptionM.getText().trim();
+        String qtStr = txtQtM.getText().trim();
+        String prixStr = txtPrixM.getText().trim();
+        String image = txtImageM.getText().trim();
         try {
             // Check if the important fields are not empty
             if (txtidM.getText().isEmpty() || txtNomM.getText().isEmpty() || txtDescriptionM.getText().isEmpty() ||
                     txtQtM.getText().isEmpty() || txtPrixM.getText().isEmpty() || txtImageM.getText().isEmpty()) {
-                System.out.println("Please fill all fields!");
                 return;
             }
-            int id = Integer.parseInt(txtidM.getText());
-            String nom = txtNomM.getText();
-            String description = txtDescriptionM.getText();
-            int quantite = Integer.parseInt(txtQtM.getText());
-            float prix = Float.parseFloat(txtPrixM.getText());
-            String image = txtImageM.getText();
+
 
             Date dateCreation = Date.valueOf(java.time.LocalDate.now());
             Date dateModification = Date.valueOf(java.time.LocalDate.now());
+
+            if (nom.isEmpty() || description.isEmpty() || qtStr.isEmpty() || prixStr.isEmpty() || image.isEmpty()) {
+                showAlert(Alert.AlertType.ERROR, "Erreur", "Veuillez remplir tous les champs !");
+                return;
+            }
+            int quantite;
+            double prix;
+
+            try {
+                quantite = Integer.parseInt(qtStr);
+            } catch (NumberFormatException e) {
+                showAlert(Alert.AlertType.ERROR, "Erreur","La quantité doit être des nombres valides !");
+                return;
+            }
+            try {
+
+                prix = Double.parseDouble(prixStr);
+            } catch (NumberFormatException e) {
+                showAlert(Alert.AlertType.ERROR, "Erreur","Le Prix doit être des nombres valides !");
+                return;
+            }
+            if (quantite < 0) {
+                showAlert(Alert.AlertType.ERROR, "Erreur","La Quantité doit être positifs !");
+                return;
+            }if (prix < 0) {
+                showAlert(Alert.AlertType.ERROR, "Erreur","Le Prix doivent être positifs !");
+                return;
+            }
+
 
 
             Product productMod = new Product(nom,description,quantite, prix, image, dateCreation,dateModification);
@@ -213,9 +259,9 @@ public class GestionProd {
             ServiceProduct serviceProductMod = new ServiceProduct();
             System.out.println(id);
             serviceProductMod.modifier(productMod);
+            showAlert(Alert.AlertType.INFORMATION, "Succès", "Produit modifier avec succès !");
 
-            System.out.println("Product modifier");
-
+            refreshTable();
         }catch (SQLException e){
             System.out.println(e);
         }
@@ -230,7 +276,6 @@ public class GestionProd {
                 return;
             }
 
-
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Confirmation de suppression");
             alert.setHeaderText(null);
@@ -244,6 +289,7 @@ public class GestionProd {
                 showAlert(Alert.AlertType.INFORMATION, "Succès", "Produit supprimé avec succès !");
 
                 refreshTable();
+
             }
         } catch (SQLException e) {
             System.out.println(e);
@@ -256,11 +302,18 @@ public class GestionProd {
     }
     @FXML
     void initialize() throws SQLException {
-        System.out.println("after initialize");
-        List<Product> l=serviceProduct.afficher();
-        ObservableList<Product> obe= FXCollections.observableList(l);
 
-        tableView.setItems(obe);
+        List<Product> listedProducts=serviceProduct.afficher();
+        List<Category> listedCategories=serviceCategory.afficher();
+        List<String> listedcategoryNames = listedCategories.stream()
+                .map(Category::getNom)
+                .toList();
+        ObservableList<Product> obse = FXCollections.observableList(listedProducts);
+        ObservableList<String> obeCatName= FXCollections.observableArrayList(listedcategoryNames);
+        ObservableList<Category> obeCat= FXCollections.observableArrayList(listedCategories);
+
+        tableView.setItems(obse);
+        comboCategory.setItems(obeCatName);
         colNom.setCellValueFactory(new PropertyValueFactory<>("nom"));
         colDesc.setCellValueFactory(new PropertyValueFactory<>("desc"));
         colPrix.setCellValueFactory(new PropertyValueFactory<>("price"));
@@ -290,7 +343,7 @@ public class GestionProd {
                 if (event.getClickCount() == 2 && (!row.isEmpty())) {
                     Product clickedProduct = row.getItem();
                     fillModifierFields(clickedProduct);
-                    tabPane.getSelectionModel().select(tabMod);
+                    prod.getSelectionModel().select(tabMod);
                 }
             });
             return row;
@@ -304,6 +357,39 @@ public class GestionProd {
         txtQtM.setText(String.valueOf(product.getQt()));
         txtPrixM.setText(String.valueOf(product.getPrice()));
         txtImageM.setText(product.getImage());
+    }
+
+    @FXML
+    void categoryComboBox(ActionEvent event) {
+        String selectedCategoryName = comboCategory.getSelectionModel().getSelectedItem();
+
+
+    }
+    @FXML
+    void OncategoryInter(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/category.fxml"));
+            Parent root = loader.load();
+            GestionCategory catController = loader.getController();
+            catController.setParentController(this);
+            Stage newStage = new Stage();
+            newStage.setTitle("Gestion des catégories");
+            newStage.setScene(new Scene(root));
+            newStage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void refreshComboBoxCat() throws SQLException {
+        List<Category> categories = serviceCategory.afficher();
+        ObservableList<String> categoryNames = FXCollections.observableArrayList();
+
+        for (Category category : categories) {
+            categoryNames.add(category.getNom());
+        }
+        comboCategory.setItems(categoryNames);
     }
 
 }

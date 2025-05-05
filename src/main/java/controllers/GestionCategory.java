@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import services.ServiceCategory;
 import java.sql.SQLException;
 import java.util.List;
@@ -46,7 +47,18 @@ public class GestionCategory {
 
     @FXML
     private TextField txtidSCat;
+
+    @FXML
+    private Button btnAjouterCatid;
+
     private ServiceCategory serviceCategory = new ServiceCategory();
+
+    private GestionProd parentController;
+
+    public void setParentController(GestionProd parentController) {
+        this.parentController = parentController;
+    }
+
     @FXML
     void btnAjouterCat(ActionEvent event) {
         try {
@@ -59,13 +71,16 @@ public class GestionCategory {
                 showAlert(Alert.AlertType.ERROR, "Erreur", "Veuillez remplir tous les champs !");
                 return;
             }
-
-
-
-             Category category = new Category(nom,description);
+            Category category = new Category(nom,description);
             serviceCategory.ajouter(category);
             showAlert(Alert.AlertType.INFORMATION, "Succès","Category ajouté avec succès !");
             clearFields();
+            if (parentController != null) {
+                parentController.refreshComboBoxCat();
+            }
+            Stage stage = (Stage) btnAjouterCatid.getScene().getWindow();
+            stage.close();
+
         }catch (SQLException e){
             System.out.println(e);
         }
@@ -81,33 +96,6 @@ public class GestionCategory {
         alert.setContentText(content);
         alert.showAndWait();
     }
-
-    @FXML
-    void btnModifierCat(ActionEvent event) {
-
-            try {
-                if (txtidMCat.getText().isEmpty() || txtNomMCat.getText().isEmpty()) {
-                    System.out.println("Please fill all fields!");
-                    return;
-                }
-                int id = Integer.parseInt(txtidMCat.getText());
-                String nom = txtNomMCat.getText();
-                String description = txtDescriptionMCat.getText();
-
-                Category categoryMod = new Category(nom,description);
-                categoryMod.setId(id);
-                System.out.println(categoryMod);
-                ServiceCategory serviceCatMod = new ServiceCategory();
-                System.out.println(id);
-                serviceCatMod.modifier(categoryMod);
-
-                System.out.println("Category modifier");
-
-            }catch (SQLException e){
-                System.out.println(e);
-            }
-    }
-
 
     @FXML
     void btnSuppCat(ActionEvent event) {
@@ -168,23 +156,7 @@ public class GestionCategory {
                 }
             }
         });
-        tableView.setRowFactory(tv -> {
-            TableRow<Category> row = new TableRow<>();
-            row.setOnMouseClicked(event -> {
-                if (event.getClickCount() == 2 && (!row.isEmpty())) {
-                    Category clickedCat = row.getItem();
-                    fillModifierFields(clickedCat);
-                    tabPaneCat.getSelectionModel().select(tabModCat);
-                }
-            });
-            return row;
-        });
+
 
     }
-    private void fillModifierFields(Category category) {
-        txtidMCat.setText(String.valueOf(category.getId()));
-        txtNomMCat.setText(category.getNom());
-        txtDescriptionMCat.setText(category.getDesc());
-    }
-
 }

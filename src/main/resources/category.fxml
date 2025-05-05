@@ -26,20 +26,7 @@
                               <Label fx:id="subname2" layoutX="67.0" layoutY="118.0" text="Description" />
                               <TextField fx:id="txtNomCat" layoutX="67.0" layoutY="60.0" />
                               <TextField fx:id="txtDescriptionCat" layoutX="67.0" layoutY="141.0" />
-                              <Button fx:id="btns" layoutX="81.0" layoutY="264.0" mnemonicParsing="false" onAction="#btnAjouterCat" prefHeight="26.0" prefWidth="121.0" text="Ajouter" />
-                           </children>
-                        </AnchorPane>
-                     </content>
-                  </Tab>
-                  <Tab fx:id="tabModCat" text="Modifier">
-                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                           <children>
-                              <Label fx:id="subname11" layoutX="59.0" layoutY="39.0" styleClass="subname1" text="Nom" />
-                              <Label fx:id="subname21" layoutX="59.0" layoutY="115.0" text="Description" />
-                              <TextField fx:id="txtNomMCat" layoutX="57.0" layoutY="59.0" />
-                              <TextField fx:id="txtDescriptionMCat" layoutX="57.0" layoutY="140.0" />
-                              <Button fx:id="btns1" layoutX="71.0" layoutY="193.0" mnemonicParsing="false" onAction="#btnModifierCat" prefHeight="26.0" prefWidth="121.0" text="Modifier" />
+                              <Button fx:id="btnAjouterCatid" layoutX="81.0" layoutY="264.0" mnemonicParsing="false" onAction="#btnAjouterCat" prefHeight="26.0" prefWidth="121.0" text="Ajouter" />
                            </children>
                         </AnchorPane>
                      </content>

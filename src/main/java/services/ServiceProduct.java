@@ -46,7 +46,6 @@ public class ServiceProduct implements Iservice<Product> {
     @Override
     public void modifier(Product product) throws SQLException {
         String req = "update product set `nom`=?, `desc`=?, `qt`=?, `price`=?, `img`=?, `cTime`=?, `mTime`=? where `id`=?";
-        System.out.println(req);
         PreparedStatement preparedStatement = connection.prepareStatement(req);
         preparedStatement.setString(1, product.getNom());
         preparedStatement.setString(2, product.getDesc());
