@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+
+<AnchorPane fx:controller="controllers.ProductCard" xmlns:fx="http://javafx.com/fxml" prefHeight="150" prefWidth="200">
+    <VBox spacing="10" alignment="CENTER">
+        <ImageView fx:id="imgProduct" fitWidth="120" fitHeight="100" />
+        <Label fx:id="lblName" style="-fx-font-weight: bold;" />
+        <Label fx:id="lblPrice" />
+    </VBox>
+</AnchorPane>

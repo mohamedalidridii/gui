@@ -12,10 +12,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import services.ServiceCategory;
 import services.ServiceProduct;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -23,6 +26,7 @@ import java.util.List;
 
 public class GestionProd {
 
+    public Label subname32;
     @FXML
     private Button btns;
 
@@ -390,6 +394,57 @@ public class GestionProd {
             categoryNames.add(category.getNom());
         }
         comboCategory.setItems(categoryNames);
+    }
+
+    @FXML
+    void onbuttonSelectimg(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Sélectionnez une image");
+
+        // Filter only image files
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.jpeg", "*.gif")
+        );
+
+        // Open the file chooser dialog
+        File selectedFile = fileChooser.showOpenDialog(null); // Use your Stage if needed
+
+        if (selectedFile != null) {
+            txtImage.setText(selectedFile.toURI().toString());
+        }
+
+    }    @FXML
+    void onbuttonModifyimg(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Sélectionnez une image");
+
+        // Filter only image files
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.jpeg", "*.gif")
+        );
+
+        // Open the file chooser dialog
+        File selectedFile = fileChooser.showOpenDialog(null); // Use your Stage if needed
+
+        if (selectedFile != null) {
+            txtImageM.setText(selectedFile.getAbsolutePath());
+        }
+
+    }
+    @FXML
+    void btnAffichageModern(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/userProduct.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("Produits - Vue Utilisateur");
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

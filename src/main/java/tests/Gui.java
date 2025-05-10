@@ -22,7 +22,7 @@ public class Gui extends Application {
         Scene scene = new Scene(root);
 
         primaryStage.setScene(scene);
-        primaryStage.setTitle("hello");
+        primaryStage.setTitle("Gestion des produits");
         primaryStage.show();
     }
 }
