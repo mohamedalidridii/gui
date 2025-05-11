@@ -6,11 +6,23 @@ import java.util.Objects;
 public class Location {
     private int idLocation;
     private String country;
-    private boolean visa;
     private String description;
+    private boolean visa;
+    private String image;
     private String images;
     private List<String> transportaion;
     private List<String> weather;
+
+    public Location() {
+    }
+
+    public Location(int idLocation, String country, String description, boolean visa, String image) {
+        this.idLocation = idLocation;
+        this.country = country;
+        this.description = description;
+        this.visa = visa;
+        this.image = image;
+    }
 
     public int getIdLocation() {
         return idLocation;
@@ -28,6 +40,14 @@ public class Location {
         this.country = country;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public boolean isVisa() {
         return visa;
     }
@@ -36,12 +56,12 @@ public class Location {
         this.visa = visa;
     }
 
-    public String getDescription() {
-        return description;
+    public String getImage() {
+        return image;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public String getImages() {
@@ -68,17 +88,9 @@ public class Location {
         this.weather = weather;
     }
 
-    public Location(int idLocation, String country, boolean visa, String description, String images, List<String> transportaion, List<String> weather) {
-        this.idLocation = idLocation;
-        this.country = country;
-        this.visa = visa;
-        this.description = description;
-        this.images = images;
-        this.transportaion = transportaion;
-        this.weather = weather;
-    }
-    public Location() {
-
+    @Override
+    public String toString() {
+        return country;
     }
 
     @Override
@@ -92,18 +104,5 @@ public class Location {
     @Override
     public int hashCode() {
         return Objects.hash(getIdLocation(), getCountry(), isVisa(), getDescription(), getImages(), getTransportaion(), getWeather());
-    }
-
-    @Override
-    public String toString() {
-        return "Location{" +
-                "idLocation=" + idLocation +
-                ", country='" + country + '\'' +
-                ", visa=" + visa +
-                ", description='" + description + '\'' +
-                ", images='" + images + '\'' +
-                ", transportaion=" + transportaion +
-                ", weather=" + weather +
-                '}';
     }
 }

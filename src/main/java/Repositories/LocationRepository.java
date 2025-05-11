@@ -14,9 +14,10 @@ import java.util.stream.Collectors;
 
 public class LocationRepository {
 
-    Connection connection;
+    private final Connection connection;
+
     public LocationRepository() {
-        connection= Database.getInstance().getConnection();
+        connection = Database.getInstance().getConnection();
     }
 
     public void createLocation(Location location) {
@@ -65,34 +66,51 @@ public class LocationRepository {
         }
     private Location mapResultSetToLocation(ResultSet rs) throws SQLException {
         Location location = new Location();
-        location.setIdLocation(Integer.parseInt(rs.getString("idLocation")));
+        location.setIdLocation(rs.getInt("idLocation"));
         location.setCountry(rs.getString("country"));
         location.setVisa(rs.getBoolean("visa"));
         location.setDescription(rs.getString("description"));
         location.setImages(rs.getString("images"));
-        location.setWeather(Arrays.asList(rs.getString("weather").split(",")));
-        location.setTransportaion(Arrays.asList(rs.getString("transportation").split(",")));
+        // Note: transportaion and weather lists are not handled here
         return location;
     }
 
-        public List<Location> getAllLocations() {
+    public List<Location> getAllLocations() {
         String sql = "SELECT * FROM location";
-            List<Location> locations = new ArrayList<>();
+        List<Location> locations = new ArrayList<>();
 
-            try (PreparedStatement ps = connection.prepareStatement(sql)) {
-                ResultSet rs = ps.executeQuery();
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ResultSet rs = ps.executeQuery();
 
-                while (rs.next()) {
-                    locations.add(mapResultSetToLocation(rs));
-                }
-            } catch (SQLException e) {
-                System.err.println(e.getMessage());
+            while (rs.next()) {
+                locations.add(mapResultSetToLocation(rs));
             }
-
-            return locations;
-
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
         }
-        public Location getLocationById(int id) {
+
+        return locations;
+    }
+
+    public Location getLocationByCountry(String country) {
+        String sql = "SELECT * FROM location WHERE country = ?";
+        Location location = null;
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, country);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                location = mapResultSetToLocation(rs);
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+
+        return location;
+    }
+
+    public Location getLocationById(int id) {
         String sql = "SELECT * FROM location WHERE idLocation = ?";
         Location location = null;
         try (PreparedStatement ps=connection.prepareStatement(sql)){
@@ -106,7 +124,5 @@ public class LocationRepository {
             System.err.println(e.getMessage());
         }
         return location;
-        }
-
-
+    }
 }

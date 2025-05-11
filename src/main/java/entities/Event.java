@@ -25,6 +25,7 @@ public class Event {
     private GenreEvent genreEvent;
     private StatusEvent statusEvent;
     private TypeEvent typeEvent;
+    private Location location;
 
     public int getIdEvent() {
         return idEvent;
@@ -56,6 +57,14 @@ public class Event {
 
     public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
     }
 
     public LocalDate getEndDate() {
@@ -184,6 +193,33 @@ public class Event {
 
     public void setTypeEvent(TypeEvent typeEvent) {
         this.typeEvent = typeEvent;
+    }
+
+    public Event(int idEvent, String name, String description, LocalDate startDate, LocalDate endDate, int duration, float price, int nbParticipant, int maxParticipants, int vuesNb, int fidelityPoints, boolean visa, int idCreator, float promotionRate, float finalPrice, boolean isDeleted, List<Integer> listParticipantsID, GenreEvent genreEvent, StatusEvent statusEvent, TypeEvent typeEvent, Location location) {
+        this.idEvent = idEvent;
+        this.name = name;
+        this.description = description;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.duration = duration;
+        this.price = price;
+        this.nbParticipant = nbParticipant;
+        this.maxParticipants = maxParticipants;
+        VuesNb = vuesNb;
+        FidelityPoints = fidelityPoints;
+        this.visa = visa;
+        this.idCreator = idCreator;
+        this.promotionRate = promotionRate;
+        this.finalPrice = finalPrice;
+        this.isDeleted = isDeleted;
+        this.listParticipantsID = listParticipantsID;
+        this.genreEvent = genreEvent;
+        this.statusEvent = statusEvent;
+        this.typeEvent = typeEvent;
+        this.location = location;
+    }
+
+    public Event() {
     }
 }
 

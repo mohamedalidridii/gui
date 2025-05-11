@@ -11,6 +11,6 @@ public interface Ievent {
     List<Event> list_Event();
     List<Event> listDeletedEvents();
     Event get_Event(int id);
-
+    void add_vues(Event event);
 
 }

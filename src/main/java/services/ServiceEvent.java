@@ -45,7 +45,11 @@ public class ServiceEvent implements Ievent{
     public Event get_Event(int id) {
         return eventRepository.getEventById(id);
     }
-
+    
+    @Override
+    public void add_vues(Event event) {
+        eventRepository.add_vues(event);
+    }
 }
 
 

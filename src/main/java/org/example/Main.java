@@ -1,19 +1,17 @@
 package org.example;
 
 import javafx.application.Application;
-
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/MainEventView.fxml")); // update path
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/MainEventView.fxml"));
         Parent root = loader.load();
-        primaryStage.setTitle("Event Manager");
+        primaryStage.setTitle("Event Management");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
