@@ -18,9 +18,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import javafx.stage.FileChooser;
 import services.ServiceEvent;
 import services.ServiceLocation;
+import services.PDFService;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
@@ -62,6 +65,7 @@ public class EventController implements Initializable {
     @FXML private Button changePromotionButton;
     @FXML private Button updateStatusButton;
     @FXML private Button postponeEventButton;
+    @FXML private Button exportButton;
     @FXML private Label errorLabel;
 
     private final ServiceEvent serviceEvent = new ServiceEvent();
@@ -153,6 +157,7 @@ public class EventController implements Initializable {
             changePromotionButton.setOnAction(e -> handleChangePromotion());
             updateStatusButton.setOnAction(e -> handleUpdateStatus());
             postponeEventButton.setOnAction(e -> handlePostponeEvent());
+            exportButton.setOnAction(e -> handleExport());
 
             // Initially disable buttons
             editButton.setDisable(true);
@@ -160,6 +165,7 @@ public class EventController implements Initializable {
             changePromotionButton.setDisable(true);
             updateStatusButton.setDisable(true);
             postponeEventButton.setDisable(true);
+            exportButton.setDisable(false);
 
         } catch (Exception e) {
             System.err.println("Error initializing EventController: " + e.getMessage());
@@ -649,5 +655,43 @@ public class EventController implements Initializable {
                 showError("Error postponing event", ex.getMessage());
             }
         });
+    }
+
+    @FXML
+    private void handleExport() {
+        try {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Save PDF");
+            fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("PDF Files", "*.pdf")
+            );
+            fileChooser.setInitialFileName("events_report.pdf");
+            
+            File file = fileChooser.showSaveDialog(exportButton.getScene().getWindow());
+            if (file != null) {
+                List<Event> eventsToExport;
+                Event selectedEvent = eventTableView.getSelectionModel().getSelectedItem();
+                
+                if (selectedEvent != null) {
+                    // Export only the selected event
+                    eventsToExport = List.of(selectedEvent);
+                } else {
+                    // Export all events
+                    eventsToExport = eventTableView.getItems();
+                }
+                
+                PDFService.generateEventsPDF(eventsToExport, file.getAbsolutePath());
+                
+                // Show success message
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Success");
+                alert.setHeaderText("PDF Export Successful");
+                alert.setContentText("The events have been exported to: " + file.getAbsolutePath());
+                alert.showAndWait();
+            }
+        } catch (Exception e) {
+            errorLabel.setText("Error exporting to PDF: " + e.getMessage());
+            errorLabel.setVisible(true);
+        }
     }
 }

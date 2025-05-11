@@ -78,6 +78,7 @@
             <Button fx:id="changePromotionButton" text="Change Promotion" onAction="#handleChangePromotion"/>
             <Button fx:id="updateStatusButton" text="Update Status" onAction="#handleUpdateStatus"/>
             <Button fx:id="postponeEventButton" text="Postpone Event" onAction="#handlePostponeEvent"/>
+            <Button fx:id="exportButton" text="Export to PDF" onAction="#handleExport"/>
         </HBox>
 
         <Label fx:id="errorLabel" textFill="RED" GridPane.columnIndex="1" GridPane.rowIndex="12"/>
