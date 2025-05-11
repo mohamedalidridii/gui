@@ -24,10 +24,12 @@ public class maintest extends Application {
         primaryStage.setScene(scene);
         primaryStage.setTitle("Add User");
         primaryStage.show();*/
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ModifyUser.fxml"));
+
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/SearchUsers.fxml"));
         Parent root = fxmlLoader.load();
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
+        primaryStage.setMaximized(true);
         primaryStage.setTitle("Add User");
         primaryStage.show();
 

@@ -50,6 +50,20 @@ public abstract class User {
         this.role=role;
 
     }
+    public User(int id, String name, int age, String gender, String email, int number,
+                String prename,String location  ) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.gender = gender;
+        this.email = email;
+        this.number = number;
+        this.lastname = prename;
+        this.createdat = LocalDateTime.now();
+        this.lastLogin = LocalDateTime.now();
+        this.location = location;
+
+    }
 
 
 
