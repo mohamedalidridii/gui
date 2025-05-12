@@ -4,33 +4,90 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.AnchorPane?>
-
 <?import javafx.scene.control.TextField?>
-<AnchorPane prefHeight="538.0" prefWidth="858.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.SearchUsersController">
-<children>
-<TableView fx:id="readUserTAbleview" layoutX="24.0" layoutY="169.0" prefHeight="200.0" prefWidth="826.0">
-    <columns>
-        <TableColumn fx:id="cid" prefWidth="75.0" text="id" />
-        <TableColumn fx:id="cname" prefWidth="75.0" text="Name" />
-        <TableColumn fx:id="clastname" prefWidth="75.0" text="LastName" />
-        <TableColumn fx:id="cage" prefWidth="75.0" text="Age" />
-        <TableColumn fx:id="clocation" prefWidth="75.0" text="Location" />
-        <TableColumn fx:id="cemail" prefWidth="75.0" text="Email" />
-        <TableColumn fx:id="cpassword" prefWidth="75.0" text="HashedPassword" />
-        <TableColumn fx:id="cnumber" prefWidth="75.0" text="Number" />
-        <TableColumn fx:id="clastlogin" prefWidth="75.0" text="LastLogin" />
-        <TableColumn fx:id="ccreatedat" prefWidth="75.0" text="CreatedAt" />
-        <TableColumn fx:id="ctype" prefWidth="75.0" text="Type" />
-    </columns>
-</TableView>
-      <TextField fx:id="txtemail" layoutX="118.0" layoutY="112.0" />
-      <TextField fx:id="txtname" layoutX="355.0" layoutY="112.0" />
-      <TextField fx:id="txtlastname" layoutX="594.0" layoutY="112.0" />
-      <Label layoutX="74.0" layoutY="116.0" text="Email" />
-      <Label layoutX="287.0" layoutY="116.0" text="FirstName" />
-      <Label layoutX="524.0" layoutY="116.0" text="LastName" />
-      <Button fx:id="searchbutton" layoutX="774.0" layoutY="112.0" mnemonicParsing="false" onAction="#searchbutton" text="Search" />
-</children>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 
+<AnchorPane prefHeight="800" prefWidth="1280" style="-fx-background-color: linear-gradient(to right, #e0f7fa, #ffffff);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.SearchUsersController">
+
+    <StackPane AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+        <VBox alignment="CENTER" spacing="30">
+
+            <!-- Title -->
+            <Label style="-fx-font-size: 30px; -fx-font-weight: bold; -fx-text-fill: #1a237e;" text="🔎 Search Users" />
+
+            <!-- Search Card -->
+            <VBox alignment="CENTER_LEFT" maxWidth="1100" spacing="20" style="-fx-background-color: white; -fx-padding: 30; -fx-background-radius: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 12, 0, 0, 4);">
+
+                <!-- Filters -->
+                <HBox alignment="CENTER_LEFT" spacing="20">
+                    <VBox spacing="6">
+                        <Label style="-fx-text-fill: #333;" text="Email" />
+                        <TextField fx:id="txtemail" promptText="Enter email" />
+                    </VBox>
+
+                    <VBox spacing="6">
+                        <Label style="-fx-text-fill: #333;" text="First Name" />
+                        <TextField fx:id="txtname" promptText="Enter first name" />
+                    </VBox>
+
+                    <VBox spacing="6">
+                        <Label style="-fx-text-fill: #333;" text="Last Name" />
+                        <TextField fx:id="txtlastname" promptText="Enter last name" />
+                    </VBox>
+               <VBox prefHeight="69.0" prefWidth="142.0">
+                  <children>
+                     <VBox spacing="6">
+                        <children>
+                           <Label style="-fx-text-fill: #333;" text="Location" />
+                           <TextField fx:id="txtlocation" promptText="Enter last locaation" />
+                        </children>
+                     </VBox>
+                  </children>
+               </VBox>
+               <VBox prefHeight="52.0" prefWidth="150.0">
+                  <children>
+                     <VBox prefHeight="69.0" prefWidth="142.0">
+                        <children>
+                           <VBox spacing="6">
+                              <children>
+                                 <Label style="-fx-text-fill: #333;" text="Number" />
+                                 <TextField fx:id="txtnumber" promptText="Enter  Number" />
+                              </children>
+                           </VBox>
+                        </children>
+                     </VBox>
+                  </children>
+               </VBox>
+
+                    <Button fx:id="searchbutton" onAction="#searchbutton" style="-fx-background-color: #42a5f5; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 10 20;" text="🔍 Search" />
+                </HBox>
+
+                <!-- Table Header -->
+                <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1a237e;" text="📋 User Table" />
+
+                <!-- Table -->
+                <TableView fx:id="readUserTAbleview" prefHeight="500.0" style="-fx-background-color: #fefefe; -fx-background-radius: 10; -fx-border-radius: 10;">
+                    <columns>
+                        <TableColumn fx:id="cid" prefWidth="60" text="ID" />
+                        <TableColumn fx:id="cname" prefWidth="100" text="Name" />
+                        <TableColumn fx:id="clastname" prefWidth="100" text="Last Name" />
+                        <TableColumn fx:id="cage" prefWidth="60" text="Age" />
+                        <TableColumn fx:id="clocation" prefWidth="100" text="Location" />
+                        <TableColumn fx:id="cemail" prefWidth="180" text="Email" />
+                        <TableColumn fx:id="cpassword" prefWidth="150" text="Password" />
+                        <TableColumn fx:id="cnumber" prefWidth="120" text="Phone" />
+                        <TableColumn fx:id="clastlogin" prefWidth="130" text="Last Login" />
+                        <TableColumn fx:id="ccreatedat" prefWidth="130" text="Created At" />
+                        <TableColumn fx:id="ctype" prefWidth="100" text="Type" />
+                    </columns>
+                </TableView>
+
+                <!-- Remove Button -->
+                <Button fx:id="removeButton" onAction="#removeUser" style="-fx-background-color: #ef5350; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 10 20;" text="🗑️ Remove Selected User" />
+            </VBox>
+        </VBox>
+    </StackPane>
 </AnchorPane>

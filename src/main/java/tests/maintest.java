@@ -1,6 +1,7 @@
 package tests;
 
 import com.sun.javafx.iio.ios.IosDescriptor;
+import entities.PythonLauncher;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -24,10 +25,13 @@ public class maintest extends Application {
         primaryStage.setScene(scene);
         primaryStage.setTitle("Add User");
         primaryStage.show();*/
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ModifyUser.fxml"));
+
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/SearchUsers.fxml"));
+        PythonLauncher.launchPython();
         Parent root = fxmlLoader.load();
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
+        primaryStage.setMaximized(true);
         primaryStage.setTitle("Add User");
         primaryStage.show();
 

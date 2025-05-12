@@ -1,0 +1,26 @@
+.input-field {
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-padding: 8;
+    -fx-background-color: white;
+    -fx-prompt-text-fill: #999;
+    -fx-font-size: 14px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 2, 0, 0, 1);
+}
+
+.input-field:focused {
+    -fx-border-color: #4ca1af;
+    -fx-border-width: 2;
+}
+
+.login-button {
+    -fx-background-color: #4ca1af;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-background-radius: 8;
+    -fx-padding: 10 20;
+}
+
+.login-button:hover {
+    -fx-background-color: #357f8a;
+}

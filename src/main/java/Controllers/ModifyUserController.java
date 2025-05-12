@@ -6,7 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.util.Duration;
-import services.AccessLevel;
+import entities.AccessLevel;
 import services.ServiceSeller;
 import services.ServiceUser;
 
@@ -15,6 +15,10 @@ import java.sql.SQLException;
 public class ModifyUserController {
     private final ServiceUser serviceUser=new ServiceSeller();
     public int updateid;
+
+
+    @FXML
+    private RadioButton passwordradio;
 
 
     @FXML
@@ -87,6 +91,23 @@ public class ModifyUserController {
 
     @FXML
     private void initialize() {
+        Platform.runLater(() -> {
+            boolean isSelected = passwordradio.isSelected();
+            txtpassword.setDisable(!isSelected);
+            txtconfirmpassword.setDisable(!isSelected);
+            strengthBar.setVisible(isSelected);
+            strengthLabel.setVisible(!isSelected);
+
+        });
+
+        if (passwordradio!=null) {
+            passwordradio.selectedProperty().addListener((observable, oldValue, isSelected) -> {
+                txtpassword.setDisable(!isSelected);
+                txtconfirmpassword.setDisable(!isSelected);
+                strengthBar.setVisible(isSelected);
+                strengthLabel.setVisible(!isSelected);
+            });
+        }
 
         SpinnerValueFactory<Integer> valueFactory =
                 new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100, 18);
@@ -291,25 +312,29 @@ public class ModifyUserController {
             alert.showAndWait();
             return;
         }
+        if(passwordradio.isSelected()){
+            if (getPasswordStrengthScore(password)<3){
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText(null);
+                alert.setContentText("Password is too weak");
+                alert.showAndWait();
+                return;
+            }
 
-        if (getPasswordStrengthScore(password)<3){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText(null);
-            alert.setContentText("Password is too weak");
-            alert.showAndWait();
-            return;
+            if(!password.equals(confirmPassword)){
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText(null);
+                alert.setContentText("Passwords do not match");
+                alert.showAndWait();
+                return;
+
+            }
+
         }
 
-        if(!password.equals(confirmPassword)){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText(null);
-            alert.setContentText("Passwords do not match");
-            alert.showAndWait();
-            return;
 
-        }
 
 
 
@@ -325,7 +350,11 @@ public class ModifyUserController {
                 alert.showAndWait();
                 return;
             }
-            newUser =new Seller(updateid,name,age,selectedSex,email,number,lastname,password,lastname,storename);
+            if(!passwordradio.isSelected()){
+                newUser =new Seller(updateid,name,age,selectedSex,email,number,lastname,password,location,storename);
+            }
+            else   newUser =new Seller(updateid,name, age,selectedSex, email, number,lastname,location,storename);
+
 
         }
         else if (usertype==radiotypetraveller){
@@ -338,7 +367,10 @@ public class ModifyUserController {
                 alert.showAndWait();
                 return;
             }
-            newUser=new Traveller(updateid,name,age,selectedSex,email,number,lastname,password,location,passport);
+            if(!passwordradio.isSelected()){
+                newUser =new Seller(updateid,name,age,selectedSex,email,number,lastname,password,location,passport);
+            }
+            else   newUser =new Seller(updateid,name, age,selectedSex, email, number,lastname,location,passport);
         }
         else {
             Alert alert =new Alert(Alert.AlertType.ERROR);
