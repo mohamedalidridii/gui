@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Pos?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="Controllers.LoginController" prefWidth="800" prefHeight="600" style="-fx-background-color: linear-gradient(to right, #e3f2fd, #ffffff);">
+    <StackPane AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0">
+        <VBox alignment="CENTER" spacing="30" maxWidth="600" style="-fx-padding: 20;">
+
+            <Label text="🔐 Welcome Back"
+                   style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #333;" />
+
+            <VBox spacing="20" alignment="CENTER" maxWidth="400" style="-fx-background-color: white; -fx-padding: 30; -fx-background-radius: 12; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 12, 0, 0, 6);">
+
+                <VBox spacing="6" alignment="CENTER_LEFT">
+                    <Label text="Email" />
+                    <TextField fx:id="emailField" promptText="you@example.com" style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-padding: 8;"/>
+                </VBox>
+
+                <VBox spacing="6" alignment="CENTER_LEFT">
+                    <Label text="Password" />
+                    <PasswordField fx:id="passwordField" promptText="Enter your password" style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-padding: 8;" />
+                </VBox>
+
+                <HBox alignment="CENTER_RIGHT">
+                    <Hyperlink text="Forgotten password?" onAction="#handleForgotPassword"
+                               style="-fx-text-fill: #42a5f5; -fx-font-size: 12px;" />
+                </HBox>
+
+                <Button fx:id="loginButton" text="Login" onAction="#handleLogin"
+                        style="-fx-background-color: #42a5f5; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 10 20;" />
+
+                <Button fx:id="googleLoginButton" text="Sign in with Google" onAction="#handleGoogleLogin"
+                        style="-fx-background-color: white; -fx-border-color: #4285F4; -fx-text-fill: #4285F4; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 10 20;" />
+
+                <HBox alignment="CENTER">
+                    <Label text="Don't have an account?" />
+                    <Hyperlink text="Sign up" onAction="#handleSignUp"
+                               style="-fx-text-fill: #42a5f5; -fx-font-weight: bold; -fx-padding: 0 0 0 5;" />
+                </HBox>
+
+                <Label fx:id="errorLabel" text="" wrapText="true"
+                       style="-fx-text-fill: red; -fx-font-size: 12px; -fx-padding: 5;" />
+            </VBox>
+        </VBox>
+    </StackPane>
+</AnchorPane>
