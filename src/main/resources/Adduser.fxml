@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="Controllers.AdduserController" prefWidth="800" prefHeight="900"
+            style="-fx-background-color: linear-gradient(to right, #e0f7fa, #ffffff);">
+
+   <StackPane AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+      <VBox alignment="CENTER" spacing="20" VBox.vgrow="ALWAYS" prefWidth="Infinity" maxHeight="800" style="-fx-padding: 20;">
+
+         <Label text="📝 Register New User" style="-fx-font-size: 30px; -fx-font-weight: bold; -fx-text-fill: #1a237e;" />
+
+         <VBox alignment="CENTER_LEFT" spacing="15" maxWidth="600"
+               style="-fx-background-color: white; -fx-padding: 30; -fx-background-radius: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 16, 0, 0, 8);">
+
+            <HBox spacing="20">
+               <VBox spacing="8">
+                  <Label text="First Name" />
+                  <TextField fx:id="txtname" promptText="Enter your first name" />
+               </VBox>
+               <VBox spacing="8">
+                  <Label text="Last Name" />
+                  <TextField fx:id="txtlastname" promptText="Enter your last name" />
+               </VBox>
+            </HBox>
+
+            <HBox spacing="20">
+               <VBox spacing="8">
+                  <Label text="Age" />
+                  <Spinner fx:id="spinbage" editable="true" prefWidth="100" />
+               </VBox>
+               <VBox spacing="8">
+                  <Label text="Sex" />
+                  <HBox spacing="12">
+                     <RadioButton fx:id="radioMale" text="Male">
+                        <toggleGroup>
+                           <ToggleGroup fx:id="usersex" />
+                        </toggleGroup>
+                     </RadioButton>
+                     <RadioButton fx:id="radiofemale" text="Female" toggleGroup="$usersex" />
+                  </HBox>
+               </VBox>
+            </HBox>
+
+            <HBox spacing="20">
+               <VBox spacing="8">
+                  <Label text="Location" />
+                  <TextField fx:id="txtlocation" promptText="City / Country" />
+               </VBox>
+               <VBox spacing="8">
+                  <Label text="Phone Number" />
+                  <TextField fx:id="txtnumber" promptText="e.g. +1234567890" />
+               </VBox>
+            </HBox>
+
+            <VBox spacing="8">
+               <Label text="Email" />
+               <TextField fx:id="txtemail" promptText="Enter your email address" />
+            </VBox>
+
+            <VBox spacing="8">
+               <Label text="Password" />
+               <PasswordField fx:id="txtpassword" promptText="Enter a strong password" />
+               <ProgressBar fx:id="strengthBar" prefWidth="220" progress="0.0" />
+               <Label fx:id="strengthLabel" style="-fx-font-size: 11px; -fx-text-fill: gray;" text="" />
+               <PasswordField fx:id="txtconfirmpassword" promptText="Confirm your password" />
+            </VBox>
+
+            <VBox spacing="8">
+               <Label text="User Type" />
+               <HBox spacing="12">
+                  <RadioButton fx:id="radiotypetraveller" text="Traveller">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="userType" />
+                     </toggleGroup>
+                  </RadioButton>
+                  <RadioButton fx:id="radiotypeseller" text="Seller" toggleGroup="$userType" />
+               </HBox>
+            </VBox>
+
+            <VBox spacing="8">
+               <Label fx:id="passportidlabel" text="Passport ID" visible="false" />
+               <TextField fx:id="txtpassport" promptText="Enter your passport ID" visible="false" />
+               <Label fx:id="storenamelabel" text="Store Name" visible="false" />
+               <TextField fx:id="txtstorename" promptText="Enter store name" visible="false" />
+            </VBox>
+
+            <HBox alignment="CENTER">
+               <Button fx:id="adduserbutton" onAction="#adduserbutton" prefHeight="34.0" prefWidth="220.0"
+                       style="-fx-background-color: #42a5f5; -fx-text-fill: white; -fx-font-size: 15px; -fx-font-weight: bold; -fx-background-radius: 30; -fx-padding: 12 28;"
+                       text="✅ Create Account" />
+            </HBox>
+         </VBox>
+      </VBox>
+
+      <Button fx:id="backButton" text="←" onAction="#handleBackButton"
+              style="-fx-font-size: 20px; -fx-background-color: transparent; -fx-text-fill: #1a237e;"
+              StackPane.alignment="TOP_LEFT" translateX="20" translateY="20" />
+   </StackPane>
+</AnchorPane>

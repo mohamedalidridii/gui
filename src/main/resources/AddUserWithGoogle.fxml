@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="800" prefWidth="1280" style="-fx-background-color: linear-gradient(to right, #e0f7fa, #ffffff);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AddUserWithGoogleController">
+
+    <StackPane AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+        <Button fx:id="backButton" onAction="#handleBackButton" style="-fx-font-size: 20px; -fx-background-color: transparent; -fx-text-fill: #1a237e;" text="←" translateX="20" translateY="20" StackPane.alignment="TOP_LEFT" />
+
+        <VBox alignment="CENTER" maxHeight="700" spacing="20" style="-fx-padding: 20;" VBox.vgrow="ALWAYS">
+
+            <Label style="-fx-font-size: 30px; -fx-font-weight: bold; -fx-text-fill: #1a237e;" text="📝 Add Needed Credentials" />
+
+            <VBox alignment="CENTER_LEFT" maxWidth="800" prefHeight="611.0" prefWidth="800.0" spacing="15" style="-fx-background-color: white; -fx-padding: 30; -fx-background-radius: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 16, 0, 0, 8);">
+
+                <HBox spacing="20">
+                    <VBox spacing="8" />
+                    <VBox spacing="8" />
+                </HBox>
+
+                <HBox spacing="20">
+                    <VBox spacing="8">
+                        <Label text="Age" />
+                        <Spinner fx:id="spinbage" editable="true" prefWidth="100" />
+                    </VBox>
+                    <VBox spacing="8">
+                        <Label text="Sex" />
+                        <HBox spacing="12">
+                            <RadioButton fx:id="radioMale" text="Male">
+                                <toggleGroup>
+                                    <ToggleGroup fx:id="usersex" />
+                                </toggleGroup>
+                            </RadioButton>
+                            <RadioButton fx:id="radiofemale" text="Female" toggleGroup="$usersex" />
+                        </HBox>
+                    </VBox>
+                </HBox>
+
+                <HBox spacing="20">
+                    <VBox spacing="8">
+                        <Label text="Location" />
+                        <TextField fx:id="txtlocation" promptText="City / Country" />
+                    </VBox>
+                    <VBox spacing="8">
+                        <Label text="Phone Number" />
+                        <TextField fx:id="txtnumber" promptText="e.g. +1234567890" />
+                    </VBox>
+                </HBox>
+
+                <VBox spacing="8" />
+
+                <VBox spacing="8">
+                    <Label text="Password" />
+                    <PasswordField fx:id="txtpassword" promptText="Enter a strong password" />
+                    <ProgressBar fx:id="strengthBar" prefWidth="220" progress="0.0" />
+                    <Label fx:id="strengthLabel" style="-fx-font-size: 11px; -fx-text-fill: gray;" text="" />
+                    <PasswordField fx:id="txtconfirmpassword" promptText="Confirm your password" />
+                </VBox>
+
+                <VBox spacing="8">
+                    <Label text="User Type" />
+                    <HBox spacing="12">
+                        <RadioButton fx:id="radiotypetraveller" text="Traveller">
+                            <toggleGroup>
+                                <ToggleGroup fx:id="userType" />
+                            </toggleGroup>
+                        </RadioButton>
+                        <RadioButton fx:id="radiotypeseller" text="Seller" toggleGroup="$userType" />
+                    </HBox>
+                </VBox>
+
+                <VBox spacing="8">
+                    <Label fx:id="passportidlabel" text="Passport ID" visible="false" />
+                    <TextField fx:id="txtpassport" promptText="Enter your passport ID" visible="false" />
+
+                    <Label fx:id="storenamelabel" text="Store Name" visible="false" />
+                    <TextField fx:id="txtstorename" promptText="Enter store name" visible="false" />
+                </VBox>
+
+                <HBox alignment="CENTER" VBox.vgrow="NEVER">
+                    <Button fx:id="adduserbutton" minHeight="14.0" onAction="#adduserbutton" prefHeight="52.0" prefWidth="220.0" style="-fx-background-color: #42a5f5; -fx-text-fill: white; -fx-font-size: 15px; -fx-font-weight: bold; -fx-background-radius: 30; -fx-padding: 12 28;" text="✅ Create Account" />
+                </HBox>
+
+            </VBox>
+        </VBox>
+    </StackPane>
+</AnchorPane>
