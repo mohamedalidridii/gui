@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import java.lang.String?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.MainController">
+    <stylesheets>
+        <String fx:value="/application.css"/>
+    </stylesheets>
+
+    <top>
+        <VBox alignment="CENTER" spacing="20">
+            <padding>
+                <Insets top="30" bottom="20" />
+            </padding>
+            <Text text="Travel Booking System" styleClass="title-text">
+                <font>
+                    <Font name="System Bold" size="28" />
+                </font>
+            </Text>
+            <Text text="Plan and book your perfect trip with our comprehensive travel platform"
+                  styleClass="subtitle-text" wrappingWidth="600">
+                <font>
+                    <Font size="16" />
+                </font>
+            </Text>
+        </VBox>
+    </top>
+
+    <center>
+        <GridPane hgap="20" vgap="20" alignment="CENTER">
+            <padding>
+                <Insets top="20" right="40" bottom="40" left="40" />
+            </padding>
+
+            <!-- Row 0: Main Booking Options -->
+            <VBox spacing="15" styleClass="category-box" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                <Label text="Travel Search" styleClass="category-title" />
+                <Button text="Search Flights" styleClass="nav-button" onAction="#openFlightSearch"
+                        maxWidth="Infinity" />
+                <Button text="Search Accommodations" styleClass="nav-button" onAction="#openAccommodationSearch"
+                        maxWidth="Infinity" />
+            </VBox>
+
+            <VBox spacing="15" styleClass="category-box" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                <Label text="Booking Management" styleClass="category-title" />
+                <Button text="Flight Booking" styleClass="nav-button" onAction="#openFlightBooking"
+                        maxWidth="Infinity" />
+                <Button text="Accommodation Booking" styleClass="nav-button" onAction="#openAccommodationBooking"
+                        maxWidth="Infinity" />
+            </VBox>
+
+            <!-- Row 1: Account and History -->
+            <VBox spacing="15" styleClass="category-box" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                <Label text="Your Bookings" styleClass="category-title" />
+                <Button text="My Bookings" styleClass="nav-button" onAction="#openBookings"
+                        maxWidth="Infinity" />
+            </VBox>
+
+            <VBox spacing="15" styleClass="category-box" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                <Label text="Payment" styleClass="category-title" />
+                <Button text="Payment History" styleClass="nav-button" onAction="#openPayments"
+                        maxWidth="Infinity" />
+            </VBox>
+
+            <columnConstraints>
+                <ColumnConstraints percentWidth="50" />
+                <ColumnConstraints percentWidth="50" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints />
+                <RowConstraints />
+            </rowConstraints>
+        </GridPane>
+    </center>
+
+    <bottom>
+        <HBox alignment="CENTER_RIGHT" spacing="10">
+            <padding>
+                <Insets top="10" right="20" bottom="20" left="20" />
+            </padding>
+            <Button text="Logout" onAction="#logout" styleClass="secondary-button" />
+        </HBox>
+    </bottom>
+</BorderPane>
