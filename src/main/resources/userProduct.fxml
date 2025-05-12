@@ -8,7 +8,11 @@
 
 <AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.UserProduct">
     <VBox spacing="10" AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10" AnchorPane.bottomAnchor="10">
-        <Button fx:id="btnViewCart" text="🛒 Voir le panier" onAction="#handleViewCart"/>
+        <HBox spacing="10">
+            <Button fx:id="btnViewCart" text="🛒 Voir le panier" onAction="#handleViewCart"/>
+            <Button fx:id="btnViewFavoris" text="★ Mes favoris" onAction="#handleViewFavoris"/>
+            <Button text="📱 Configurer SMS" onAction="#configurePhoneNumber"/>
+        </HBox>
 
         <ScrollPane fitToWidth="true">
             <content>

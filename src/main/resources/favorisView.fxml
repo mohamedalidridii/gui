@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.FavorisView" spacing="10" prefWidth="600" prefHeight="400">
+    <HBox alignment="CENTER_RIGHT" spacing="10">
+        <Button fx:id="btnClearFavoris" text="Vider les favoris" onAction="#handleClearFavoris"/>
+    </HBox>
+    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS">
+        <FlowPane fx:id="flowPaneFavoris" hgap="20" vgap="20"/>
+    </ScrollPane>
+</VBox>
