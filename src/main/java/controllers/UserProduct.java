@@ -6,9 +6,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
+import services.ServiceCart;
 import services.ServiceProduct;
+import controllers.CartView;
+import utils.Cart;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -19,6 +23,21 @@ public class UserProduct {
     @FXML private FlowPane flowPaneProducts;
 
     private final ServiceProduct serviceProduct = new ServiceProduct();
+    @FXML private Button btnViewCart;
+
+
+    @FXML
+    private void handleViewCart() {
+        List<Product> cartItems = ServiceCart.getCartItems();
+
+        System.out.println("Opening cart... current items: ");
+        for (Product p : ServiceCart.getCartItems()) {
+            System.out.println("- " + p.getNom() + " | Price: " + p.getPrice());
+        }
+        CartView cartView = new CartView();
+        cartView.showCart(new Stage(), ServiceCart.getCartItems());
+    }
+
 
     @FXML
     public void initialize() {

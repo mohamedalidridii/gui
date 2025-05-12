@@ -14,7 +14,7 @@
    <children>
       <TextField fx:id="txtImageM" layoutX="80.0" layoutY="140.0" />
       <TextField fx:id="txtImage" layoutX="430.0" layoutY="243.0" />
-      <Button fx:id="btns11" layoutX="236.0" layoutY="517.0" mnemonicParsing="false" onAction="#btnSuppProd" prefHeight="43.0" prefWidth="101.0" text="Supprimer" />
+      <Button fx:id="btns11" layoutX="50.0" layoutY="565.0" mnemonicParsing="false" onAction="#btnSuppProd" prefHeight="43.0" prefWidth="101.0" text="Supprimer" />
       <TextField fx:id="txtidS" layoutX="101.0" layoutY="133.0" />
       <TextField fx:id="txtidM" layoutX="212.0" layoutY="213.0" />
       <TabPane fx:id="prod" layoutX="649.0" prefHeight="689.0" prefWidth="396.0" tabClosingPolicy="UNAVAILABLE">
@@ -62,7 +62,7 @@
           </Tab>
         </tabs>
       </TabPane>
-      <TableView fx:id="tableView" layoutX="27.0" layoutY="32.0" prefHeight="454.0" prefWidth="581.0">
+      <TableView fx:id="tableView" layoutX="42.0" layoutY="94.0" prefHeight="454.0" prefWidth="581.0">
          <columns>
             <TableColumn fx:id="colNom" prefWidth="48.79998588562012" text="Nom" />
             <TableColumn fx:id="colDesc" prefWidth="101.59998321533203" text="Description" />
@@ -72,6 +72,7 @@
             <TableColumn fx:id="colDM" prefWidth="131.19996948242186" text="Date de modification" />
          </columns>
       </TableView>
-      <Button layoutX="396.0" layoutY="526.0" mnemonicParsing="false" onAction="#btnAffichageModern" text="Button" />
+      <Button layoutX="204.0" layoutY="574.0" mnemonicParsing="false" onAction="#btnAffichageModern" text="Button" />
+      <TextField fx:id="textSearch" layoutX="77.0" layoutY="50.0" prefHeight="26.0" prefWidth="150.0" promptText="search for a product" />
    </children>
 </AnchorPane>

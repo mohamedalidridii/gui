@@ -4,6 +4,8 @@ import entities.Category;
 import entities.Product;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -131,6 +133,9 @@ public class GestionProd {
 
     @FXML
     private TextField txtidS;
+
+    @FXML
+    private TextField textSearch;
 
     @FXML
     private ComboBox<String> comboCategory;
@@ -315,6 +320,19 @@ public class GestionProd {
         ObservableList<Product> obse = FXCollections.observableList(listedProducts);
         ObservableList<String> obeCatName= FXCollections.observableArrayList(listedcategoryNames);
         ObservableList<Category> obeCat= FXCollections.observableArrayList(listedCategories);
+
+        textSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+
+            String lowerCaseFilter = newValue.toLowerCase();
+
+            List<Product> filtered = listedProducts.stream()
+                    .filter(product -> product.getNom().toLowerCase().contains(lowerCaseFilter)
+                            || product.getDesc().toLowerCase().contains(lowerCaseFilter))
+                    .toList(); // or .collect(Collectors.toList()) in older Java
+
+            tableView.setItems(FXCollections.observableArrayList(filtered));
+        });
+
 
         tableView.setItems(obse);
         comboCategory.setItems(obeCatName);

@@ -13,6 +13,6 @@
         <Label fx:id="lblName" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
         <Label fx:id="lblPrice" />
         <TextArea fx:id="txtDescription" editable="false" wrapText="true" prefHeight="150"/>
-        <Button fx:id="btnAddToCart" text="Ajouter au panier" disable="true" />
+        <Button fx:id="btnAddToCart" text="Ajouter au panier"/>
     </VBox>
 </AnchorPane>

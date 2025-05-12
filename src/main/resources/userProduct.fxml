@@ -7,7 +7,13 @@
 <?import javafx.scene.layout.*?>
 
 <AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.UserProduct">
-    <ScrollPane fitToWidth="true">
-        <FlowPane fx:id="flowPaneProducts" hgap="20" vgap="20" />
-    </ScrollPane>
+    <VBox spacing="10" AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10" AnchorPane.bottomAnchor="10">
+        <Button fx:id="btnViewCart" text="🛒 Voir le panier" onAction="#handleViewCart"/>
+
+        <ScrollPane fitToWidth="true">
+            <content>
+                <FlowPane fx:id="flowPaneProducts" hgap="20" vgap="20"/>
+            </content>
+        </ScrollPane>
+    </VBox>
 </AnchorPane>
