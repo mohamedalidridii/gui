@@ -3,8 +3,7 @@ package entities;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import org.mindrot.jbcrypt.BCrypt;
-import services.AccessLevel;
+
 import services.ServiceSeller;
 import services.serviceTraveller;
 
