@@ -1,0 +1,3 @@
+twilio.account.sid={Your Twilio Account SID}
+twilio.auth.token={Your Twilio Account SID}
+twilio.number={Your Twilio Account SID}
