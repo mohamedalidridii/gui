@@ -65,7 +65,8 @@ public class LocationController implements Initializable {
                     List<Location> searchResults = serviceLocation.dynamicSearch(searchTerm);
                     locationTableView.setItems(FXCollections.observableArrayList(searchResults));
                 } else {
-                    loadLocationList(); // Reload all locations if search is empty
+                    loadLocationList();
+                    // Reload all locations if search is empty
                 }
             });
 
@@ -133,7 +134,7 @@ public class LocationController implements Initializable {
             Alert confirmDialog = new Alert(Alert.AlertType.CONFIRMATION);
             confirmDialog.setTitle("Confirm Deletion");
             confirmDialog.setHeaderText("Delete Location");
-            confirmDialog.setContentText("Are you sure you want to delete the location: " + selectedLocation.getCountry() + "?");
+            confirmDialog.setContentText("Are you sure you want to delete this Location: " + selectedLocation.getCountry() + "?");
 
             Optional<ButtonType> result = confirmDialog.showAndWait();
             if (result.isPresent() && result.get() == ButtonType.OK) {

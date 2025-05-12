@@ -210,6 +210,12 @@ public class EventController implements Initializable {
     @FXML
     public void handleDeleteEvent() {
         if (selectedEvent != null) {
+            Alert confirmDialog = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmDialog.setTitle("Confirm Deletion");
+            confirmDialog.setHeaderText("Delete Location");
+            confirmDialog.setContentText("Are you sure you want to delete this Location: " + selectedEvent.getIdEvent() + "?");
+
+            Optional<ButtonType> result = confirmDialog.showAndWait();
             try {
                 serviceEvent.delete(selectedEvent);
                 loadEventList();
