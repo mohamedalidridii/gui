@@ -10,7 +10,7 @@ import java.nio.charset.StandardCharsets;
 
 public class FlaskConnector {
 
-    private static final String FLASK_API_URL = "http://127.0.0.1:5000/predict";
+    private static final String FLASK_API_URL ="";
 
     public static String getConnection(DestinationRequest request) throws IOException{
         JSONObject json=new JSONObject();
