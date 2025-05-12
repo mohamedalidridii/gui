@@ -1,115 +1,122 @@
 package services;
 
-import java.sql.*;
-
 import entities.Location;
 import utils.Database;
+
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-
 
 public class ServiceLocation {
-    protected Connection conn=Database.getInstance().getConnection();
-
-    private PreparedStatement insertStmt;
-    private PreparedStatement selectStmt;
-    private PreparedStatement updateStmt;
-    private PreparedStatement deleteStmt;
+    private final Connection connection;
 
     public ServiceLocation() {
-        try {
-            insertStmt = conn.prepareStatement("insert into location(name,address) values (?,?)", Statement.RETURN_GENERATED_KEYS);
-            selectStmt = conn.prepareStatement("select * from location where id=?");
-            updateStmt = conn.prepareStatement("update location set name=?,address=? where id=?");
-            deleteStmt = conn.prepareStatement("delete from location where id=?");
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-
+        connection = Database.getInstance().getConnection();
     }
-    public boolean addLocation(Location location){
-        try {
-            insertStmt.setString(1,location.getName());
-            insertStmt.setString(2,location.getAddress());
-            if(insertStmt.executeUpdate()>0){
-                ResultSet rs=insertStmt.getGeneratedKeys();
-                if(rs.next()){
-                    location.setId(rs.getInt(1));
-                    return true;
-                }
+
+    public void create(Location location) {
+        String sql = "INSERT INTO location (country, description, visa, images) VALUES (?, ?, ?, ?)";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, location.getCountry());
+            ps.setString(2, location.getDescription());
+            ps.setBoolean(3, location.isVisa());
+            ps.setString(4, location.getImage());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Error creating location: " + e.getMessage());
+            throw new RuntimeException("Could not create location", e);
+        }
+    }
+
+    public void update(Location location) {
+        String sql = "UPDATE location SET country = ?, description = ?, visa = ?, images = ? WHERE idLocation = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, location.getCountry());
+            ps.setString(2, location.getDescription());
+            ps.setBoolean(3, location.isVisa());
+            ps.setString(4, location.getImage());
+            ps.setInt(5, location.getIdLocation());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Error updating location: " + e.getMessage());
+            throw new RuntimeException("Could not update location", e);
+        }
+    }
+
+    public void delete(int idLocation) {
+        String sql = "DELETE FROM location WHERE idLocation = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, idLocation);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Error deleting location: " + e.getMessage());
+            throw new RuntimeException("Could not delete location", e);
+        }
+    }
+
+    public List<Location> getAllLocations() {
+        List<Location> locations = new ArrayList<>();
+        String sql = "SELECT * FROM location";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Location location = new Location();
+                location.setIdLocation(rs.getInt("idLocation"));
+                location.setCountry(rs.getString("country"));
+                location.setDescription(rs.getString("description"));
+                location.setVisa(rs.getBoolean("visa"));
+                location.setImage(rs.getString("images"));
+                locations.add(location);
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
-
+            System.err.println("Error getting locations: " + e.getMessage());
+            throw new RuntimeException("Could not get locations", e);
         }
-        return false;
+        return locations;
     }
-    public Location getLocation(int id){
-        try {
-            selectStmt.setInt(1,id);
-            ResultSet rs=selectStmt.executeQuery();
-            if(rs.next()){
-                Location location=new Location();
-                location.setId(rs.getInt("id"));
-                location.setName(rs.getString("name"));
-                location.setAddress(rs.getString("address"));
+
+    public Location getLocationById(int idLocation) {
+        String sql = "SELECT * FROM location WHERE idLocation = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, idLocation);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                Location location = new Location();
+                location.setIdLocation(rs.getInt("idLocation"));
+                location.setCountry(rs.getString("country"));
+                location.setDescription(rs.getString("description"));
+                location.setVisa(rs.getBoolean("visa"));
+                location.setImage(rs.getString("images"));
                 return location;
             }
-        }catch(SQLException e){
-            System.out.println(e.getMessage());
+        } catch (SQLException e) {
+            System.err.println("Error getting location: " + e.getMessage());
+            throw new RuntimeException("Could not get location", e);
         }
         return null;
     }
-    public boolean updateLocation(Location location){
-        try {
-            updateStmt.setString(1,location.getName());
-            updateStmt.setString(2,location.getAddress());
-            updateStmt.setInt(3,location.getId());
-            if(updateStmt.executeUpdate()>0)
-                return true;
-        }catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        return false;
-    }
-    public boolean deleteLocation(int id){
-        try {
-            deleteStmt.setInt(1,id);
-            if(deleteStmt.executeUpdate()>0)
-                return true;
-        }catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        return false;
-    }
-    public ArrayList<Location> getAllLocation(){
-        ArrayList<Location> materielList = new ArrayList<>();
-
-        String sql = "SELECT * FROM location";
-        try (PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
-
+    public List<Location> dynamicSearch(String searchTerm){
+        String query = "SELECT * FROM location WHERE country LIKE ? OR description LIKE ?";
+        List<Location> maliste = new ArrayList<>();
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setString(1, "%" + searchTerm + "%");
+            ps.setString(2, "%" + searchTerm + "%");
+            ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                materielList.add(new Location(
-                        rs.getInt("id"),
-                        rs.getString("name"),
-                        rs.getString("address")
-                ));
+                Location location = new Location();
+                location.setIdLocation(rs.getInt("idLocation"));
+                location.setCountry(rs.getString("country"));
+                location.setDescription(rs.getString("description"));
+                location.setVisa(rs.getBoolean("visa"));
+                location.setImage(rs.getString("images"));
+                maliste.add(location);
             }
-
         } catch (SQLException e) {
-            System.out.println("Error fetching locations : " + e.getMessage());
+            System.err.println(e.getMessage());
         }
-
-        return materielList;
+        return maliste;
     }
-    public static List<Location> searchLocations(List<Location> locations, String keyword) {
-        return locations.stream()
-                .filter(location ->
-                        location.getName().toLowerCase().contains(keyword.toLowerCase()) ||
-                                location.getAddress().toLowerCase().contains(keyword.toLowerCase()))
-                .collect(Collectors.toList());
-    }
-}
+} 

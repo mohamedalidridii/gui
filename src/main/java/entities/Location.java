@@ -1,44 +1,108 @@
 package entities;
 
+import java.util.List;
+import java.util.Objects;
+
 public class Location {
-    private int id;
-    private String name;
-    private String address;
-    public Location(int id, String name, String address) {
-        this.id = id;
-        this.name = name;
-        this.address = address;
-    }
+    private int idLocation;
+    private String country;
+    private String description;
+    private boolean visa;
+    private String image;
+    private String images;
+    private List<String> transportaion;
+    private List<String> weather;
+
     public Location() {
     }
-    public Location(String name, String address) {
-        this.name = name;
-        this.address = address;
+
+    public Location(int idLocation, String country, String description, boolean visa, String image) {
+        this.idLocation = idLocation;
+        this.country = country;
+        this.description = description;
+        this.visa = visa;
+        this.image = image;
     }
-    public int getId() {
-        return id;
+
+    public int getIdLocation() {
+        return idLocation;
     }
-    public String getName() {
-        return name;
+
+    public void setIdLocation(int idLocation) {
+        this.idLocation = idLocation;
     }
-    public String getAddress() {
-        return address;
+
+    public String getCountry() {
+        return country;
     }
-    public void setId(int id) {
-        this.id = id;
+
+    public void setCountry(String country) {
+        this.country = country;
     }
-    public void setName(String name) {
-        this.name = name;
+
+    public String getDescription() {
+        return description;
     }
-    public void setAddress(String address) {
-        this.address = address;
+
+    public void setDescription(String description) {
+        this.description = description;
     }
+
+    public boolean isVisa() {
+        return visa;
+    }
+
+    public void setVisa(boolean visa) {
+        this.visa = visa;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getImages() {
+        return images;
+    }
+
+    public void setImages(String images) {
+        this.images = images;
+    }
+
+    public List<String> getTransportaion() {
+        return transportaion;
+    }
+
+    public void setTransportaion(List<String> transportaion) {
+        this.transportaion = transportaion;
+    }
+
+    public List<String> getWeather() {
+        return weather;
+    }
+
+    public void setWeather(List<String> weather) {
+        this.weather = weather;
+    }
+
     @Override
     public String toString() {
-        return "Location{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", address='" + address + '\'' +
-                '}';
+        return country;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Location location = (Location) o;
+        return getIdLocation() == location.getIdLocation() && isVisa() == location.isVisa() && Objects.equals(getCountry(), location.getCountry()) && Objects.equals(getDescription(), location.getDescription()) && Objects.equals(getImages(), location.getImages()) && Objects.equals(getTransportaion(), location.getTransportaion()) && Objects.equals(getWeather(), location.getWeather());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getIdLocation(), getCountry(), isVisa(), getDescription(), getImages(), getTransportaion(), getWeather());
     }
 }
