@@ -6,6 +6,8 @@ import entities.*;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import org.mindrot.jbcrypt.BCrypt;
+
 
 
 public abstract class ServiceUser {
@@ -18,11 +20,18 @@ public abstract class ServiceUser {
     public  boolean updateUser(User user) throws SQLException{
         boolean IsRoleChanged;
         IsRoleChanged=!(user.getRole().equals(getRole(user.getId())));
+        PreparedStatement updateStmt =null;
 
         conn.setAutoCommit(false);
 
         try {
-            PreparedStatement updateStmt = conn.prepareStatement("UPDATE user SET name=?, lastname=?, number=? ,age=?,email=?,sex=?,location=?,passwordHashed=?,type=? WHERE id=?");
+            if (user.getPasswordHashed()==null)
+                 updateStmt = conn.prepareStatement("UPDATE user SET name=?, lastname=?, number=? ,age=?,email=?,sex=?,location=?,type=? WHERE id=?");
+            else
+                 updateStmt = conn.prepareStatement("UPDATE user SET name=?, lastname=?, number=? ,age=?,email=?,sex=?,location=?,passwordHashed=?,type=? WHERE id=?");
+
+
+
             updateStmt.setInt(10,user.getId());
             updateStmt.setString(1,user.getName());
             updateStmt.setString(2,user.getPrename());
@@ -175,6 +184,45 @@ public abstract class ServiceUser {
 
         }
     }
+    /*
+
+    public ArrayList<User> searchUserByNumber(int number)throws SQLException{
+        ArrayList<User> userList=new ArrayList<>();
+        String query ="SELECT * FROM user WHERE CAST(number as char) LIKE ?";
+        PreparedStatement searchStmt=conn.prepareStatement(query);
+        searchStmt.setString(1, "%" + number + "%");
+        try(ResultSet rs=searchStmt.executeQuery()){
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String name = rs.getString("name");
+                String prename = rs.getString("lastname");
+                String dbEamil = rs.getString("email");
+                int trueNumber = rs.getInt("number");
+                int age = rs.getInt("age");
+                String gender = rs.getString("sex");
+                String password = rs.getString("passwordHashed");
+                LocalDateTime createdat = rs.getTimestamp("created_at").toLocalDateTime();
+                LocalDateTime lastlogin = rs.getTimestamp("lastlogin").toLocalDateTime();
+                String location = rs.getString("location");
+                String type = rs.getString("type");
+
+                if (type.equals("Traveller"))
+                    userList.add(new Traveller(id, name, age, gender, dbEamil, trueNumber, prename, password, createdat, lastlogin, location));
+                else if (type.equals("Seller"))
+                    userList.add(new Seller(id, name, age, gender, dbEamil, trueNumber, prename, password, createdat, lastlogin, location));
+                else if(type.equals("Admin"))
+                    userList.add(new Admin(id, name, age, gender, dbEamil, trueNumber, prename, password, createdat, lastlogin, location));
+
+
+
+
+            }
+            return userList;
+
+
+
+        }
+    }
 
 
 
@@ -293,7 +341,7 @@ public abstract class ServiceUser {
 
 
         }
-    }
+    }*/
 
     public User searchUserById(int id)throws SQLException{
         PreparedStatement searchStmt=conn.prepareStatement("SELECT * FROM user WHERE id =?");
@@ -346,6 +394,82 @@ public abstract class ServiceUser {
 
         }
     }
+
+    public boolean emailExists(String email)throws SQLException{
+        PreparedStatement searchStmt=conn.prepareStatement("SELECT 1 FROM user WHERE email = ?");
+        searchStmt.setString(1, email);
+        try(ResultSet rs=searchStmt.executeQuery()){
+            return  (rs.next()) ;
+        }
+    }
+
+    public boolean changePassword(String email, String newPassword)throws SQLException{
+        PreparedStatement searchStmt=conn.prepareStatement("update password = ? FROM user WHERE email = ?");
+        String newHashedPAss=BCrypt.hashpw(newPassword , BCrypt.gensalt());
+        searchStmt.setString(1, newHashedPAss);
+        searchStmt.setString(2, email);
+         return searchStmt.executeUpdate()==1;
+
+    }
+
+
+
+    public ArrayList<User> combinedSearch(String firstNmae,String lastName ,String location,String email ,String number)throws SQLException{
+        ArrayList<User> userList=new ArrayList<>();
+        ArrayList<String> conditions=new ArrayList<>();
+
+        if(!firstNmae.isEmpty()){
+            conditions.add("name LIKE '%"+firstNmae+"%'");
+        }
+        if(!lastName.isEmpty()){
+            conditions.add("lastname LIKE '%"+lastName+"%'");
+        }
+        if(!email.isEmpty()){
+            conditions.add("email LIKE '%"+email+"%'");
+        }
+        if(!number.isEmpty()){
+            conditions.add(" cast(number as char) LIKE '%"+number+"%'");
+        }
+        if(!location.isEmpty()){
+            conditions.add("location LIKE '%"+location+"%'");
+        }
+        StringBuilder query = new StringBuilder("SELECT * FROM user WHERE ");
+
+        if (!conditions.isEmpty()) {
+            query.append(String.join(" AND ", conditions));
+        }
+        PreparedStatement searchStmt=conn.prepareStatement(query.toString());
+        try(ResultSet rs=searchStmt.executeQuery()){
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String dbemail = rs.getString("email");
+                String dbName = rs.getString("name");
+                String dbLastName = rs.getString("lastname");
+                int dbnumber = rs.getInt("number");
+                int age = rs.getInt("age");
+                String gender = rs.getString("sex");
+                String password = rs.getString("passwordHashed");
+                LocalDateTime createdat = rs.getTimestamp("created_at").toLocalDateTime();
+                LocalDateTime lastlogin = rs.getTimestamp("lastlogin").toLocalDateTime();
+                String dblocation = rs.getString("location");
+                String type = rs.getString("type");
+
+                if (type.equals("Traveller"))
+                    userList.add(new Traveller(id, dbName, age, gender, dbemail, dbnumber, dbLastName, password, createdat, lastlogin, dblocation));
+                else if (type.equals("Seller"))
+                    userList.add(new Seller(id, dbName, age, gender, dbemail, dbnumber, dbLastName, password, createdat, lastlogin, dblocation));
+                else if(type.equals("Admin"))
+                    userList.add(new Admin(id, dbName, age, gender, dbemail, dbnumber, dbLastName, password, createdat, lastlogin, dblocation));
+
+            }
+            return userList;
+
+
+
+        }
+    }
+
+
 
 
 }

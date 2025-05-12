@@ -28,7 +28,15 @@ public class Seller extends User {
         this.storeName = storeName;
 
     }
+    public Seller(int id, String name, int age, String gender, String email, int number,
+                String prename ,String location ,String storeName ) {
+        super( id,  name,  age,  gender,  email,  number,
+         prename, location );
 
+        this.storeName = storeName;
+
+
+    }
     public boolean sellProduct(){
         return true;
     }

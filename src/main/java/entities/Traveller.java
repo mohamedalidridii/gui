@@ -24,6 +24,15 @@ public class Traveller extends User {
 
 
      }
+    public Traveller(int id, String name, int age, String gender, String email, int number,
+                  String prename ,String location ,String passportNumber ) {
+        super( id,  name,  age,  gender,  email,  number,
+                prename, location );
+
+        this.passportNumber = passportNumber;
+
+
+    }
 
      public boolean joinEvent (){
          return false;

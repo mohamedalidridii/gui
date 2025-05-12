@@ -1,6 +1,7 @@
 package Controllers;
 
 import entities.User;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -15,6 +16,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class SearchUsersController {
+    int removeuser=0;
+    User user;
 
     private final ServiceUser serviceUser = new ServiceSeller();
 
@@ -41,6 +44,15 @@ public class SearchUsersController {
     @FXML
     private TableColumn<User, String> ctype;
 
+
+
+    @FXML
+    private TextField txtnumber;
+
+
+    @FXML
+    private TextField txtlocation;
+
     @FXML
     private TableView<User> readUserTAbleview;
     @FXML
@@ -52,30 +64,57 @@ public class SearchUsersController {
 
     @FXML
     public void initialize() {
-        txtname.textProperty().addListener((observable, oldValue, newValue) -> combinedSearch());
-        txtlastname.textProperty().addListener((observable, oldValue, newValue) -> combinedSearch());
-        txtemail.textProperty().addListener((observable, oldValue, newValue) -> combinedSearch());
+        txtname.textProperty().addListener((observable, oldValue, newValue) ->{
+                if(!newValue.isEmpty()) combinedSearch();});
+        txtlastname.textProperty().addListener((observable, oldValue, newValue) -> {
+            if(!newValue.isEmpty()) combinedSearch();});
+        txtemail.textProperty().addListener((observable, oldValue, newValue) -> {
+            if(!newValue.isEmpty()) combinedSearch();});
+        txtnumber.textProperty().addListener((observable, oldValue, newValue) -> {
+                if (!newValue.matches("\\d+") && !newValue.isEmpty())
+                {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Error");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Please enter a valid number");
+                    alert.showAndWait();
+                    txtnumber.clear();
+                }
+                else combinedSearch();
+
+        });
+        txtlocation.textProperty().addListener((observable, oldValue, newValue) -> {
+            if(!newValue.isEmpty()) combinedSearch();});
+
+
+        readUserTAbleview.setRowFactory(userTableView -> {
+            TableRow<User> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (!row.isEmpty() && event.getClickCount() == 2) {
+                    user = row.getItem();
+
+                }
+
+            });
+            return row;
+                });
+
+
+
     }
 
     public void combinedSearch() {
         String name = txtname.getText().trim();
-        String lastname = txtlastname.getText().trim();
+        String lastName = txtlastname.getText().trim();
         String email = txtemail.getText().trim();
+        String number = txtnumber.getText().trim();
+        String location = txtlocation.getText().trim();
+
 
         try {
             ArrayList<User> users = new ArrayList<>();
+            users=serviceUser.combinedSearch(name,lastName ,location, email ,number);
 
-            if (!email.isEmpty()) {
-                users = serviceUser.searchUserByEmail(email);
-            } else if (!name.isEmpty() && !lastname.isEmpty()) {
-                users = serviceUser.searchUserByNameLastName(name, lastname);
-            } else if (!name.isEmpty()) {
-                users = serviceUser.searchUserByName(name);
-            } else if (!lastname.isEmpty()) {
-                users = serviceUser.searchUserByLastName(lastname);
-            } else {
-                return; // no criteria entered
-            }
 
             showUsers(users);
         } catch (SQLException e) {
@@ -103,24 +142,31 @@ public class SearchUsersController {
 
     @FXML
     void searchbutton(ActionEvent event) {
-        String email = txtemail.getText().trim();
-        String lastname = txtlastname.getText().trim();
         String name = txtname.getText().trim();
+        String lastName = txtlastname.getText().trim();
+        String email = txtemail.getText().trim();
+        String number = txtnumber.getText().trim();
+        String location = txtlocation.getText().trim();
 
-        if (email.isEmpty() && lastname.isEmpty() && name.isEmpty()) {
-            showErrorAlert("Please enter a search criteria");
+        if(name.isEmpty() && lastName.isEmpty() && email.isEmpty() && number.isEmpty() && location.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Please enter a valid Searching Criteria");
+            alert.showAndWait();
             return;
         }
 
-        if (!email.isEmpty()) {
-            try {
-                ArrayList<User> users = serviceUser.searchUserByEmail(email);
-                showUsers(users);
-            } catch (SQLException e) {
-                showErrorAlert(e.getMessage());
-            }
-        } else {
-            combinedSearch();
+
+        try {
+            ArrayList<User> users = new ArrayList<>();
+            users=serviceUser.combinedSearch(name,lastName ,location, email ,number);
+
+
+            showUsers(users);
+        } catch (SQLException e) {
+            showErrorAlert(e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 
@@ -130,5 +176,14 @@ public class SearchUsersController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    public void removeUser(ActionEvent actionEvent) {
+        try {
+            serviceUser.deleteUser(user.getId());
+            combinedSearch();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
