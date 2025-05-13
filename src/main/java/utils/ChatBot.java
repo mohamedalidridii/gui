@@ -7,7 +7,7 @@ import java.net.http.HttpResponse;
 
 public class ChatBot {
 
-    private static final String API_KEY = "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";
+    private static final String API_KEY = "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";
     private static final String API_URL = "https://openrouter.ai/api/v1/chat/completions";
     private static final String MODEL = "mistralai/mistral-7b-instruct";
 
