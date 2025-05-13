@@ -42,7 +42,7 @@ public class AccommodationDAO implements IGenericDAO<Accommodation>{
 
             while (rs.next()) {
                 Accommodation a = new Accommodation(
-                        rs.getInt("id"),
+                        rs.getInt("accommodation_id"),
                         rs.getString("name"),
                         rs.getString("location"),
                         rs.getString("type"),
@@ -59,18 +59,18 @@ public class AccommodationDAO implements IGenericDAO<Accommodation>{
     }
 
     @Override
-    public Optional<Accommodation> getById(int id) {
-        String sql = "SELECT * FROM accommodations WHERE id = ?";
+    public Optional<Accommodation> getById(int accommodationId) {
+        String sql = "SELECT * FROM accommodations WHERE accommodation_id = ?";
 
         try (Connection conn = DatabaseUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setInt(1, id);
+            stmt.setInt(1, accommodationId);
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
                 Accommodation a = new Accommodation(
-                        rs.getInt("id"),
+                        rs.getInt("accommodation_id"),
                         rs.getString("name"),
                         rs.getString("location"),
                         rs.getString("type"),
@@ -88,7 +88,7 @@ public class AccommodationDAO implements IGenericDAO<Accommodation>{
 
     @Override
     public boolean update(Accommodation accommodation) {
-        String sql = "UPDATE accommodations SET name = ?, location = ?, type = ?, available_rooms = ?, price_per_night = ? WHERE id = ?";
+        String sql = "UPDATE accommodations SET name = ?, location = ?, type = ?, available_rooms = ?, price_per_night = ? WHERE accommodation_id = ?";
 
         try (Connection conn = DatabaseUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -98,7 +98,7 @@ public class AccommodationDAO implements IGenericDAO<Accommodation>{
             stmt.setString(3, accommodation.getType());
             stmt.setInt(4, accommodation.getAvailableRooms());
             stmt.setDouble(5, accommodation.getPricePerNight());
-            stmt.setInt(6, accommodation.getId());
+            stmt.setInt(6, accommodation.getAccommodationId());
 
             return stmt.executeUpdate() > 0;
 
@@ -109,13 +109,13 @@ public class AccommodationDAO implements IGenericDAO<Accommodation>{
     }
 
     @Override
-    public boolean delete(int id) {
-        String sql = "DELETE FROM accommodations WHERE id = ?";
+    public boolean delete(int accommodationId) {
+        String sql = "DELETE FROM accommodations WHERE accommodation_id = ?";
 
         try (Connection conn = DatabaseUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setInt(1, id);
+            stmt.setInt(1, accommodationId);
             return stmt.executeUpdate() > 0;
 
         } catch (SQLException e) {

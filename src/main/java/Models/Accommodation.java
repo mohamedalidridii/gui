@@ -1,7 +1,7 @@
 package Models;
 
 public class Accommodation {
-    private int id;
+    private int accommodationId;
     private String name;
     private String location;
     private String type;
@@ -12,7 +12,7 @@ public class Accommodation {
     public Accommodation() {}
 
     public Accommodation(int id, String name, String location, String type, int availableRooms, double pricePerNight) {
-        this.id = id;
+        this.accommodationId = id;
         this.name = name;
         this.location = location;
         this.type = type;
@@ -26,9 +26,9 @@ public class Accommodation {
     }
 
     // Getters and Setters
-    public int getId() { return id; }
+    public int getAccommodationId() { return accommodationId; }
 
-    public void setId(int id) { this.id = id; }
+    public void setAccommodationId(int id) { this.accommodationId = id; }
 
     public String getName() { return name; }
 

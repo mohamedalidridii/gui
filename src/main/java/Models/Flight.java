@@ -1,19 +1,22 @@
 package Models;
 
+import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class Flight {
-    private int id;
+    private int flightId;
     private String airline;
     private String departure;
     private String destination;
     private LocalDate date;
-    private String time;
+    private LocalTime time;
     private double price;
 
-    public Flight(int id, String airline, String departure, String destination,
-                  LocalDate date, String time, double price) {
-        this.id = id;
+    // Constructor with ID
+    public Flight(int flightId, String airline, String departure, String destination,
+                  LocalDate date, LocalTime time, double price) {
+        this.flightId = flightId;
         this.airline = airline;
         this.departure = departure;
         this.destination = destination;
@@ -22,8 +25,9 @@ public class Flight {
         this.price = price;
     }
 
-    public Flight( String airline, String departure, String destination,
-                  LocalDate date, String time, double price) {
+    // Constructor without ID (for when inserting a new flight)
+    public Flight(String airline, String departure, String destination,
+                  LocalDate date, LocalTime time, double price) {
         this.airline = airline;
         this.departure = departure;
         this.destination = destination;
@@ -32,33 +36,78 @@ public class Flight {
         this.price = price;
     }
 
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
-    public String getAirline() { return airline; }
-    public void setAirline(String airline) { this.airline = airline; }
-    public String getDeparture() { return departure; }
-    public void setDeparture(String departure) { this.departure = departure; }
-    public String getDestination() { return destination; }
-    public void setDestination(String destination) { this.destination = destination; }
-    public LocalDate getDate() { return date; }
-    public void setDate(LocalDate date) { this.date = date; }
-    public String getTime() { return time; }
-    public void setTime(String time) { this.time = time; }
-    public double getPrice() { return price; }
-    public void setPrice(double price) { this.price = price; }
+    // Getters and Setters
+    public int getFlightId() {
+        return flightId;
+    }
+
+    public void setFlightId(int flightId) {
+        this.flightId = flightId;
+    }
+
+    public String getAirline() {
+        return airline;
+    }
+
+    public void setAirline(String airline) {
+        this.airline = airline;
+    }
+
+    public String getDeparture() {
+        return departure;
+    }
+
+    public void setDeparture(String departure) {
+        this.departure = departure;
+    }
+
+    public String getDestination() {
+        return destination;
+    }
+
+    public void setDestination(String destination) {
+        this.destination = destination;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public Time getTime() {
+        return Time.valueOf(time);
+    }
+
+    public void setTime(LocalTime time) {
+        this.time = time;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+
+    public Time getSqlTime() {
+        return Time.valueOf(time); // Converts LocalTime to java.sql.Time
+    }
 
     @Override
     public String toString() {
         return "Flight{" +
-                "id=" + id +
+                "flightId=" + flightId +
                 ", airline='" + airline + '\'' +
                 ", departure='" + departure + '\'' +
                 ", destination='" + destination + '\'' +
                 ", date=" + date +
-                ", time='" + time + '\'' +
+                ", time=" + time +  // Displays LocalTime
                 ", price=" + price +
                 '}';
     }
-
-
 }
