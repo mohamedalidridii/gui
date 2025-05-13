@@ -11,7 +11,7 @@ import java.util.Optional;
 public class FlightDAO implements IGenericDAO<Flight> {
     @Override
     public boolean add(Flight flight) {
-        String sql = "INSERT INTO flights (airline, departure, destination, flight_date, flight_time, price) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO flights (airline, departure, destination, date, time, price) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DatabaseUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -42,12 +42,12 @@ public class FlightDAO implements IGenericDAO<Flight> {
 
             while (rs.next()) {
                 Flight flight = new Flight(
-                        rs.getInt("flight_id"),
+                        rs.getInt("flightId"),
                         rs.getString("airline"),
                         rs.getString("departure"),
                         rs.getString("destination"),
-                        rs.getDate("flight_date").toLocalDate(),
-                        rs.getTime("flight_time").toLocalTime(),
+                        rs.getDate("date").toLocalDate(),
+                        rs.getTime("time").toLocalTime(),
                         rs.getDouble("price")
                 );
                 flights.add(flight);
@@ -61,7 +61,7 @@ public class FlightDAO implements IGenericDAO<Flight> {
 
     @Override
     public Optional<Flight> getById(int flightID) {
-        String sql = "SELECT * FROM flights WHERE flight_id = ?";
+        String sql = "SELECT * FROM flights WHERE flightId = ?";
 
         try (Connection conn = DatabaseUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -71,12 +71,12 @@ public class FlightDAO implements IGenericDAO<Flight> {
 
             if (rs.next()) {
                 Flight flight = new Flight(
-                        rs.getInt("flight_id"),
+                        rs.getInt("flightId"),
                         rs.getString("airline"),
                         rs.getString("departure"),
                         rs.getString("destination"),
-                        rs.getDate("flight_date").toLocalDate(),
-                        rs.getTime("flight_time").toLocalTime(),
+                        rs.getDate("date").toLocalDate(),
+                        rs.getTime("time").toLocalTime(),
                         rs.getDouble("price")
                 );
                 return Optional.of(flight);
@@ -90,7 +90,7 @@ public class FlightDAO implements IGenericDAO<Flight> {
 
     @Override
     public boolean update(Flight flight) {
-        String sql = "UPDATE flights SET airline = ?, departure = ?, destination = ?, flight_date = ?, flight_time = ?, price = ? WHERE flight_id = ?";
+        String sql = "UPDATE flights SET airline = ?, departure = ?, destination = ?, date = ?, time = ?, price = ? WHERE flightId = ?";
 
         try (Connection conn = DatabaseUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -113,7 +113,7 @@ public class FlightDAO implements IGenericDAO<Flight> {
 
     @Override
     public boolean delete(int flightId) {
-        String sql = "DELETE FROM flights WHERE flight_id = ?";
+        String sql = "DELETE FROM flights WHERE flightId = ?";
 
         try (Connection conn = DatabaseUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {

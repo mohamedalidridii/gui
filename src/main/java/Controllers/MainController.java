@@ -44,7 +44,7 @@ public class MainController {
      */
     @FXML
     private void openBookings(ActionEvent event) {
-        loadScene(event, "/booking_list.fxml", "My Bookings");
+        loadScene(event, "/booking.fxml", "My Bookings");
     }
 
     /**

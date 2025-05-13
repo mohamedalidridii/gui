@@ -10,7 +10,7 @@ public class AccommodationBooking {
     private int numGuests;
 
     public AccommodationBooking(int id, int accommodationId, LocalDate checkIn, LocalDate checkOut, int numGuests) {
-        this.accommodationBookingId = accommodationBookingId;
+        this.accommodationBookingId = id; // Fixed: was using parameter name instead of field name
         this.accommodationId = accommodationId;
         this.checkIn = checkIn;
         this.checkOut = checkOut;

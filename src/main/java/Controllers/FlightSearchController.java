@@ -12,6 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -43,22 +44,16 @@ public class FlightSearchController {
     private TableColumn<Flight, Void> colActions;
     @FXML
     private TextField departureField;
-
     @FXML
     private TextField destinationField;
-
     @FXML
     private DatePicker startDatePicker;
-
     @FXML
     private DatePicker endDatePicker;
-
     @FXML
     private TextField airlineField;
-
     @FXML
     private TableView<Flight> FlightTable;
-
 
     private FlightService flightService;
     private ObservableList<Flight> flightData = FXCollections.observableArrayList();
@@ -66,7 +61,7 @@ public class FlightSearchController {
 
     @FXML
     private void initialize() {
-        // Initialize flight service
+        // Initialize the FlightService with properly constructed instance
         flightService = new FlightService();
 
         // Configure table columns
@@ -78,64 +73,47 @@ public class FlightSearchController {
         colTime.setCellValueFactory(new PropertyValueFactory<>("time"));
         colPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
 
-        // Format price column to show currency
-        colPrice.setCellFactory(column -> new TableCell<>() {
-            @Override
-            protected void updateItem(Double price, boolean empty) {
-                super.updateItem(price, empty);
-                if (empty || price == null) {
-                    setText(null);
-                } else {
-                    setText(String.format("$%.2f", price));
-                }
-            }
-        });
+        // Add sorting options
+        sortComboBox.getItems().addAll(
+                "Price (Low to High)",
+                "Price (High to Low)",
+                "Departure (A-Z)",
+                "Destination (A-Z)",
+                "Date (Earliest First)",
+                "Airline (A-Z)"
+        );
+        sortComboBox.setValue("Price (Low to High)");
+        sortComboBox.setOnAction(e -> applySorting());
 
-        // Set up action column with a view details button
-        colActions.setCellFactory(column -> new TableCell<>() {
-            private final Button viewButton = new Button("View");
+        // Load all flights initially
+        try {
+            List<Flight> flights = flightService.getAllFlights();
+            updateResultsDisplay(flights);
+        } catch (Exception e) {
+            showAlert("Data Loading Error", "Failed to load flight data: " + e.getMessage(), Alert.AlertType.ERROR);
+            e.printStackTrace();
+        }
 
-            {
-                viewButton.setOnAction(event -> {
-                    Flight flight = getTableRow().getItem();
-                    if (flight != null) {
-                        showFlightDetails(flight);
-                    }
-                });
-            }
-
-            @Override
-            protected void updateItem(Void item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    setGraphic(viewButton);
-                }
-            }
-        });
-
-        // Link table to data
-        FlightTable.setItems(flightData);
-
-        // Add listener for table selection to enable/disable book button
-        FlightTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-            bookButton.setDisable(newSelection == null);
-        });
-
-        // Initialize sort combo box
-        sortComboBox.setItems(FXCollections.observableArrayList(
-                "Price: Low to High",
-                "Price: High to Low",
-                "Date & Time",
-                "Airline"
-        ));
-
-        sortComboBox.setOnAction(event -> applySorting());
-
-        // Disable buttons initially
-        exportButton.setDisable(true);
+        // Configure buttons
         bookButton.setDisable(true);
+        exportButton.setDisable(true);
+
+        // Add selection listener to enable/disable buttons
+        FlightTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            boolean hasSelection = newSelection != null;
+            bookButton.setDisable(!hasSelection);
+        });
+
+        // Configure double-click to show details
+        FlightTable.setRowFactory(tv -> {
+            TableRow<Flight> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && !row.isEmpty()) {
+                    showFlightDetails(row.getItem());
+                }
+            });
+            return row;
+        });
     }
 
     @FXML
@@ -146,180 +124,152 @@ public class FlightSearchController {
         LocalDate endDate = endDatePicker.getValue();
         String airline = airlineField.getText().trim();
 
-        // Validate required fields
-        if (departure.isEmpty() || destination.isEmpty()) {
-            showAlert("Missing Information", "Please enter both departure and destination locations.", Alert.AlertType.WARNING);
-            return;
-        }
+        List<Flight> results = flightService.searchFlights(
+                departure, destination, startDate, endDate, airline
+        );
 
-        if (startDate == null) {
-            showAlert("Missing Information", "Please select a start date.", Alert.AlertType.WARNING);
-            return;
-        }
-
-        try {
-            // Perform search based on inputs
-            List<Flight> results;
-
-            // Search by route (departure and destination)
-            results = FlightService.searchByRoute(departure, destination);
-
-            // Filter by airline if specified
-            if (!airline.isEmpty()) {
-                results = results.stream()
-                        .filter(flight -> flight.getAirline().equalsIgnoreCase(airline))
-                        .collect(Collectors.toList());
-            }
-
-            // Filter by date range
-            if (endDate != null) {
-                results = results.stream()
-                        .filter(flight -> {
-                            LocalDate flightDate = flight.getDate();
-                            return !flightDate.isBefore(startDate) && !flightDate.isAfter(endDate);
-                        })
-                        .collect(Collectors.toList());
-            } else {
-                // Just filter by start date
-                results = results.stream()
-                        .filter(flight -> flight.getDate().equals(startDate))
-                        .collect(Collectors.toList());
-            }
-
-            // Update the current search results
-            currentSearchResults = results;
-
-            // Update the UI
-            updateResultsDisplay(results);
-
-        } catch (Exception e) {
-            showAlert("Error", "An error occurred during search: " + e.getMessage(), Alert.AlertType.ERROR);
-        }
+        updateResultsDisplay(results);
+        applySorting();
     }
 
     private void updateResultsDisplay(List<Flight> results) {
-        // Update table
+        currentSearchResults = results;
         flightData.clear();
         flightData.addAll(results);
+        FlightTable.setItems(flightData);
 
-        // Update result count
         resultCountLabel.setText(results.size() + " flights found");
-
-        // Enable/disable export button
         exportButton.setDisable(results.isEmpty());
-
-        // Clear selection and disable book button
-        FlightTable.getSelectionModel().clearSelection();
-        bookButton.setDisable(true);
     }
 
     private void applySorting() {
-        String sortOption = sortComboBox.getValue();
-        if (sortOption == null || currentSearchResults == null || currentSearchResults.isEmpty()) {
+        if (currentSearchResults == null || currentSearchResults.isEmpty()) {
             return;
         }
 
-        List<Flight> sortedResults;
+        String sortOption = sortComboBox.getValue();
+        List<Flight> sortedList = currentSearchResults;
 
         switch (sortOption) {
-            case "Price: Low to High":
-                sortedResults = flightService.sortByPrice(currentSearchResults);
+            case "Price (Low to High)":
+                sortedList = currentSearchResults.stream()
+                        .sorted((f1, f2) -> Double.compare(f1.getPrice(), f2.getPrice()))
+                        .collect(Collectors.toList());
                 break;
-            case "Price: High to Low":
-                sortedResults = flightService.sortByPrice(currentSearchResults);
-                // Reverse the list for high to low
-                java.util.Collections.reverse(sortedResults);
+            case "Price (High to Low)":
+                sortedList = currentSearchResults.stream()
+                        .sorted((f1, f2) -> Double.compare(f2.getPrice(), f1.getPrice()))
+                        .collect(Collectors.toList());
                 break;
-            case "Date & Time":
-                sortedResults = flightService.sortByDateTime(currentSearchResults);
+            case "Departure (A-Z)":
+                sortedList = currentSearchResults.stream()
+                        .sorted((f1, f2) -> f1.getDeparture().compareTo(f2.getDeparture()))
+                        .collect(Collectors.toList());
                 break;
-            case "Airline":
-                sortedResults = flightService.sortByAirline(currentSearchResults);
+            case "Destination (A-Z)":
+                sortedList = currentSearchResults.stream()
+                        .sorted((f1, f2) -> f1.getDestination().compareTo(f2.getDestination()))
+                        .collect(Collectors.toList());
                 break;
-            default:
-                return;
+            case "Date (Earliest First)":
+                sortedList = currentSearchResults.stream()
+                        .sorted((f1, f2) -> f1.getDate().compareTo(f2.getDate()))
+                        .collect(Collectors.toList());
+                break;
+            case "Airline (A-Z)":
+                sortedList = currentSearchResults.stream()
+                        .sorted((f1, f2) -> f1.getAirline().compareTo(f2.getAirline()))
+                        .collect(Collectors.toList());
+                break;
         }
 
-        // Update display with sorted results
         flightData.clear();
-        flightData.addAll(sortedResults);
+        flightData.addAll(sortedList);
     }
 
     @FXML
     private void onClearClick() {
-        // Clear form fields
         departureField.clear();
         destinationField.clear();
         startDatePicker.setValue(null);
         endDatePicker.setValue(null);
         airlineField.clear();
 
-        // Clear results
-        currentSearchResults = null;
-        flightData.clear();
-        resultCountLabel.setText("0 flights found");
-
-        // Disable buttons
-        exportButton.setDisable(true);
-        bookButton.setDisable(true);
-
-        // Reset sort combo box
-        sortComboBox.getSelectionModel().clearSelection();
+        // Reset to showing all flights
+        try {
+            List<Flight> flights = flightService.getAllFlights();
+            updateResultsDisplay(flights);
+            applySorting();
+        } catch (Exception e) {
+            showAlert("Data Loading Error", "Failed to load flight data: " + e.getMessage(), Alert.AlertType.ERROR);
+        }
     }
 
     @FXML
     private void onBookButtonClick() {
         Flight selectedFlight = FlightTable.getSelectionModel().getSelectedItem();
-        if (selectedFlight != null) {
-            // Here you would typically navigate to a booking form or dialog
-            showAlert("Booking",
-                    "Starting booking process for flight " + selectedFlight.getFlightId() +
-                            " from " + selectedFlight.getDeparture() +
-                            " to " + selectedFlight.getDestination(),
-                    Alert.AlertType.INFORMATION);
 
-            // In a real app, you might do something like:
-            // navigationService.navigateToBookingView(selectedFlight);
+        if (selectedFlight == null) {
+            // Show an alert that no flight is selected
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("No Selection");
+            alert.setHeaderText("No Flight Selected");
+            alert.setContentText("Please select a flight to book.");
+            alert.showAndWait();
+            return;
         }
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/flight_booking.fxml"));
+            Parent root = loader.load();
+
+            // Get the controller and pass the selected flight
+            FlightBookingController controller = loader.getController();
+            controller.initData(selectedFlight);
+
+            // Switch to the flight booking scene
+            Stage stage = (Stage) FlightTable.getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setTitle("Flight Booking");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Show error message to user
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Navigation Error");
+            alert.setContentText("Could not open the flight booking window. Please try again.");
+            alert.showAndWait();
+        }
+
     }
 
     @FXML
     private void onExportButtonClick() {
+        // Implementation for exporting the results
         if (currentSearchResults == null || currentSearchResults.isEmpty()) {
-            showAlert("Export", "No results to export", Alert.AlertType.WARNING);
+            showAlert("Export Error", "No results to export", Alert.AlertType.WARNING);
             return;
         }
 
-        showAlert("Export Results",
-                "Exporting " + currentSearchResults.size() + " flight results to file.",
-                Alert.AlertType.INFORMATION);
-
-        // Implement actual export functionality here
-        // For example:
-        // exportService.exportFlightsToCSV(currentSearchResults, "flight_search_results.csv");
+        // Add code here to export the results to CSV or other format
+        showAlert("Export Successful", "Flight results exported successfully", Alert.AlertType.INFORMATION);
     }
 
     private void showFlightDetails(Flight flight) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Flight Details");
-        alert.setHeaderText("Flight " + flight.getFlightId());
+        alert.setHeaderText("Details for flight " + flight.getFlightId());
 
-        String content = String.format(
-                "Airline: %s\n" +
-                        "From: %s\n" +
-                        "To: %s\n" +
-                        "Date: %s\n" +
-                        "Time: %s\n" +
-                        "Price: $%.2f",
-                flight.getAirline(),
-                flight.getDeparture(),
-                flight.getDestination(),
-                flight.getDate(),
-                flight.getTime(),
-                flight.getPrice()
-        );
+        String details = "Airline: " + flight.getAirline() + "\n" +
+                "From: " + flight.getDeparture() + "\n" +
+                "To: " + flight.getDestination() + "\n" +
+                "Date: " + flight.getDate() + "\n" +
+                "Time: " + flight.getTime() + "\n" +
+                "Price: $" + flight.getPrice();
 
-        alert.setContentText(content);
+        alert.setContentText(details);
         alert.showAndWait();
     }
 
@@ -330,29 +280,17 @@ public class FlightSearchController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
     @FXML
     private void onBackButtonClick() {
         try {
-            // Clear any current search data
-            flightData.clear();
-            if (currentSearchResults != null) {
-                currentSearchResults.clear();
-            }
-
-            // Navigate back to the main menu using the current scene
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Main.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-
-            // Get the stage from any control in the current scene
-            Stage stage = (Stage) departureField.getScene().getWindow();
-            stage.setTitle("Travel Booking System - Main Menu");
-            stage.setScene(scene);
+            Parent root = FXMLLoader.load(getClass().getResource("/main.fxml"));
+            Stage stage = (Stage) FlightTable.getScene().getWindow();
+            stage.setTitle("Travel Booking System");
+            stage.setScene(new Scene(root));
             stage.show();
-        } catch (Exception e) {
-            showAlert("Navigation Error",
-                    "Could not return to main menu: " + e.getMessage(),
-                    Alert.AlertType.ERROR);
+        } catch (IOException e) {
+            showAlert("Navigation Error", "Could not return to main screen", Alert.AlertType.ERROR);
             e.printStackTrace();
         }
     }

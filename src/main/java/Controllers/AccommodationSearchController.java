@@ -13,6 +13,7 @@ import javafx.scene.control.*;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.awt.event.ActionEvent;
@@ -20,6 +21,8 @@ import java.io.IOException;
 import java.util.List;
 
 public class AccommodationSearchController {
+    @FXML
+    private TableColumn<Accommodation, Integer> idColumn;
 
     @FXML
     private TextField locationField;
@@ -60,6 +63,7 @@ public class AccommodationSearchController {
         typeComboBox.setItems(FXCollections.observableArrayList("Hotel", "Hostel", "Apartment", "Villa"));
 
         // Set up table columns with proper property factories
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("AccommodationId"));
 
         nameColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getName()));
         locationColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getLocation()));
@@ -141,17 +145,40 @@ public class AccommodationSearchController {
 
     @FXML
     private void onBookSelected() {
-        Accommodation selected = resultsTable.getSelectionModel().getSelectedItem();
-        if (selected != null) {
-            // Check if the accommodation is actually available
-            if (accommodationService.isAvailable(selected.getAccommodationId())) {
-                // TODO: Open AccommodationBooking.fxml and pass the selected accommodation
-                System.out.println("Proceeding to book: " + selected.getName());
-            } else {
-                new Alert(Alert.AlertType.WARNING, "This accommodation has no available rooms currently.").showAndWait();
-            }
-        } else {
-            new Alert(Alert.AlertType.WARNING, "Please select an accommodation to book.").showAndWait();
+        Accommodation selectedAccommodation = resultsTable.getSelectionModel().getSelectedItem();
+
+        if (selectedAccommodation == null) {
+            // Show an alert that no accommodation is selected
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("No Selection");
+            alert.setHeaderText("No Accommodation Selected");
+            alert.setContentText("Please select an accommodation to book.");
+            alert.showAndWait();
+            return;
+        }
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/accommodation_booking.fxml"));
+            Parent root = loader.load();
+
+            // Get the controller and pass the selected accommodation
+            AccommodationBookingController controller = loader.getController();
+            controller.setAccommodation(selectedAccommodation);
+
+            // Switch to the accommodation booking scene
+            Stage stage = (Stage) resultsTable.getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setTitle("Accommodation Booking");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Show error message to user
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Navigation Error");
+            alert.setContentText("Could not open the accommodation booking window. Please try again.");
+            alert.showAndWait();
         }
     }
     /**

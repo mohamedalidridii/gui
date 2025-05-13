@@ -78,6 +78,9 @@ public class PaymentController {
     }
 
     @FXML
+    private Label bookingDetailsLabel;
+
+    @FXML
     private void filterByStatus(ActionEvent event) {
         String status = statusFilterComboBox.getValue();
         List<Payment> filtered = observablePayments.stream()
@@ -213,7 +216,8 @@ public class PaymentController {
 
             // We need to retrieve the Flight object using the flightId from the FlightBooking
             // assuming you have a FlightService similar to AccommodationService
-            Flight flight = FlightService.getFlight(flightBooking.getFlightId())
+            FlightService flightService = new FlightService();
+            Flight flight = flightService.getFlightById(String.valueOf(flightBooking.getFlightId()))
                     .orElseThrow(() -> new IllegalArgumentException("Flight not found"));
 
             amount = flight.getPrice() * flightBooking.getNumPassengers();
@@ -241,4 +245,22 @@ public class PaymentController {
         paymentService.makePayment(payment);
         loadAllPayments();
     }
+    private AccommodationBooking booking;
+
+    public void setAccommodationBooking(AccommodationBooking booking) {
+        this.booking = booking;
+
+        if (booking != null) {
+            // Display booking details
+            StringBuilder details = new StringBuilder();
+            details.append("Booking ID: ").append(booking.getAccommodationBookingId()).append("\n");
+            details.append("Check-in: ").append(booking.getCheckIn()).append("\n");
+            details.append("Check-out: ").append(booking.getCheckOut()).append("\n");
+            details.append("Number of guests: ").append(booking.getNumGuests());
+
+            bookingDetailsLabel.setText(details.toString());
+        }
+    }
+
+
 }

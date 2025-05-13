@@ -16,15 +16,15 @@ public class FlightBookingDAO implements IFlightBookingDAO {
 
     @Override
     public Optional<FlightBooking> getById(int id) {
-        try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM flight_bookings WHERE flight_booking_id = ?")) {
+        try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM flight_bookings WHERE flightBookingId = ?")) {
             stmt.setInt(1, id);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     return Optional.of(new FlightBooking(
-                            rs.getInt("flight_booking_id"),
-                            rs.getInt("flight_id"),
-                            rs.getDate("booking_date").toLocalDate(),
-                            rs.getInt("num_passengers")
+                            rs.getInt("flightBookingId"),
+                            rs.getInt("flightId"),
+                            rs.getDate("bookingDate").toLocalDate(),
+                            rs.getInt("numPassengers")
                     ));
                 }
             }
@@ -41,10 +41,10 @@ public class FlightBookingDAO implements IFlightBookingDAO {
             try (ResultSet rs = stmt.executeQuery("SELECT * FROM flight_bookings")) {
                 while (rs.next()) {
                     list.add(new FlightBooking(
-                            rs.getInt("flight_booking_id"),
-                            rs.getInt("flight_id"),
-                            rs.getDate("booking_date").toLocalDate(),
-                            rs.getInt("num_passengers")
+                            rs.getInt("flightBookingId"),
+                            rs.getInt("flightId"),
+                            rs.getDate("bookingDate").toLocalDate(),
+                            rs.getInt("numPassengers")
                     ));
                 }
             }
@@ -56,7 +56,7 @@ public class FlightBookingDAO implements IFlightBookingDAO {
 
     @Override
     public boolean add(FlightBooking booking) {
-        String sql = "INSERT INTO flight_bookings (flight_id, booking_date, num_passengers) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO flight_bookings (flightId, bookingDate, numPassengers) VALUES (?, ?, ?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setInt(1, booking.getFlightId());
             stmt.setDate(2, Date.valueOf(booking.getBookingDate()));
@@ -76,7 +76,7 @@ public class FlightBookingDAO implements IFlightBookingDAO {
 
     @Override
     public boolean update(FlightBooking booking) {
-        String sql = "UPDATE flight_bookings SET flight_id=?, booking_date=?, num_passengers=? WHERE flight_booking_id=?";
+        String sql = "UPDATE flight_bookings SET flightId=?, bookingDate=?, numPassengers=? WHERE flightBookingId=?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, booking.getFlightId());
             stmt.setDate(2, Date.valueOf(booking.getBookingDate()));
@@ -91,7 +91,7 @@ public class FlightBookingDAO implements IFlightBookingDAO {
 
     @Override
     public boolean delete(int id) {
-        try (PreparedStatement stmt = conn.prepareStatement("DELETE FROM flight_bookings WHERE flight_booking_id = ?")) {
+        try (PreparedStatement stmt = conn.prepareStatement("DELETE FROM flight_bookings WHERE flightBookingId = ?")) {
             stmt.setInt(1, id);
             stmt.executeUpdate();
         } catch (SQLException e) {

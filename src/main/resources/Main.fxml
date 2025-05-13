@@ -39,31 +39,23 @@
                 <Insets top="20" right="40" bottom="40" left="40" />
             </padding>
 
-            <!-- Row 0: Main Booking Options -->
-            <VBox spacing="15" styleClass="category-box" GridPane.columnIndex="0" GridPane.rowIndex="0">
+            <!-- Row 0: Search Options -->
+            <VBox spacing="15" styleClass="category-box" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="2" alignment="CENTER">
                 <Label text="Travel Search" styleClass="category-title" />
                 <Button text="Search Flights" styleClass="nav-button" onAction="#openFlightSearch"
-                        maxWidth="Infinity" />
+                        maxWidth="300" />
                 <Button text="Search Accommodations" styleClass="nav-button" onAction="#openAccommodationSearch"
-                        maxWidth="Infinity" />
-            </VBox>
-
-            <VBox spacing="15" styleClass="category-box" GridPane.columnIndex="1" GridPane.rowIndex="0">
-                <Label text="Booking Management" styleClass="category-title" />
-                <Button text="Flight Booking" styleClass="nav-button" onAction="#openFlightBooking"
-                        maxWidth="Infinity" />
-                <Button text="Accommodation Booking" styleClass="nav-button" onAction="#openAccommodationBooking"
-                        maxWidth="Infinity" />
+                        maxWidth="300" />
             </VBox>
 
             <!-- Row 1: Account and History -->
-            <VBox spacing="15" styleClass="category-box" GridPane.columnIndex="0" GridPane.rowIndex="1">
+            <VBox spacing="15" styleClass="category-box" GridPane.columnIndex="0" GridPane.rowIndex="1" alignment="CENTER">
                 <Label text="Your Bookings" styleClass="category-title" />
                 <Button text="My Bookings" styleClass="nav-button" onAction="#openBookings"
                         maxWidth="Infinity" />
             </VBox>
 
-            <VBox spacing="15" styleClass="category-box" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <VBox spacing="15" styleClass="category-box" GridPane.columnIndex="1" GridPane.rowIndex="1" alignment="CENTER">
                 <Label text="Payment" styleClass="category-title" />
                 <Button text="Payment History" styleClass="nav-button" onAction="#openPayments"
                         maxWidth="Infinity" />

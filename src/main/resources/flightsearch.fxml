@@ -5,7 +5,11 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.text.Text?>
 
+<?import java.lang.String?>
 <BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="Controllers.FlightSearchController">
+    <stylesheets>
+        <String fx:value="/application.css"/>
+    </stylesheets>
     <top>
         <VBox spacing="15">
             <padding>

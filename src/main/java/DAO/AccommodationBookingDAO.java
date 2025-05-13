@@ -16,16 +16,16 @@ public class AccommodationBookingDAO implements IGenericDAO<AccommodationBooking
 
     @Override
     public Optional<AccommodationBooking> getById(int id) {
-        try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM accommodation_booking WHERE accommodation_booking_id = ?")) {
+        try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM accommodation_bookings WHERE accommodationBookingId = ?")) {
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 return Optional.of(new AccommodationBooking(
-                        rs.getInt("accommodation_booking_id"),
+                        rs.getInt("accommodationBookingId"),
                         rs.getInt("accommodation_id"),
-                        rs.getDate("check_in").toLocalDate(),
-                        rs.getDate("check_out").toLocalDate(),
-                        rs.getInt("num_guests")
+                        rs.getDate("checkIn").toLocalDate(),
+                        rs.getDate("checkOut").toLocalDate(),
+                        rs.getInt("numGuests")
                 ));
             }
             return Optional.empty();
@@ -42,11 +42,11 @@ public class AccommodationBookingDAO implements IGenericDAO<AccommodationBooking
             ResultSet rs = stmt.executeQuery("SELECT * FROM accommodation_bookings");
             while (rs.next()) {
                 list.add(new AccommodationBooking(
-                        rs.getInt("accommodation_booking_id"),
-                        rs.getInt("accommodation_id"),
-                        rs.getDate("check_in").toLocalDate(),
-                        rs.getDate("check_out").toLocalDate(),
-                        rs.getInt("num_guests")
+                        rs.getInt("accommodationBookingId"),
+                        rs.getInt("accommodationId"),
+                        rs.getDate("checkIn").toLocalDate(),
+                        rs.getDate("checkOut").toLocalDate(),
+                        rs.getInt("numGuests")
                 ));
             }
         } catch (SQLException e) {
@@ -57,7 +57,7 @@ public class AccommodationBookingDAO implements IGenericDAO<AccommodationBooking
 
     @Override
     public boolean add(AccommodationBooking booking) {
-        String sql = "INSERT INTO accommodation_bookings (accommodation_id, check_in, check_out, num_guests) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO accommodation_bookings (accommodationId, checkIn, checkOut, numGuests) VALUES (?, ?, ?, ?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, booking.getAccommodationId());
             stmt.setDate(2, Date.valueOf(booking.getCheckIn()));
@@ -72,7 +72,7 @@ public class AccommodationBookingDAO implements IGenericDAO<AccommodationBooking
 
     @Override
     public boolean update(AccommodationBooking booking) {
-        String sql = "UPDATE accommodation_booking SET accommodation_id=?, check_in=?, check_out=?, num_guests=? WHERE accommodation_booking_id=?";
+        String sql = "UPDATE accommodation_bookings SET accommodationId=?, checkIn=?, checkOut=?, numGuests=? WHERE accommodationBookingId=?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, booking.getAccommodationId());
             stmt.setDate(2, Date.valueOf(booking.getCheckIn()));
@@ -88,12 +88,16 @@ public class AccommodationBookingDAO implements IGenericDAO<AccommodationBooking
 
     @Override
     public boolean delete(int id) {
-        try (PreparedStatement stmt = conn.prepareStatement("DELETE FROM accommodation_bookings WHERE accommodation_booking_id = ?")) {
+        try (PreparedStatement stmt = conn.prepareStatement("DELETE FROM accommodation_bookings WHERE accommodationBookingId = ?")) {
             stmt.setInt(1, id);
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public String toString(int accommodationBookingId) {
+        return "";
     }
 }

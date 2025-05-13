@@ -6,7 +6,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Spinner?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -15,7 +14,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AccommodationBookingController">
+<?import java.lang.String?>
+<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AccommodationBookingController">
+    <stylesheets>
+        <String fx:value="/application.css"/>
+    </stylesheets>
     <top>
         <VBox alignment="CENTER" spacing="5.0" BorderPane.alignment="CENTER">
             <children>
@@ -51,7 +54,6 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
                 <Label text="Check-in Date:" GridPane.halignment="RIGHT" GridPane.rowIndex="0">
@@ -71,7 +73,7 @@
                 </Label>
                 <DatePicker fx:id="checkInDatePicker" prefHeight="25.0" prefWidth="300.0" promptText="Select check-in date" GridPane.columnIndex="1" GridPane.rowIndex="0" />
                 <DatePicker fx:id="checkOutDatePicker" prefHeight="25.0" prefWidth="300.0" promptText="Select check-out date" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                <Spinner fx:id="guestsSpinner" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                <Spinner fx:id="guestsSpinner" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             </children>
             <padding>
                 <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />

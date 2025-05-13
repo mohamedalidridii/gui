@@ -36,9 +36,10 @@ public class FlightBookingService {
      */
     public Optional<FlightBooking> getBooking(String id) {
         try {
-            return bookingDAO.getById(Integer.parseInt(id));
+            int bookingId = Integer.parseInt(id);
+            return getBooking(bookingId);
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("Invalid booking ID format", e);
+            return Optional.empty();
         }
     }
 
@@ -46,18 +47,32 @@ public class FlightBookingService {
      * Add a new flight booking
      */
     public boolean addBooking(FlightBooking booking) {
-        Objects.requireNonNull(booking, "Flight booking cannot be null");
-        validateBooking(booking);
-        return bookingDAO.add(booking);
+        try {
+            validateBooking(booking);
+            return bookingDAO.add(booking);
+        } catch (IllegalArgumentException e) {
+            System.err.println("Validation failed: " + e.getMessage());
+            return false;
+        } catch (Exception e) {
+            System.err.println("Error saving booking: " + e.getMessage());
+            return false;
+        }
     }
 
     /**
      * Update an existing flight booking
      */
     public boolean updateBooking(FlightBooking booking) {
-        Objects.requireNonNull(booking, "Flight booking cannot be null");
-        validateBooking(booking);
-        return bookingDAO.update(booking);
+        try {
+            validateBooking(booking);
+            return bookingDAO.update(booking);
+        } catch (IllegalArgumentException e) {
+            System.err.println("Validation failed: " + e.getMessage());
+            return false;
+        } catch (Exception e) {
+            System.err.println("Error updating booking: " + e.getMessage());
+            return false;
+        }
     }
 
     /**
@@ -72,9 +87,10 @@ public class FlightBookingService {
      */
     public boolean deleteBooking(String id) {
         try {
-            return bookingDAO.delete(Integer.parseInt(id));
+            int bookingId = Integer.parseInt(id);
+            return deleteBooking(bookingId);
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("Invalid booking ID format", e);
+            return false;
         }
     }
 
@@ -82,7 +98,7 @@ public class FlightBookingService {
      * Get bookings for a specific flight
      */
     public List<FlightBooking> getBookingsByFlight(int flightId) {
-        return bookingDAO.getAll().stream()
+        return getAllBookings().stream()
                 .filter(booking -> booking.getFlightId() == flightId)
                 .collect(Collectors.toList());
     }
@@ -91,12 +107,8 @@ public class FlightBookingService {
      * Get bookings for a specific date
      */
     public List<FlightBooking> getBookingsByDate(LocalDate date) {
-        if (date == null) {
-            throw new IllegalArgumentException("Booking date cannot be null");
-        }
-
-        return bookingDAO.getAll().stream()
-                .filter(booking -> booking.getBookingDate().isEqual(date))
+        return getAllBookings().stream()
+                .filter(booking -> booking.getBookingDate().equals(date))
                 .collect(Collectors.toList());
     }
 
@@ -104,18 +116,11 @@ public class FlightBookingService {
      * Get bookings for a date range
      */
     public List<FlightBooking> getBookingsByDateRange(LocalDate startDate, LocalDate endDate) {
-        if (startDate == null || endDate == null) {
-            throw new IllegalArgumentException("Start and end dates cannot be null");
-        }
-        if (startDate.isAfter(endDate)) {
-            throw new IllegalArgumentException("Start date cannot be after end date");
-        }
-
-        return bookingDAO.getAll().stream()
-                .filter(booking ->
-                        (booking.getBookingDate().isEqual(startDate) || booking.getBookingDate().isAfter(startDate)) &&
-                                (booking.getBookingDate().isEqual(endDate) || booking.getBookingDate().isBefore(endDate))
-                )
+        return getAllBookings().stream()
+                .filter(booking -> {
+                    LocalDate bookingDate = booking.getBookingDate();
+                    return !bookingDate.isBefore(startDate) && !bookingDate.isAfter(endDate);
+                })
                 .collect(Collectors.toList());
     }
 
@@ -132,20 +137,8 @@ public class FlightBookingService {
      * Check if there's capacity available for a specific flight
      */
     public boolean isCapacityAvailable(int flightId, int requestedSeats, int totalCapacity) {
-        if (requestedSeats <= 0) {
-            throw new IllegalArgumentException("Requested seats must be positive");
-        }
-        if (totalCapacity <= 0) {
-            throw new IllegalArgumentException("Total capacity must be positive");
-        }
-
-        List<FlightBooking> existingBookings = getBookingsByFlight(flightId);
-
-        int currentBookedSeats = existingBookings.stream()
-                .mapToInt(FlightBooking::getNumPassengers)
-                .sum();
-
-        return (currentBookedSeats + requestedSeats) <= totalCapacity;
+        int currentPassengers = getTotalPassengers(flightId);
+        return currentPassengers + requestedSeats <= totalCapacity;
     }
 
     /**
@@ -161,14 +154,20 @@ public class FlightBookingService {
      * Validate flight booking properties
      */
     private void validateBooking(FlightBooking booking) {
+        if (booking == null) {
+            throw new IllegalArgumentException("Booking cannot be null");
+        }
+
         if (booking.getFlightId() <= 0) {
             throw new IllegalArgumentException("Invalid flight ID");
         }
+
         if (booking.getBookingDate() == null) {
             throw new IllegalArgumentException("Booking date cannot be null");
         }
+
         if (booking.getNumPassengers() <= 0) {
-            throw new IllegalArgumentException("Number of passengers must be positive");
+            throw new IllegalArgumentException("Number of passengers must be greater than zero");
         }
     }
 }

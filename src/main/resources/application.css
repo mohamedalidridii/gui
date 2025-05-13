@@ -1,0 +1,155 @@
+/* Root styles for global application */
+.root {
+    -fx-background-color: #E5E5E5; /* Delicate grey for main background */
+    -fx-font-family: "Montserrat"; /* Default body text font */
+    -fx-text-fill: #FFFFFF; /* Pure white for general text */
+}
+
+/* Pane styling for layout containers */
+Pane, VBox, HBox, GridPane {
+    -fx-background-color: #1A2B3C; /* Deep blue for container backgrounds */
+    -fx-border-color: #D4AF37; /* Subtle gold for borders */
+    -fx-border-width: 1px;
+    -fx-padding: 10px;
+}
+
+/* Label styling */
+Label {
+    -fx-font-family: "Montserrat";
+    -fx-text-fill: #FFFFFF; /* Pure white text */
+    -fx-font-size: 14px;
+}
+
+Label.title {
+    -fx-font-family: "Playfair Display"; /* Elegant serif for titles */
+    -fx-font-size: 24px;
+    -fx-text-fill: #D4AF37; /* Subtle gold for title text */
+    -fx-font-weight: bold;
+}
+
+/* Button styling */
+Button {
+    -fx-background-color: #D4AF37; /* Subtle gold background */
+    -fx-text-fill: #1A2B3C; /* Deep blue text */
+    -fx-font-family: "Montserrat";
+    -fx-font-size: 14px;
+    -fx-padding: 8px 16px;
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+    -fx-cursor: hand;
+}
+
+Button:hover {
+    -fx-background-color: #FFFFFF; /* Pure white on hover */
+    -fx-text-fill: #1A2B3C; /* Deep blue text */
+    -fx-border-color: #D4AF37; /* Subtle gold border */
+    -fx-border-width: 1px;
+}
+
+Button:pressed {
+    -fx-background-color: #E5E5E5; /* Delicate grey when pressed */
+}
+
+/* TextField and ComboBox styling */
+TextField, ComboBox {
+    -fx-background-color: #FFFFFF; /* Pure white background */
+    -fx-text-fill: #1A2B3C; /* Deep blue text */
+    -fx-font-family: "Montserrat";
+    -fx-font-size: 14px;
+    -fx-border-color: #D4AF37; /* Subtle gold border */
+    -fx-border-width: 1px;
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+    -fx-padding: 5px;
+}
+
+TextField:focused, ComboBox:focused {
+    -fx-border-color: #FFFFFF; /* Pure white border on focus */
+    -fx-border-width: 2px;
+}
+
+/* DatePicker styling */
+DatePicker {
+    -fx-background-color: #FFFFFF; /* Pure white background */
+    -fx-text-fill: #1A2B3C; /* Deep blue text */
+    -fx-font-family: "Montserrat";
+    -fx-font-size: 14px;
+}
+
+DatePicker .arrow-button {
+    -fx-background-color: #D4AF37; /* Subtle gold for arrow button */
+}
+
+DatePicker .arrow-button:hover {
+    -fx-background-color: #FFFFFF; /* Pure white on hover */
+}
+
+/* TableView styling */
+TableView {
+    -fx-background-color: #1A2B3C; /* Deep blue background */
+    -fx-border-color: #D4AF37; /* Subtle gold border */
+    -fx-border-width: 1px;
+}
+
+TableView .column-header {
+    -fx-background-color: #D4AF37; /* Subtle gold for headers */
+    -fx-text-fill: #1A2B3C; /* Deep blue text */
+    -fx-font-family: "Playfair Display";
+    -fx-font-size: 14px;
+}
+
+TableView .table-cell {
+    -fx-text-fill: #FFFFFF; /* Pure white text */
+    -fx-font-family: "Montserrat";
+    -fx-font-size: 12px;
+}
+
+TableView .table-row-cell:selected {
+    -fx-background-color: #E5E5E5; /* Delicate grey for selected row */
+    -fx-text-fill: #1A2B3C; /* Deep blue text */
+}
+
+/* ScrollPane styling */
+ScrollPane {
+    -fx-background-color: #1A2B3C; /* Deep blue background */
+    -fx-border-color: #D4AF37; /* Subtle gold border */
+    -fx-border-width: 1px;
+}
+
+ScrollPane .viewport {
+    -fx-background-color: #E5E5E5; /* Delicate grey content background */
+}
+
+/* Specific styling for payment form elements */
+#cardNumber, #expiryDate, #cvv, #cardHolder {
+    -fx-background-color: #FFFFFF; /* Pure white background */
+    -fx-text-fill: #1A2B3C; /* Deep blue text */
+    -fx-font-family: "Montserrat";
+    -fx-font-size: 14px;
+    -fx-border-color: #D4AF37; /* Subtle gold border */
+    -fx-border-width: 1px;
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+}
+
+/* Styling for search result containers */
+#searchResults, #accommodationResults {
+    -fx-background-color: #1A2B3C; /* Deep blue background */
+    -fx-border-color: #D4AF37; /* Subtle gold border */
+    -fx-border-width: 1px;
+    -fx-padding: 10px;
+}
+
+/* Styling for menu buttons in Main.fxml */
+#flightBookingButton, #accommodationBookingButton, #flightSearchButton, #accommodationSearchButton, #paymentButton {
+    -fx-background-color: #D4AF37; /* Subtle gold background */
+    -fx-text-fill: #1A2B3C; /* Deep blue text */
+    -fx-font-family: "Playfair Display";
+    -fx-font-size: 16px;
+    -fx-padding: 10px 20px;
+}
+
+#flightBookingButton:hover, #accommodationBookingButton:hover, #flightSearchButton:hover, #accommodationSearchButton:hover, #paymentButton:hover {
+    -fx-background-color: #FFFFFF; /* Pure white on hover */
+    -fx-text-fill: #1A2B3C; /* Deep blue text */
+}

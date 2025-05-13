@@ -5,7 +5,11 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.text.Font?>
 
+<?import java.lang.String?>
 <VBox spacing="15" xmlns:fx="http://javafx.com/fxml" fx:controller="Controllers.FlightBookingController">
+    <stylesheets>
+        <String fx:value="/application.css"/>
+    </stylesheets>
     <padding>
         <Insets top="20.0" right="20.0" bottom="20.0" left="20.0" />
     </padding>
@@ -22,27 +26,36 @@
             <Insets bottom="15"/>
         </padding>
 
-        <Label text="Selected Flight:" style="-fx-font-weight: bold" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-        <Label fx:id="flightInfoLabel" text="Booking flight..." GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+        <Label text="Flight ID:" style="-fx-font-weight: bold" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <Label fx:id="flightIdLabel" text="Loading..." GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+        <Label text="Departure:" style="-fx-font-weight: bold" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <Label fx:id="departureLabel" text="Loading..." GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+        <Label text="Destination:" style="-fx-font-weight: bold" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <Label fx:id="destinationLabel" text="Loading..." GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+        <Label text="Date:" style="-fx-font-weight: bold" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+        <Label fx:id="dateLabel" text="Loading..." GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+        <Label text="Time:" style="-fx-font-weight: bold" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+        <Label fx:id="timeLabel" text="Loading..." GridPane.rowIndex="4" GridPane.columnIndex="1"/>
     </GridPane>
 
     <!-- Booking form section -->
-    <Label text="Passenger Details" style="-fx-font-weight: bold"/>
+    <Label text="Booking Details" style="-fx-font-weight: bold"/>
 
     <GridPane hgap="10" vgap="10">
-        <Label text="Full Name:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-        <TextField fx:id="nameField" promptText="Enter full name" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+        <Label text="Booking Date:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <DatePicker fx:id="bookingDatePicker" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 
-        <Label text="Email:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-        <TextField fx:id="emailField" promptText="Enter email address" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
-
-        <Label text="Number of Passengers:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-        <TextField fx:id="passengerCountField" promptText="Enter number of passengers" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+        <Label text="Number of Passengers:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <Spinner fx:id="passengerCountSpinner" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
     </GridPane>
 
     <!-- Action buttons -->
     <HBox spacing="10" alignment="CENTER_RIGHT">
-        <Button text="Cancel" onAction="#onCancelClick"/>
-        <Button fx:id="bookButton" text="Book Flight" onAction="#onBookClick" style="-fx-background-color: #4287f5; -fx-text-fill: white;"/>
+        <Button fx:id="backButton" text="Back"/>
+        <Button fx:id="confirmBookingButton" text="Confirm Booking" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
     </HBox>
 </VBox>
