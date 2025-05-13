@@ -13,147 +13,147 @@
 <?import javafx.scene.layout.HBox?>
 
 <TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Gestion">
-  <tabs>
-    <Tab text="Location">
-         <content>
-            <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
-              <tabs>
-                <Tab text="Ajouter">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                           <children>
-                              <TextField fx:id="locationAjouterNom" layoutX="228.0" layoutY="69.0" prefHeight="25.0" prefWidth="296.0" />
-                              <Label layoutX="88.0" layoutY="73.0" text="Nom :" />
-                              <Button fx:id="locationAjouterButton" layoutX="469.0" layoutY="267.0" mnemonicParsing="false" onAction="#locationAjouter" text="Ajouter" />
-                              <Label layoutX="88.0" layoutY="133.0" text="Addresse :" />
-                              <Label fx:id="locationAjouterLabel" alignment="CENTER" layoutX="88.0" layoutY="189.0" prefHeight="58.0" prefWidth="425.0" textAlignment="CENTER" />
-                              <TextField fx:id="locationAjouterAddress" layoutX="226.0" layoutY="129.0" prefHeight="25.0" prefWidth="298.0" />
-                           </children>
-                        </AnchorPane>
-                  </content>
-                </Tab>
-                <Tab text="Modifier">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                           <children>
-                              <Button layoutX="356.0" layoutY="48.0" mnemonicParsing="false" onAction="#locationSelect" text="Select" />
-                              <Button layoutX="467.0" layoutY="48.0" mnemonicParsing="false" onAction="#locationDelete" text="Delete" />
-                              <Button layoutX="259.0" layoutY="294.0" mnemonicParsing="false" onAction="#locationModify" text="Modifier" />
-                              <Label layoutX="39.0" layoutY="52.0" text="ID :" />
-                              <Label layoutX="39.0" layoutY="123.0" text="Nom :" />
-                              <Label layoutX="39.0" layoutY="186.0" text="Addresse :" />
-                              <Label fx:id="locationNomLabel" layoutX="164.0" layoutY="95.0" prefHeight="73.0" prefWidth="145.0" />
-                              <Label fx:id="locationAddressLabel" layoutX="151.0" layoutY="149.0" prefHeight="91.0" prefWidth="189.0" />
-                              <TextField fx:id="locationModifierId" layoutX="151.0" layoutY="48.0" />
-                              <TextField fx:id="locationModifierNom" layoutX="334.0" layoutY="119.0" />
-                              <TextField fx:id="locationModifierAddress" layoutX="334.0" layoutY="182.0" />
-                              <Label fx:id="locationModifierAffichage" layoutX="39.0" layoutY="245.0" prefHeight="62.0" prefWidth="540.0" />
-                           </children></AnchorPane>
-                  </content>
-                </Tab>
-                  <Tab text="Lister">
-                     <content>
-                        <BorderPane prefHeight="200.0" prefWidth="200.0">
-                           <center>
-                              <TableView fx:id="locationTable" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                                <columns>
-                                  <TableColumn fx:id="locationIdCol" prefWidth="75.0" text="ID" />
-                                  <TableColumn fx:id="locationNomCol" prefWidth="111.0" text="Nom" />
-                                    <TableColumn fx:id="locationAddressCol" prefWidth="367.0" text="Address" />
-                                </columns>
-                              </TableView>
-                           </center>
-                           <bottom>
-                              <HBox prefHeight="52.0" prefWidth="600.0" BorderPane.alignment="CENTER">
-                                 <children>
-                                    <TextField fx:id="locationListerId" prefHeight="52.0" prefWidth="609.0" />
-                                    <Button fx:id="locationListerRefresh" mnemonicParsing="false" onAction="#locationLister" prefHeight="110.0" prefWidth="232.0" text="Actualiser" />
-                                 </children>
-                              </HBox>
-                           </bottom>
-                           <top>
-                              <TextField fx:id="locationRechercher" BorderPane.alignment="CENTER" />
-                           </top>
-                        </BorderPane>
-                     </content>
-                  </Tab>
-                  <Tab text="Map">
-                      <content>
-                          <AnchorPane>
-                              <children>
-                                  <WebView fx:id="mapView" layoutX="0.0" layoutY="0.0" prefWidth="600.0" prefHeight="400.0" />
-                              </children>
-                          </AnchorPane>
-                      </content>
-                  </Tab>
-              </tabs>
-            </TabPane>
-         </content>
-    </Tab>
-    <Tab text="Tag">
-         <content>
-            <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
-               <tabs>
-                  <Tab text="Ajouter">
-                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                           <children>
-                              <TextField fx:id="tagAjouterNom" layoutX="228.0" layoutY="69.0" prefHeight="25.0" prefWidth="296.0" />
-                              <Label layoutX="88.0" layoutY="73.0" text="Nom :" />
-                              <Button fx:id="tagAjouterButton" layoutX="469.0" layoutY="267.0" mnemonicParsing="false" onAction="#tagAjouter" text="Ajouter" />
-                              <Label fx:id="tagAjouterLabel" alignment="CENTER" layoutX="88.0" layoutY="189.0" prefHeight="58.0" prefWidth="425.0" textAlignment="CENTER" />
-                           </children>
-                        </AnchorPane>
-                     </content>
-                  </Tab>
-                  <Tab text="Modifier">
-                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                           <children>
-                              <Button layoutX="356.0" layoutY="48.0" mnemonicParsing="false" onAction="#tagSelect" text="Select" />
-                              <Button layoutX="467.0" layoutY="48.0" mnemonicParsing="false" onAction="#tagDelete" text="Delete" />
-                              <Button layoutX="259.0" layoutY="294.0" mnemonicParsing="false" onAction="#tagModify" text="Modifier" />
-                              <Label layoutX="39.0" layoutY="52.0" text="ID :" />
-                              <Label layoutX="39.0" layoutY="123.0" text="Nom :" />
-                              <Label layoutX="39.0" layoutY="186.0" text="Addresse :" />
-                              <Label fx:id="tagNomLabel" layoutX="164.0" layoutY="95.0" prefHeight="73.0" prefWidth="145.0" />
-                              <Label fx:id="tagAddressLabel" layoutX="151.0" layoutY="149.0" prefHeight="91.0" prefWidth="189.0" />
-                              <TextField fx:id="tagModifierId" layoutX="151.0" layoutY="48.0" />
-                              <TextField fx:id="tagModifierNom" layoutX="334.0" layoutY="119.0" />
-                              <TextField fx:id="tagModifierAddress" layoutX="334.0" layoutY="182.0" />
-                              <Label fx:id="tagModifierAffichage" layoutX="39.0" layoutY="232.0" prefHeight="62.0" prefWidth="540.0" />
-                           </children>
-                        </AnchorPane>
-                     </content>
-                  </Tab>
-                  <Tab text="Lister">
-                     <content>
-                        <BorderPane prefHeight="200.0" prefWidth="200.0">
-                           <center>
-                              <TableView fx:id="tagTable" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                                 <columns>
-                                    <TableColumn fx:id="tagIdCol" prefWidth="111.0" text="ID" />
-                                    <TableColumn fx:id="tagNomCol" prefWidth="186.0" text="Nom" />
-                                 </columns>
-                              </TableView>
-                           </center>
-                           <bottom>
-                              <HBox prefHeight="52.0" prefWidth="600.0" BorderPane.alignment="CENTER">
-                                 <children>
-                                    <TextField fx:id="tagListerId" prefHeight="52.0" prefWidth="609.0" />
-                                    <Button fx:id="tagListerRefresh" mnemonicParsing="false" onAction="#tagLister" prefHeight="110.0" prefWidth="232.0" text="Actualiser" />
-                                 </children>
-                              </HBox>
-                           </bottom>
-                           <top>
-                              <TextField fx:id="tagRechercher" BorderPane.alignment="CENTER" />
-                           </top>
-                        </BorderPane>
-                     </content>
-                  </Tab>
-               </tabs>
-            </TabPane>
-         </content>
-    </Tab>
-  </tabs>
+    <tabs>
+        <Tab text="Location">
+            <content>
+                <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+                    <tabs>
+                        <Tab text="Ajouter">
+                            <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                    <children>
+                                        <TextField fx:id="locationAjouterNom" layoutX="228.0" layoutY="69.0" prefHeight="25.0" prefWidth="296.0" />
+                                        <Label layoutX="88.0" layoutY="73.0" text="Nom :" />
+                                        <Button fx:id="locationAjouterButton" layoutX="469.0" layoutY="267.0" mnemonicParsing="false" onAction="#locationAjouter" text="Ajouter" />
+                                        <Label layoutX="88.0" layoutY="133.0" text="Addresse :" />
+                                        <Label fx:id="locationAjouterLabel" alignment="CENTER" layoutX="88.0" layoutY="189.0" prefHeight="58.0" prefWidth="425.0" textAlignment="CENTER" />
+                                        <TextField fx:id="locationAjouterAddress" layoutX="226.0" layoutY="129.0" prefHeight="25.0" prefWidth="298.0" />
+                                    </children>
+                                </AnchorPane>
+                            </content>
+                        </Tab>
+                        <Tab text="Modifier">
+                            <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                    <children>
+                                        <Button layoutX="356.0" layoutY="48.0" mnemonicParsing="false" onAction="#locationSelect" text="Select" />
+                                        <Button layoutX="467.0" layoutY="48.0" mnemonicParsing="false" onAction="#locationDelete" text="Delete" />
+                                        <Button layoutX="259.0" layoutY="294.0" mnemonicParsing="false" onAction="#locationModify" text="Modifier" />
+                                        <Label layoutX="39.0" layoutY="52.0" text="ID :" />
+                                        <Label layoutX="39.0" layoutY="123.0" text="Nom :" />
+                                        <Label layoutX="39.0" layoutY="186.0" text="Addresse :" />
+                                        <Label fx:id="locationNomLabel" layoutX="164.0" layoutY="95.0" prefHeight="73.0" prefWidth="145.0" />
+                                        <Label fx:id="locationAddressLabel" layoutX="151.0" layoutY="149.0" prefHeight="91.0" prefWidth="189.0" />
+                                        <TextField fx:id="locationModifierId" layoutX="151.0" layoutY="48.0" />
+                                        <TextField fx:id="locationModifierNom" layoutX="334.0" layoutY="119.0" />
+                                        <TextField fx:id="locationModifierAddress" layoutX="334.0" layoutY="182.0" />
+                                        <Label fx:id="locationModifierAffichage" layoutX="39.0" layoutY="245.0" prefHeight="62.0" prefWidth="540.0" />
+                                    </children></AnchorPane>
+                            </content>
+                        </Tab>
+                        <Tab text="Lister">
+                            <content>
+                                <BorderPane prefHeight="200.0" prefWidth="200.0">
+                                    <center>
+                                        <TableView fx:id="locationTable" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                            <columns>
+                                                <TableColumn fx:id="locationIdCol" prefWidth="75.0" text="ID" />
+                                                <TableColumn fx:id="locationNomCol" prefWidth="111.0" text="Nom" />
+                                                <TableColumn fx:id="locationAddressCol" prefWidth="367.0" text="Address" />
+                                            </columns>
+                                        </TableView>
+                                    </center>
+                                    <bottom>
+                                        <HBox prefHeight="52.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+                                            <children>
+                                                <TextField fx:id="locationListerId" prefHeight="52.0" prefWidth="609.0" />
+                                                <Button fx:id="locationListerRefresh" mnemonicParsing="false" onAction="#locationLister" prefHeight="110.0" prefWidth="232.0" text="Actualiser" />
+                                            </children>
+                                        </HBox>
+                                    </bottom>
+                                    <top>
+                                        <TextField fx:id="locationRechercher" BorderPane.alignment="CENTER" />
+                                    </top>
+                                </BorderPane>
+                            </content>
+                        </Tab>
+                        <Tab text="Map">
+                            <content>
+                                <AnchorPane>
+                                    <children>
+                                        <WebView fx:id="mapView" layoutX="0.0" layoutY="0.0" prefWidth="600.0" prefHeight="400.0" />
+                                    </children>
+                                </AnchorPane>
+                            </content>
+                        </Tab>
+                    </tabs>
+                </TabPane>
+            </content>
+        </Tab>
+        <Tab text="Tag">
+            <content>
+                <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+                    <tabs>
+                        <Tab text="Ajouter">
+                            <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                    <children>
+                                        <TextField fx:id="tagAjouterNom" layoutX="228.0" layoutY="69.0" prefHeight="25.0" prefWidth="296.0" />
+                                        <Label layoutX="88.0" layoutY="73.0" text="Nom :" />
+                                        <Button fx:id="tagAjouterButton" layoutX="469.0" layoutY="267.0" mnemonicParsing="false" onAction="#tagAjouter" text="Ajouter" />
+                                        <Label fx:id="tagAjouterLabel" alignment="CENTER" layoutX="88.0" layoutY="189.0" prefHeight="58.0" prefWidth="425.0" textAlignment="CENTER" />
+                                    </children>
+                                </AnchorPane>
+                            </content>
+                        </Tab>
+                        <Tab text="Modifier">
+                            <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                    <children>
+                                        <Button layoutX="356.0" layoutY="48.0" mnemonicParsing="false" onAction="#tagSelect" text="Select" />
+                                        <Button layoutX="467.0" layoutY="48.0" mnemonicParsing="false" onAction="#tagDelete" text="Delete" />
+                                        <Button layoutX="259.0" layoutY="294.0" mnemonicParsing="false" onAction="#tagModify" text="Modifier" />
+                                        <Label layoutX="39.0" layoutY="52.0" text="ID :" />
+                                        <Label layoutX="39.0" layoutY="123.0" text="Nom :" />
+                                        <Label layoutX="39.0" layoutY="186.0" text="Addresse :" />
+                                        <Label fx:id="tagNomLabel" layoutX="164.0" layoutY="95.0" prefHeight="73.0" prefWidth="145.0" />
+                                        <Label fx:id="tagAddressLabel" layoutX="151.0" layoutY="149.0" prefHeight="91.0" prefWidth="189.0" />
+                                        <TextField fx:id="tagModifierId" layoutX="151.0" layoutY="48.0" />
+                                        <TextField fx:id="tagModifierNom" layoutX="334.0" layoutY="119.0" />
+                                        <TextField fx:id="tagModifierAddress" layoutX="334.0" layoutY="182.0" />
+                                        <Label fx:id="tagModifierAffichage" layoutX="39.0" layoutY="232.0" prefHeight="62.0" prefWidth="540.0" />
+                                    </children>
+                                </AnchorPane>
+                            </content>
+                        </Tab>
+                        <Tab text="Lister">
+                            <content>
+                                <BorderPane prefHeight="200.0" prefWidth="200.0">
+                                    <center>
+                                        <TableView fx:id="tagTable" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                            <columns>
+                                                <TableColumn fx:id="tagIdCol" prefWidth="111.0" text="ID" />
+                                                <TableColumn fx:id="tagNomCol" prefWidth="186.0" text="Nom" />
+                                            </columns>
+                                        </TableView>
+                                    </center>
+                                    <bottom>
+                                        <HBox prefHeight="52.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+                                            <children>
+                                                <TextField fx:id="tagListerId" prefHeight="52.0" prefWidth="609.0" />
+                                                <Button fx:id="tagListerRefresh" mnemonicParsing="false" onAction="#tagLister" prefHeight="110.0" prefWidth="232.0" text="Actualiser" />
+                                            </children>
+                                        </HBox>
+                                    </bottom>
+                                    <top>
+                                        <TextField fx:id="tagRechercher" BorderPane.alignment="CENTER" />
+                                    </top>
+                                </BorderPane>
+                            </content>
+                        </Tab>
+                    </tabs>
+                </TabPane>
+            </content>
+        </Tab>
+    </tabs>
 </TabPane>

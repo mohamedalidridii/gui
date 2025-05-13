@@ -2,8 +2,8 @@ package Controllers;
 
 import Entities.Tag;
 import Entities.Destination;
-import Services.ServiceDestination;
-import Services.ServiceTag;
+import services.ServiceDestination;
+import services.ServiceTag;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
