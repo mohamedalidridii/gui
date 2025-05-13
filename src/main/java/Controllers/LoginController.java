@@ -73,6 +73,15 @@ public class LoginController {
                 alert.setHeaderText(null);
                 alert.setContentText("Login Successful");
                 alert.showAndWait();
+                 try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/UserDashboard.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) loginButton.getScene().getWindow();
+            stage.setScene(scene);
+                } catch (IOException e) {
+            e.printStackTrace();
+        }
             }
         } catch (SQLException e) {
             Alert alert =new Alert(Alert.AlertType.ERROR);

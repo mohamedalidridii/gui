@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Text?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="Controllers.AdminDashboardController"
+      stylesheets="@style.css">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+    <spacing>20</spacing>
+
+    <HBox alignment="CENTER_LEFT">
+        <padding>
+            <Insets top="10" right="10" bottom="10" left="10"/>
+        </padding>
+        <Text styleClass="header-text" text="Admin Dashboard"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button text="Logout" onAction="#handleLogout" styleClass="logout-button"/>
+    </HBox>
+
+    <GridPane>
+        <padding>
+            <Insets top="20" right="20" bottom="20" left="20"/>
+        </padding>
+        <hgap>20</hgap>
+        <vgap>20</vgap>
+
+        <!-- User Management Section -->
+        <VBox styleClass="dashboard-card" GridPane.columnIndex="0" GridPane.rowIndex="0">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Text styleClass="card-title" text="User Management"/>
+            <Button text="Manage Users" onAction="#navigateToUserManagement" styleClass="dashboard-button"/>
+            <Button text="View User Statistics" onAction="#viewUserStats" styleClass="dashboard-button"/>
+        </VBox>
+
+        <!-- Content Management Section -->
+        <VBox styleClass="dashboard-card" GridPane.columnIndex="1" GridPane.rowIndex="0">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Text styleClass="card-title" text="Content Management"/>
+            <Button text="Manage Products" onAction="#navigateToProductManagement" styleClass="dashboard-button"/>
+            <Button text="Manage Categories" onAction="#navigateToCategoryManagement" styleClass="dashboard-button"/>
+        </VBox>
+
+        <!-- System Settings Section -->
+        <VBox styleClass="dashboard-card" GridPane.columnIndex="0" GridPane.rowIndex="1">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Text styleClass="card-title" text="Events"/>
+            <Button text="VieW Events" onAction="#navigateToSystemSettings" styleClass="dashboard-button"/>
+        </VBox>
+
+        <!-- Reports Section -->
+        <VBox styleClass="dashboard-card" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Text styleClass="card-title" text="Reports"/>
+            <Button text="Generate Reports" onAction="#generateReports" styleClass="dashboard-button"/>
+            <Button text="View Analytics" onAction="#viewAnalytics" styleClass="dashboard-button"/>
+        </VBox>
+    </GridPane>
+
+</VBox> 

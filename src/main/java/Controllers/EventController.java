@@ -246,7 +246,7 @@ public class EventController implements Initializable {
     @FXML
     private void navigateToClientView() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ClientView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AdminDashboard.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
             Stage stage = (Stage) eventTableView.getScene().getWindow();

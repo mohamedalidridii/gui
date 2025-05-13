@@ -21,12 +21,22 @@ import javafx.scene.text.Text;
 import services.ServiceEvent;
 import Repositories.EventRepository;
 import services.WeatherService;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.FlowPane;
+import javafx.stage.Stage;
+import javafx.event.ActionEvent;
 
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.io.IOException;
 
 public class ClientViewController implements Initializable {
 
@@ -35,6 +45,7 @@ public class ClientViewController implements Initializable {
     @FXML private ComboBox<GenreEvent> filterGenreComboBox;
     @FXML private ComboBox<String> filterPriceComboBox;
     @FXML private FlowPane eventsFlowPane;
+    @FXML private Button backButton;
 
     private final ServiceEvent serviceEvent = new ServiceEvent();
     private final EventRepository eventRepository = new EventRepository();
@@ -340,5 +351,19 @@ public class ClientViewController implements Initializable {
         alert.setHeaderText(title);
         alert.setContentText(content);
         alert.showAndWait();
+    }
+
+    @FXML
+    private void handleBack(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/UserDashboard.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 } 

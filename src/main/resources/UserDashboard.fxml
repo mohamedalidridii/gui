@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Text?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="Controllers.UserDashboardController"
+      stylesheets="@style.css">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+    <spacing>20</spacing>
+
+    <HBox alignment="CENTER_LEFT">
+        <padding>
+            <Insets top="10" right="10" bottom="10" left="10"/>
+        </padding>
+        <Text styleClass="header-text" text="Welcome to Your Dashboard"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button text="Logout" onAction="#handleLogout" styleClass="logout-button"/>
+    </HBox>
+
+    <GridPane>
+        <padding>
+            <Insets top="20" right="20" bottom="20" left="20"/>
+        </padding>
+        <hgap>20</hgap>
+        <vgap>20</vgap>
+
+        <!-- Profile Section -->
+        <VBox styleClass="dashboard-card" GridPane.columnIndex="0" GridPane.rowIndex="0">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Text styleClass="card-title" text="Upcoming Events"/>
+            <Button text="View Events" onAction="#viewClientEvents" styleClass="dashboard-button"/>
+        </VBox>
+
+        <!-- Products Section -->
+        <VBox styleClass="dashboard-card" GridPane.columnIndex="1" GridPane.rowIndex="0">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Text styleClass="card-title" text="Products"/>
+            <Button text="Browse Products" onAction="#browseProducts" styleClass="dashboard-button"/>
+            <Button text="My Favorites" onAction="#viewFavorites" styleClass="dashboard-button"/>
+        </VBox>
+
+        <!-- Messages Section -->
+        <VBox styleClass="dashboard-card" GridPane.columnIndex="0" GridPane.rowIndex="1">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Text styleClass="card-title" text="Messages"/>
+            <Button text="View Messages" onAction="#viewMessages" styleClass="dashboard-button"/>
+            <Button text="Send Message" onAction="#sendMessage" styleClass="dashboard-button"/>
+        </VBox>
+
+    </GridPane>
+
+</VBox> 

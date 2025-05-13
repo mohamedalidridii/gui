@@ -15,6 +15,11 @@
     </padding>
     
     <HBox spacing="10" alignment="CENTER_LEFT">
+        <Button text="Back" onAction="#handleBack" styleClass="back-button"/>
+        <Region HBox.hgrow="ALWAYS"/>
+    </HBox>
+
+    <HBox spacing="10" alignment="CENTER_LEFT">
         <TextField fx:id="searchField" promptText="Search events..." prefWidth="300"/>
         <ComboBox fx:id="filterTypeComboBox" promptText="Filter by type"/>
         <ComboBox fx:id="filterGenreComboBox" promptText="Filter by genre"/>

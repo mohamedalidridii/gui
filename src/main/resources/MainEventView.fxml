@@ -86,6 +86,6 @@
 
     <HBox alignment="CENTER" spacing="10.0">
         <Button text="Manage Locations" onAction="#navigateToLocation"/>
-        <Button text="View as Client" onAction="#navigateToClientView"/>
+        <Button text="Back" onAction="#navigateToClientView"/>
     </HBox>
 </VBox>

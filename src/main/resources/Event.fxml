@@ -6,8 +6,11 @@
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="Controllers.EventController"
-      spacing="10" padding="10">
+      fx:controller="Controllers.EventController">
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+    <spacing>10</spacing>
     
     <TableView fx:id="eventTableView" VBox.vgrow="ALWAYS">
         <columns>
@@ -49,13 +52,21 @@
         <TextField fx:id="fidelityPointsField" GridPane.columnIndex="1" GridPane.rowIndex="7"/>
 
         <Label text="Type:" GridPane.columnIndex="0" GridPane.rowIndex="8"/>
-        <HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="8">
+        <HBox GridPane.columnIndex="1" GridPane.rowIndex="8">
+            <padding>
+                <Insets top="5" right="5" bottom="5" left="5"/>
+            </padding>
+            <spacing>10</spacing>
             <RadioButton fx:id="nationalRadio" text="National" />
             <RadioButton fx:id="internationalRadio" text="International" />
         </HBox>
 
         <Label text="Category:" GridPane.columnIndex="0" GridPane.rowIndex="9"/>
-        <HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="9">
+        <HBox GridPane.columnIndex="1" GridPane.rowIndex="9">
+            <padding>
+                <Insets top="5" right="5" bottom="5" left="5"/>
+            </padding>
+            <spacing>10</spacing>
             <RadioButton fx:id="seminarRadio" text="Seminar" />
             <RadioButton fx:id="cruiseRadio" text="Cruise" />
             <RadioButton fx:id="travelRadio" text="Travel" />
@@ -63,12 +74,20 @@
         </HBox>
 
         <Label text="Visa Required:" GridPane.columnIndex="0" GridPane.rowIndex="10"/>
-        <HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="10">
+        <HBox GridPane.columnIndex="1" GridPane.rowIndex="10">
+            <padding>
+                <Insets top="5" right="5" bottom="5" left="5"/>
+            </padding>
+            <spacing>10</spacing>
             <RadioButton fx:id="visaRequiredRadio" text="Yes" />
             <RadioButton fx:id="visaNotRequiredRadio" text="No" />
         </HBox>
 
-        <HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="11">
+        <HBox GridPane.columnIndex="1" GridPane.rowIndex="11">
+            <padding>
+                <Insets top="5" right="5" bottom="5" left="5"/>
+            </padding>
+            <spacing>10</spacing>
             <Button fx:id="addButton" text="Add" onAction="#handleAddEvent"/>
             <Button fx:id="editButton" text="Edit" onAction="#handleEditEvent"/>
             <Button fx:id="deleteButton" text="Delete" onAction="#handleDeleteEvent"/>
