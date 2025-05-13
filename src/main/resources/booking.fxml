@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import java.lang.String?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.BookingController">
+    <stylesheets>
+        <String fx:value="/application.css"/>
+    </stylesheets>
+
+    <top>
+        <VBox alignment="CENTER" spacing="20">
+            <padding>
+                <Insets top="30" bottom="20" />
+            </padding>
+            <Text text="My Bookings" styleClass="title-text">
+                <font>
+                    <Font name="System Bold" size="28" />
+                </font>
+            </Text>
+            <Text text="View and manage all your flight and accommodation bookings"
+                  styleClass="subtitle-text" wrappingWidth="600">
+                <font>
+                    <Font size="16" />
+                </font>
+            </Text>
+        </VBox>
+    </top>
+
+    <center>
+        <TabPane tabClosingPolicy="UNAVAILABLE">
+            <Tab text="Flight Bookings">
+                <VBox spacing="10">
+                    <padding>
+                        <Insets top="20" right="20" bottom="20" left="20" />
+                    </padding>
+                    <TableView fx:id="flightBookingsTable" VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn fx:id="flightBookingIdColumn" text="Booking ID" />
+                            <TableColumn fx:id="flightNumberColumn" text="Flight Number" />
+                            <TableColumn fx:id="flightOriginColumn" text="Origin" />
+                            <TableColumn fx:id="flightDestinationColumn" text="Destination" />
+                            <TableColumn fx:id="flightDepartureColumn" text="Departure Date" />
+                            <TableColumn fx:id="flightPriceColumn" text="Price" />
+                            <TableColumn fx:id="flightStatusColumn" text="Status" />
+                        </columns>
+                    </TableView>
+                    <HBox spacing="10" alignment="CENTER_RIGHT">
+                        <Button text="View Details" onAction="#viewFlightDetails" styleClass="primary-button" />
+                        <Button text="Cancel Booking" onAction="#cancelFlightBooking" styleClass="warning-button" />
+                    </HBox>
+                </VBox>
+            </Tab>
+            <Tab text="Accommodation Bookings">
+                <VBox spacing="10">
+                    <padding>
+                        <Insets top="20" right="20" bottom="20" left="20" />
+                    </padding>
+                    <TableView fx:id="accommodationBookingsTable" VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn fx:id="accommodationBookingIdColumn" text="Booking ID" />
+                            <TableColumn fx:id="accommodationNameColumn" text="Accommodation Name" />
+                            <TableColumn fx:id="accommodationLocationColumn" text="Location" />
+                            <TableColumn fx:id="accommodationCheckInColumn" text="Check-in Date" />
+                            <TableColumn fx:id="accommodationCheckOutColumn" text="Check-out Date" />
+                            <TableColumn fx:id="accommodationPriceColumn" text="Price" />
+                            <TableColumn fx:id="accommodationStatusColumn" text="Status" />
+                        </columns>
+                    </TableView>
+                    <HBox spacing="10" alignment="CENTER_RIGHT">
+                        <Button text="View Details" onAction="#viewAccommodationDetails" styleClass="primary-button" />
+                        <Button text="Cancel Booking" onAction="#cancelAccommodationBooking" styleClass="warning-button" />
+                    </HBox>
+                </VBox>
+            </Tab>
+        </TabPane>
+    </center>
+
+    <bottom>
+        <HBox alignment="CENTER" spacing="10">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20" />
+            </padding>
+            <Button text="Back to Home" onAction="#backToHome" styleClass="secondary-button" />
+        </HBox>
+    </bottom>
+</BorderPane>

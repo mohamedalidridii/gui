@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<?import java.lang.String?>
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.PaymentController">
+    <stylesheets>
+        <String fx:value="/application.css"/>
+    </stylesheets>
+    <center>
+        <TableView fx:id="paymentTable" prefHeight="400.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+            <columns>
+                <TableColumn fx:id="idColumn" prefWidth="75.0" text="ID" />
+                <TableColumn fx:id="amountColumn" prefWidth="100.0" text="Amount" />
+                <TableColumn fx:id="methodColumn" prefWidth="120.0" text="Payment Method" />
+                <TableColumn fx:id="statusColumn" prefWidth="100.0" text="Status" />
+                <TableColumn fx:id="dateColumn" prefWidth="120.0" text="Payment Date" />
+                <TableColumn fx:id="flightBookingColumn" prefWidth="140.0" text="Flight Booking ID" />
+                <TableColumn fx:id="accommodationBookingColumn" prefWidth="140.0" text="Accommodation Booking ID" />
+            </columns>
+        </TableView>
+    </center>
+    <top>
+        <VBox spacing="10.0" BorderPane.alignment="CENTER">
+            <children>
+                <Label text="Payment Management" textFill="#2c3e50">
+                    <font>
+                        <Font name="System Bold" size="18.0" />
+                    </font>
+                </Label>
+                <Separator />
+                <HBox alignment="CENTER_LEFT" spacing="15.0">
+                    <children>
+                        <Label text="Filter by Status:" />
+                        <ComboBox fx:id="statusFilterComboBox" onAction="#filterByStatus" prefWidth="150.0" promptText="Select Status" />
+                        <Separator orientation="VERTICAL" />
+                        <Label text="Filter by Date Range:" />
+                        <DatePicker fx:id="startDatePicker" promptText="Start Date" />
+                        <Label text="to" />
+                        <DatePicker fx:id="endDatePicker" promptText="End Date" />
+                        <Button mnemonicParsing="false" onAction="#filterByDateRange" style="-fx-background-color: #3498db;" text="Apply Date Filter" textFill="WHITE" />
+                    </children>
+                    <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </padding>
+                </HBox>
+                <HBox alignment="CENTER_LEFT" spacing="15.0">
+                    <children>
+                        <Label text="Filter by Booking ID:" />
+                        <TextField fx:id="bookingIdField" prefWidth="100.0" promptText="Booking ID" />
+                        <RadioButton fx:id="flightBookingRadio" mnemonicParsing="false" selected="true" text="Flight Booking">
+                            <toggleGroup>
+                                <ToggleGroup fx:id="bookingTypeToggle" />
+                            </toggleGroup>
+                        </RadioButton>
+                        <RadioButton fx:id="accommodationBookingRadio" mnemonicParsing="false" text="Accommodation Booking" toggleGroup="$bookingTypeToggle" />
+                        <Button mnemonicParsing="false" onAction="#filterByBookingId" style="-fx-background-color: #3498db;" text="Search" textFill="WHITE" />
+                        <Separator orientation="VERTICAL" />
+                        <Button mnemonicParsing="false" onAction="#loadAllPayments" style="-fx-background-color: #3498db;" text="Load All Payments" textFill="WHITE" />
+                    </children>
+                    <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </padding>
+                </HBox>
+            </children>
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </padding>
+        </VBox>
+    </top>
+    <bottom>
+        <HBox alignment="CENTER_RIGHT" spacing="10.0" BorderPane.alignment="CENTER">
+            <children>
+                <Label text="Total Amount:" />
+                <Label fx:id="totalAmountLabel" text="0.00" />
+                <Separator orientation="VERTICAL" />
+                <Button mnemonicParsing="false" onAction="#updatePaymentStatus" style="-fx-background-color: #2ecc71;" text="Update Status" textFill="WHITE" />
+                <Button mnemonicParsing="false" onAction="#processRefund" style="-fx-background-color: #f39c12;" text="Process Refund" textFill="WHITE" />
+                <Button mnemonicParsing="false" onAction="#deletePayment" style="-fx-background-color: #e74c3c;" text="Delete Payment" textFill="WHITE" />
+            </children>
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </padding>
+        </HBox>
+    </bottom>
+</BorderPane>
