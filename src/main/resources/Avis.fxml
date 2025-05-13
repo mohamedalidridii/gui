@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+
+<TabPane tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GestionAvis">
+   <tabs>
+      <Tab text="Avis">
+         <content>
+            <TabPane tabClosingPolicy="UNAVAILABLE">
+               <tabs>
+                  <Tab text="Ajouter">
+                     <content>
+                        <AnchorPane prefHeight="400.0" prefWidth="600.0">
+                           <children>
+                              <Label layoutX="62.0" layoutY="44.0" prefHeight="42.0" prefWidth="150.0" text="Id User :" />
+                              <Label layoutX="62.0" layoutY="86.0" prefHeight="42.0" prefWidth="150.0" text="Id Voyage :" />
+                              <Label layoutX="62.0" layoutY="128.0" prefHeight="42.0" prefWidth="150.0" text="Note :" />
+                              <Label layoutX="62.0" layoutY="170.0" prefHeight="42.0" prefWidth="150.0" text="Commentaire :" />
+                              <TextField fx:id="AvisAjouterIdUser" layoutX="300.0" layoutY="48.0" prefHeight="35.0" prefWidth="191.0" />
+                              <TextField fx:id="AvisAjouterIdVoyage" layoutX="300.0" layoutY="90.0" prefHeight="35.0" prefWidth="191.0" />
+                              <TextField fx:id="AvisAjouterNote" layoutX="300.0" layoutY="132.0" prefHeight="35.0" prefWidth="191.0" />
+                              <Label fx:id="AvisAjouterLabel" layoutX="14.0" layoutY="238.0" prefHeight="55.0" prefWidth="272.0" />
+                              <Button fx:id="AvisAjouterButton" layoutX="465.0" layoutY="343.0" mnemonicParsing="false" onAction="#avisAjouter" text="Ajouter" />
+                              <TextArea fx:id="AvisAjouterComm" layoutX="300.0" layoutY="178.0" prefHeight="140.0" prefWidth="262.0" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+                  <Tab text="Modifier">
+                     <content>
+                        <AnchorPane prefHeight="400.0" prefWidth="600.0">
+                           <children>
+                              <Label layoutX="62.0" layoutY="44.0" prefHeight="42.0" prefWidth="150.0" text="Id User :" />
+                              <Label layoutX="62.0" layoutY="86.0" prefHeight="42.0" prefWidth="150.0" text="Id Voyage :" />
+                              <Label layoutX="62.0" layoutY="128.0" prefHeight="42.0" prefWidth="150.0" text="Note :" />
+                              <Label layoutX="62.0" layoutY="170.0" prefHeight="42.0" prefWidth="150.0" text="Commentaire :" />
+                              <TextField fx:id="AvisModifierIdUser" layoutX="300.0" layoutY="48.0" prefHeight="35.0" prefWidth="191.0" />
+                              <TextField fx:id="AvisModifierIdVoyage" layoutX="300.0" layoutY="90.0" prefHeight="35.0" prefWidth="191.0" />
+                              <TextField fx:id="AvisModifierNote" layoutX="300.0" layoutY="132.0" prefHeight="35.0" prefWidth="191.0" />
+                              <Label fx:id="AvisModifierAffichage" layoutX="14.0" layoutY="238.0" prefHeight="55.0" prefWidth="272.0" />
+                              <Button fx:id="AvisAjouterButton1" layoutX="465.0" layoutY="343.0" mnemonicParsing="false" onAction="#avisModifier" text="Modifier" />
+                              <Button layoutX="331.0" layoutY="14.0" mnemonicParsing="false" onAction="#avisSelect" text="Select" />
+                              <Button layoutX="422.0" layoutY="14.0" mnemonicParsing="false" onAction="#supprimerAvis" text="Supprimer" />
+                              <TextArea fx:id="AvisModifierComm" layoutX="296.0" layoutY="186.0" prefHeight="126.0" prefWidth="275.0" />
+                              <TextField fx:id="AvisModifierID" layoutX="105.0" layoutY="9.0" prefHeight="35.0" prefWidth="191.0" />
+                              <Label layoutX="14.0" layoutY="6.0" prefHeight="42.0" prefWidth="150.0" text="Id :" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+                  <Tab text="Lister">
+                     <content>
+                        <BorderPane prefHeight="200.0" prefWidth="200.0">
+                           <center>
+                              <TableView fx:id="avisTable" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                 <columns>
+                                    <TableColumn fx:id="avisIdCol" prefWidth="75.0" text="ID" />
+                                    <TableColumn fx:id="avisIdUserCol" prefWidth="111.0" text="Id User" />
+                                    <TableColumn fx:id="avisIdVoyageCol" prefWidth="90.0" text="Id Voyage" />
+                                    <TableColumn fx:id="avisNoteCol" prefWidth="93.0" text="Note" />
+                                    <TableColumn fx:id="avisCommCol" prefWidth="143.0" text="Id Voyage" />
+                                 </columns>
+                              </TableView>
+                           </center>
+                           <bottom>
+                              <HBox prefHeight="52.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+                                 <children>
+                                    <TextField fx:id="AvisListerId" prefHeight="52.0" prefWidth="609.0" />
+                                    <Button fx:id="locationListerRefresh" mnemonicParsing="false" onAction="#avisLister" prefHeight="110.0" prefWidth="232.0" text="Actualiser" />
+                                 </children>
+                              </HBox>
+                           </bottom>
+                           <top>
+                              <TextField fx:id="avisRechercher" BorderPane.alignment="CENTER" />
+                           </top>
+                        </BorderPane>
+                     </content>
+                  </Tab>
+               </tabs>
+            </TabPane>
+         </content>
+      </Tab>
+      <Tab text="Reclamation">
+         <content>
+            <TabPane tabClosingPolicy="UNAVAILABLE">
+               <tabs>
+                  <Tab text="Ajouter">
+                     <content>
+                        <AnchorPane prefHeight="400.0" prefWidth="600.0">
+                           <children>
+                              <Label layoutX="62.0" layoutY="44.0" prefHeight="42.0" prefWidth="150.0" text="Id User :" />
+                              <Label layoutX="62.0" layoutY="86.0" prefHeight="42.0" prefWidth="150.0" text="Id Voyage :" />
+                              <Label layoutX="62.0" layoutY="170.0" prefHeight="42.0" prefWidth="150.0" text="Commentaire :" />
+                              <TextField fx:id="ReclamationAjouterIdUser" layoutX="300.0" layoutY="48.0" prefHeight="35.0" prefWidth="191.0" />
+                              <TextField fx:id="ReclamationAjouterIdVoyage" layoutX="300.0" layoutY="90.0" prefHeight="35.0" prefWidth="191.0" />
+                              <Label fx:id="ReclamationAjouterLabel" layoutX="14.0" layoutY="238.0" prefHeight="55.0" prefWidth="272.0" />
+                              <Button layoutX="465.0" layoutY="343.0" mnemonicParsing="false" onAction="#reclamationAjouter" text="Ajouter" />
+                              <TextArea fx:id="ReclamationAjouterComm" layoutX="300.0" layoutY="178.0" prefHeight="140.0" prefWidth="262.0" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+                  <Tab text="Modifier">
+                     <content>
+                        <AnchorPane prefHeight="400.0" prefWidth="600.0">
+                           <children>
+                              <Label layoutX="62.0" layoutY="44.0" prefHeight="42.0" prefWidth="150.0" text="Id User :" />
+                              <Label layoutX="62.0" layoutY="86.0" prefHeight="42.0" prefWidth="150.0" text="Id Voyage :" />
+                              <Label layoutX="62.0" layoutY="170.0" prefHeight="42.0" prefWidth="150.0" text="Commentaire :" />
+                              <TextField fx:id="ReclamationModifierIdUser" layoutX="301.0" layoutY="48.0" prefHeight="35.0" prefWidth="191.0" />
+                              <TextField fx:id="ReclamationModifierIdVoyage" layoutX="300.0" layoutY="90.0" prefHeight="35.0" prefWidth="191.0" />
+                              <Label fx:id="ReclamationModifierAffichage" layoutX="14.0" layoutY="238.0" prefHeight="55.0" prefWidth="272.0" />
+                              <Button layoutX="465.0" layoutY="343.0" mnemonicParsing="false" onAction="#reclamationModifier" text="Modifier" />
+                              <Button layoutX="331.0" layoutY="14.0" mnemonicParsing="false" onAction="#reclamationSelect" text="Select" />
+                              <Button layoutX="422.0" layoutY="14.0" mnemonicParsing="false" onAction="#supprimerReclamation" text="Supprimer" />
+                              <TextArea fx:id="ReclamationModifierComm" layoutX="296.0" layoutY="186.0" prefHeight="126.0" prefWidth="275.0" />
+                              <TextField fx:id="ReclamationModifierID" layoutX="105.0" layoutY="9.0" prefHeight="35.0" prefWidth="191.0" />
+                              <Label layoutX="14.0" layoutY="6.0" prefHeight="42.0" prefWidth="150.0" text="Id :" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+                  <Tab text="Lister">
+                     <content>
+                        <BorderPane prefHeight="200.0" prefWidth="200.0">
+                           <center>
+                              <TableView fx:id="reclamationTable" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                 <columns>
+                                    <TableColumn fx:id="ReclamationIdCol" prefWidth="75.0" text="ID" />
+                                    <TableColumn fx:id="ReclamationIdUserCol" prefWidth="111.0" text="Id User" />
+                                    <TableColumn fx:id="ReclamationIdVoyageCol" prefWidth="90.0" text="Id Voyage" />
+                                    <TableColumn fx:id="ReclamationCommCol" prefWidth="143.0" text="Id Voyage" />
+                                 </columns>
+                              </TableView>
+                           </center>
+                           <bottom>
+                              <HBox prefHeight="52.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+                                 <children>
+                                    <TextField fx:id="ReclamationListerId" prefHeight="52.0" prefWidth="609.0" />
+                                    <Button mnemonicParsing="false" onAction="#reclamationLister" prefHeight="110.0" prefWidth="232.0" text="Actualiser" />
+                                 </children>
+                              </HBox>
+                           </bottom>
+                           <top>
+                              <TextField fx:id="reclamationRechercher" BorderPane.alignment="CENTER" />
+                           </top>
+                        </BorderPane>
+                     </content>
+                  </Tab>
+               </tabs>
+            </TabPane>
+         </content>
+      </Tab>
+      <Tab text="AI">
+         <content>
+            <BorderPane prefHeight="200.0" prefWidth="200.0">
+               <center>
+                  <TextArea fx:id="chatboxTextArea" editable="false" prefHeight="200.0" prefWidth="200.0" wrapText="true" BorderPane.alignment="CENTER" />
+               </center>
+               <bottom>
+                  <AnchorPane prefHeight="64.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <TextField fx:id="chatboxInput" layoutX="14.0" layoutY="20.0" prefHeight="25.0" prefWidth="482.0" />
+                        <Button layoutX="516.0" layoutY="20.0" mnemonicParsing="false" onAction="#envoyerMessage" text="Envoyer" />
+                     </children>
+                  </AnchorPane>
+               </bottom>
+            </BorderPane>
+         </content>
+      </Tab>
+   </tabs>
+</TabPane>
