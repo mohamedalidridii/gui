@@ -3,6 +3,7 @@ package services;
 import entities.AccessLevel;
 import entities.Admin;
 import entities.DataSource;
+import utils.Database;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 public class ServiceAdmin {
 
 
-    protected Connection conn = DataSource.getInstance().getConnection();
+    protected Connection conn = Database.getInstance().getConnection();
 
     private PreparedStatement insertStmt = null;
     private PreparedStatement updateStmt = null;

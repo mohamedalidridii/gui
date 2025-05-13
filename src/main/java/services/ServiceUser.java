@@ -7,12 +7,12 @@ import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import org.mindrot.jbcrypt.BCrypt;
-
+import utils.Database;
 
 
 public abstract class ServiceUser {
 
-    protected Connection conn= DataSource.getInstance().getConnection();
+    protected Connection conn= Database.getInstance().getConnection();
 
 
 

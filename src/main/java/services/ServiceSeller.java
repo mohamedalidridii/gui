@@ -2,6 +2,7 @@ package services;
 
 import entities.Seller;
 import entities.User;
+import utils.Database;
 
 import java.sql.*;
 import java.time.LocalDateTime;
